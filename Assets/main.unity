@@ -2844,6 +2844,8 @@ MonoBehaviour:
   homeBase: {fileID: 1007951756073706, guid: a75dde4d99a41b241bba9942cde11b29, type: 2}
   homeBaseCollider: {fileID: 1702035004942852, guid: 4ed3e53195864c84eb0cd7adc7b0b2ac,
     type: 2}
+  riverCollider: {fileID: 1177091132439878, guid: 3a9b581a73b87244688f363067da850a,
+    type: 2}
   objToDelete: {fileID: 0}
   homePlaced: 0
   HeavyForestTile: {fileID: 21300000, guid: 41b2a426537ee1347976aeb0b17019ce, type: 3}
@@ -2877,8 +2879,8 @@ MonoBehaviour:
   mountainTile: {fileID: 21300000, guid: 1a5ea41ebd4ed2340acf2f5da4106900, type: 3}
   genStepOneDone: 0
   genStepTwoDone: 0
-  mapSizeX: 150
-  mapSizeY: 75
+  mapSizeX: 100
+  mapSizeY: 50
 --- !u!4 &1017993285
 Transform:
   m_ObjectHideFlags: 0

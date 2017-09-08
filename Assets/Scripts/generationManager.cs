@@ -11,6 +11,8 @@ public class generationManager : MonoBehaviour {
 	public GameObject homeBase;
 	public GameObject homeBaseCollider;
 
+	public GameObject riverCollider;
+
 	public GameObject objToDelete;
 
 	public bool homePlaced = false;
@@ -345,6 +347,8 @@ public class generationManager : MonoBehaviour {
 		map [xPlacer] [yPlacer].oceanSeed = true;//placing the ocean
 		map [xPlacer] [yPlacer].sr.sprite = oceanTile;
 		map [xPlacer] [yPlacer].tileType = "Ocean";
+		GameObject rivCol = ((GameObject)Instantiate (riverCollider, map [xPlacer] [yPlacer].transform.position, Quaternion.Euler (new Vector3 ())));
+		//Destroy (rivCol.gameObject);
 	}
 		
 	void generateMountain() {

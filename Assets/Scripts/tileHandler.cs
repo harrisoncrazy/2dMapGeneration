@@ -19,6 +19,7 @@ public class tileHandler : MonoBehaviour {
 	public bool sandSeed = false;
 	public bool snowSeed = false;
 	public bool oceanSeed = false;
+	public bool riverMade = false;
 	public bool mountainSeed = false;
 	public bool adjacentSand = false;
 	public bool adjacentSnow = false;
@@ -122,13 +123,13 @@ public class tileHandler : MonoBehaviour {
 				col.gameObject.GetComponent<tileHandler> ().tileType = "Sand";
 			}
 
-			if (snowSeed == true) { //if the current tile is the sand seed
+			if (snowSeed == true) { //if the current tile is the snow seed
 				col.gameObject.GetComponent<tileHandler> ().adjacentSnow = true;
 				col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.GrassSnowTile;
 				col.gameObject.GetComponent<tileHandler> ().tileType = "Snow";
 			}
 
-			if (oceanSeed == true) { //if the current tile is the sand seed
+			if (oceanSeed == true) { //if the current tile is the ocean seed
 				col.gameObject.GetComponent<tileHandler> ().adjacentOcean = true;
 				col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.oceanTile;
 				col.gameObject.GetComponent<tileHandler> ().tileType = "Ocean";
@@ -196,6 +197,11 @@ public class tileHandler : MonoBehaviour {
 						sr.sprite = generationManager.Instance.defaultStone;
 						tileType = "Stone";
 					}
+				}
+
+				if (col.gameObject.tag == "riverGen") {
+					tileType = "Ocean";
+					col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.oceanTile;
 				}
 
 				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Ocean") {//setting tiles adjacent to water to be harvestable
