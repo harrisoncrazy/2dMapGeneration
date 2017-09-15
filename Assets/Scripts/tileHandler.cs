@@ -3,6 +3,15 @@ using System.Collections;
 
 public class tileHandler : MonoBehaviour {
 
+	//tile adjacentcy
+	bool foundAdjacent = false;
+	public GameObject topLeft;
+	public GameObject topRight;
+	public GameObject Right;
+	public GameObject bottomRight;
+	public GameObject bottomLeft;
+	public GameObject Left;
+
 	public GameObject tileOutlineSprite; //gameobject of highlight Sprite
 	public GameObject tileBlacked;
 	public GameObject tileGreyed;
@@ -27,7 +36,17 @@ public class tileHandler : MonoBehaviour {
 
 	//Tile info values
 	public string tileType;
-	public Vector2 gridPosition;
+	public struct gridPosition {
+		public int X, Y;
+
+		public gridPosition(int x, int y) {
+			this.X = x;
+			this.Y = y;
+		}
+	}
+
+	public gridPosition mapPosition = new gridPosition();
+
 	public SpriteRenderer sr;
 	public bool stopSpread = false;
 	public bool newSpriteSet = false;
@@ -53,6 +72,20 @@ public class tileHandler : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		if (generationManager.Instance.genStepTwoDone == true) {
+			if (foundAdjacent == false) {
+				topLeft = generationManager.Instance.map[(mapPosition.X - 1)] [(mapPosition.Y + 1)].GetComponent<tileHandler>().gameObject;
+				topRight = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y + 1)].GetComponent<tileHandler>().gameObject;
+				Right = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y)].GetComponent<tileHandler>().gameObject;
+				bottomRight = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y - 1)].GetComponent<tileHandler>().gameObject;
+				bottomLeft = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y - 1)].GetComponent<tileHandler>().gameObject;
+				Left = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y)].GetComponent<tileHandler>().gameObject;
+
+				foundAdjacent = true;
+			}
+		}
+
 		if (GameManager.Instance.selectedTile != null) {
 			trSelect = GameManager.Instance.selectedTile;
 		}

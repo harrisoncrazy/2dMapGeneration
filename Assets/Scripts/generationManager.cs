@@ -278,32 +278,37 @@ public class generationManager : MonoBehaviour {
 				int rand = Random.Range (1, 101);//Randomly selecting a base grass tile for the base grid
 				if (rand <= 35) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
-					tile.gridPosition = new Vector2 (i, j);
+					tile.mapPosition.X = i;
+					tile.mapPosition.Y = j;
 					tile.tileType = "Heavy Forest";
 					tile.sr.sprite = HeavyForestTile;
 					row.Add (tile);
 				} else if (rand >= 35 && rand <= 60) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
-					tile.gridPosition = new Vector2 (i, j);
+					tile.mapPosition.X = i;
+					tile.mapPosition.Y = j;
 					tile.tileType = "Light Forest";
 					tile.sr.sprite = LightForestTile;
 					row.Add (tile);
 				} else if (rand >= 60 && rand <= 90) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
-					tile.gridPosition = new Vector2 (i, j);
+					tile.mapPosition.X = i;
+					tile.mapPosition.Y = j;
 					tile.tileType = "Grassland";
 					tile.sr.sprite = GrassTile;
 					row.Add (tile);
 				} else if (rand >= 90 && rand <= 97) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
-					tile.gridPosition = new Vector2 (i, j);
+					tile.mapPosition.X = i;
+					tile.mapPosition.Y = j;
 					tile.sr.sprite = HeavyForestTile;
 					tile.tileType = "Light Rocks";
 					tile.sr.sprite = LightRockTile;
 					row.Add (tile);
 				} else if (rand >= 97 && rand <= 100) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
-					tile.gridPosition = new Vector2 (i, j);
+					tile.mapPosition.X = i;
+					tile.mapPosition.Y = j;
 					tile.sr.sprite = HeavyForestTile;
 					tile.tileType = "Heavy Rocks";
 					tile.sr.sprite = HeavyRockTile;
