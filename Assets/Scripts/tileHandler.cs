@@ -75,12 +75,45 @@ public class tileHandler : MonoBehaviour {
 
 		if (generationManager.Instance.genStepTwoDone == true) {
 			if (foundAdjacent == false) {
-				topLeft = generationManager.Instance.map[(mapPosition.X - 1)] [(mapPosition.Y + 1)].GetComponent<tileHandler>().gameObject;
-				topRight = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y + 1)].GetComponent<tileHandler>().gameObject;
-				Right = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y)].GetComponent<tileHandler>().gameObject;
-				bottomRight = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y - 1)].GetComponent<tileHandler>().gameObject;
-				bottomLeft = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y - 1)].GetComponent<tileHandler>().gameObject;
-				Left = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y)].GetComponent<tileHandler>().gameObject;
+				if (mapPosition.Y % 2 == 0) {//if on a even y row
+					if ((mapPosition.X - 1) > 0 && (mapPosition.Y + 1) < generationManager.Instance.mapSizeY) {
+						topLeft = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y + 1)].GetComponent<tileHandler> ().gameObject;
+					}
+					if ((mapPosition.Y + 1) < generationManager.Instance.mapSizeY) {
+						topRight = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y + 1)].GetComponent<tileHandler> ().gameObject;
+					}
+					if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX) {
+						Right = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y)].GetComponent<tileHandler> ().gameObject;
+					}
+					if ((mapPosition.Y - 1) > 0) {
+						bottomRight = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y - 1)].GetComponent<tileHandler> ().gameObject;
+					}
+					if ((mapPosition.X - 1) > 0 && (mapPosition.Y - 1) > 0) {
+						bottomLeft = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y - 1)].GetComponent<tileHandler> ().gameObject;
+					}
+					if ((mapPosition.X - 1) >= 0) {
+						Left = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y)].GetComponent<tileHandler> ().gameObject; 
+					}
+				} else if (mapPosition.Y % 2 == 1) {
+					if ((mapPosition.Y + 1) < generationManager.Instance.mapSizeY) {
+						topLeft = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y + 1)].GetComponent<tileHandler> ().gameObject;//GOOD
+					}
+					if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX && (mapPosition.Y + 1) < generationManager.Instance.mapSizeY) {
+						topRight = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y + 1)].GetComponent<tileHandler> ().gameObject;//add one to x
+					}
+					if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX) {
+						Right = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y)].GetComponent<tileHandler> ().gameObject;//GOOD
+					}
+					if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX && (mapPosition.Y - 1) > 0) {
+						bottomRight = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y - 1)].GetComponent<tileHandler> ().gameObject;//add one to x
+					}
+					if ((mapPosition.Y - 1) > 0) {
+						bottomLeft = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y - 1)].GetComponent<tileHandler> ().gameObject;//add one to x if odd
+					}
+					if ((mapPosition.X - 1) >= 0) {
+						Left = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y)].GetComponent<tileHandler> ().gameObject; //GOOD
+					}
+				}
 
 				foundAdjacent = true;
 			}
@@ -211,34 +244,36 @@ public class tileHandler : MonoBehaviour {
 				}
 			}
 			if (col.gameObject.tag != "Player") {
-				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Sand") {//setting adjacent tile bounderies
-					if (tileType != "Sand") {
-						sr.sprite = generationManager.Instance.defaultDirt;
-						tileType = "Dirt";
+				if (col.gameObject.GetComponent<tileHandler> ().tileType != null) {
+					if (col.gameObject.GetComponent<tileHandler> ().tileType == "Sand") {//setting adjacent tile bounderies
+						if (tileType != "Sand") {
+							sr.sprite = generationManager.Instance.defaultDirt;
+							tileType = "Dirt";
+						}
 					}
-				}
 
-				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Snow") {//setting adjacent tile bounderies
-					if (tileType != "Snow") {
-						sr.sprite = generationManager.Instance.defaultStone;
-						tileType = "Stone";
+					if (col.gameObject.GetComponent<tileHandler> ().tileType == "Snow") {//setting adjacent tile bounderies
+						if (tileType != "Snow") {
+							sr.sprite = generationManager.Instance.defaultStone;
+							tileType = "Stone";
+						}
 					}
-				}
 
-				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Mountain") {//setting adjacent tile bounderies
-					if (tileType != "Mountain") {
-						sr.sprite = generationManager.Instance.defaultStone;
-						tileType = "Stone";
+					if (col.gameObject.GetComponent<tileHandler> ().tileType == "Mountain") {//setting adjacent tile bounderies
+						if (tileType != "Mountain") {
+							sr.sprite = generationManager.Instance.defaultStone;
+							tileType = "Stone";
+						}
 					}
-				}
 
-				if (col.gameObject.tag == "riverGen") {
-					tileType = "Ocean";
-					col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.oceanTile;
-				}
+					if (col.gameObject.tag == "riverGen") {
+						tileType = "Ocean";
+						col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.oceanTile;
+					}
 
-				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Ocean") {//setting tiles adjacent to water to be harvestable
-					isNearWater = true;
+					if (col.gameObject.GetComponent<tileHandler> ().tileType == "Ocean") {//setting tiles adjacent to water to be harvestable
+						isNearWater = true;
+					}
 				}
 			}
 		}

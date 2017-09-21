@@ -282,6 +282,7 @@ public class generationManager : MonoBehaviour {
 					tile.mapPosition.Y = j;
 					tile.tileType = "Heavy Forest";
 					tile.sr.sprite = HeavyForestTile;
+					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile);
 				} else if (rand >= 35 && rand <= 60) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
@@ -289,6 +290,7 @@ public class generationManager : MonoBehaviour {
 					tile.mapPosition.Y = j;
 					tile.tileType = "Light Forest";
 					tile.sr.sprite = LightForestTile;
+					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile);
 				} else if (rand >= 60 && rand <= 90) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
@@ -296,6 +298,7 @@ public class generationManager : MonoBehaviour {
 					tile.mapPosition.Y = j;
 					tile.tileType = "Grassland";
 					tile.sr.sprite = GrassTile;
+					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile);
 				} else if (rand >= 90 && rand <= 97) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
@@ -304,6 +307,7 @@ public class generationManager : MonoBehaviour {
 					tile.sr.sprite = HeavyForestTile;
 					tile.tileType = "Light Rocks";
 					tile.sr.sprite = LightRockTile;
+					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile);
 				} else if (rand >= 97 && rand <= 100) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
@@ -312,6 +316,7 @@ public class generationManager : MonoBehaviour {
 					tile.sr.sprite = HeavyForestTile;
 					tile.tileType = "Heavy Rocks";
 					tile.sr.sprite = HeavyRockTile;
+					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile);
 				}
 			}
