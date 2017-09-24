@@ -13,6 +13,12 @@ public class CameraMovement : MonoBehaviour {
 	private float defaultDampening;
 	private float defaultZoom;
 
+	private bool isCamCentered = false;
+
+	void Start () {
+		Instance = this;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (movedStart == false) {
@@ -22,25 +28,27 @@ public class CameraMovement : MonoBehaviour {
 		}
 
 		if (generationManager.Instance.genStepTwoDone == true) {//if finished generating
-			if (Input.GetKeyDown (KeyCode.LeftShift)) {
-				speed = 12f;
-			}
+			if (isCamCentered == false) {//if the camera is centered on a building or other point, dont allow it to move
+				if (Input.GetKeyDown (KeyCode.LeftShift)) {
+					speed = 12f;
+				}
 
-			if (Input.GetKeyUp (KeyCode.LeftShift)) {
-				speed = 6f;
-			}
+				if (Input.GetKeyUp (KeyCode.LeftShift)) {
+					speed = 6f;
+				}
 
-			if (Input.GetKey (KeyCode.D)) {
-				transform.Translate (Vector2.right * speed * Time.deltaTime); 
-			}
-			if (Input.GetKey (KeyCode.A)) {
-				transform.Translate (-Vector2.right * speed * Time.deltaTime);   
-			}
-			if (Input.GetKey (KeyCode.W)) {
-				transform.Translate (Vector2.up * speed * Time.deltaTime);
-			}
-			if (Input.GetKey (KeyCode.S)) {
-				transform.Translate (-Vector2.up * speed * Time.deltaTime);  
+				if (Input.GetKey (KeyCode.D)) {
+					transform.Translate (Vector2.right * speed * Time.deltaTime); 
+				}
+				if (Input.GetKey (KeyCode.A)) {
+					transform.Translate (-Vector2.right * speed * Time.deltaTime);   
+				}
+				if (Input.GetKey (KeyCode.W)) {
+					transform.Translate (Vector2.up * speed * Time.deltaTime);
+				}
+				if (Input.GetKey (KeyCode.S)) {
+					transform.Translate (-Vector2.up * speed * Time.deltaTime);  
+				}
 			}
 		}
 	}
@@ -55,5 +63,15 @@ public class CameraMovement : MonoBehaviour {
 		pos = GameObject.Find ("homeBase").transform.position;
 		GameObject.Find ("CameraMovement").transform.position = pos;
 		movedStart = true;
+	}
+
+	public void centerCam(Vector3 position) {
+		if (isCamCentered == false) {
+			isCamCentered = true;
+		} else {
+			isCamCentered = false;
+		}
+
+		GameObject.Find ("CameraMover").transform.position = position;
 	}
 }

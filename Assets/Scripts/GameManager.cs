@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
 
 	public Transform selectedTile;
 
+	public bool isBuildingSelected = false;
+
 	// Use this for initialization
 	void Start () {
 		Instance = this;
@@ -15,6 +17,12 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
+		if (selectedTile != null) {
+			if (selectedTile.gameObject.GetComponent<tileHandler> () == null) {
+				isBuildingSelected = true;
+			} else {
+				isBuildingSelected = false;
+			}
+		}
 	}
 }

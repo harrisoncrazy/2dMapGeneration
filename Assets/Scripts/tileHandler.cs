@@ -124,14 +124,16 @@ public class tileHandler : MonoBehaviour {
 
 	public void OnMouseDown() {
 		if (discovered) {//if the tile has been seen and discovered
-			if (selected && transform == trSelect) {
-				selected = false;
-				trSelect = null;
-				tileOutlineSprite.SetActive (false);
-			} else {
-				selected = true;
-				GameManager.Instance.selectedTile = this.transform;
-				tileOutlineSprite.SetActive (true);
+			if (GameManager.Instance.isBuildingSelected == false) {//not allowing tiles to be selected if a building is selected
+				if (selected && transform == trSelect) {
+					selected = false;
+					trSelect = null;
+					tileOutlineSprite.SetActive (false);
+				} else {
+					selected = true;
+					GameManager.Instance.selectedTile = this.transform;
+					tileOutlineSprite.SetActive (true);
+				}
 			}
 		}
 	}

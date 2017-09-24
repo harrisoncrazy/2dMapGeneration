@@ -130,7 +130,7 @@ public class generationManager : MonoBehaviour {
 					if (map [i] [j].tileType == "Grassland") {
 						int rand = Random.Range (1, 101);//finding a random placement for the home base, in a grass tile
 						if (homePlaced == false) {
-							if (i >= 5 && j >= 5) {
+							if (i >= 5 && j >= 5 && j <= mapSizeY-5) {
 								if (rand <= 2) {
 									Vector3 pos = map [i] [j].transform.position;
 									Destroy (map [i] [j].gameObject);
