@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CameraMovement : MonoBehaviour {
 
+	public static CameraMovement Instance;
+
 	private float speed = 6f;
 
 	private bool movedStart = false;//if the game has started and the camera is free to move
@@ -50,6 +52,7 @@ public class CameraMovement : MonoBehaviour {
 		GameObject.Find ("CameraMovement").transform.position = pos;
 		GameObject.Find ("CameraMovement").transform.position = outPos;
 		yield return new WaitForSeconds (2.0f);
+		pos = GameObject.Find ("homeBase").transform.position;
 		GameObject.Find ("CameraMovement").transform.position = pos;
 		movedStart = true;
 	}

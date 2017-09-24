@@ -82,22 +82,22 @@ public class generationManager : MonoBehaviour {
 	void Start () {
 		Instance = this;
 		generateMap ();
-		sandRand = Random.Range (2, 4);
+		sandRand = Random.Range (1, 2);//default 2,4
 		for (int i = 0; i <= sandRand; i++) { //Generating random number of sand biomes
 			Debug.Log ("Sand seed planted.");
 			generateSand ();
 		}
-		snowRand = Random.Range (1, 5);
+		snowRand = Random.Range (1, 3);//default 1,5
 		for (int i = 0; i <= snowRand; i++) { //Generating random number of snow biomes
 			Debug.Log ("Snow seed planted.");
 			generateSnow ();
 		}
-		oceanRand = Random.Range (5, 8);
+		oceanRand = Random.Range (3, 5);//default 5,8
 		for (int i = 0; i <= oceanRand; i++) { //Generating random number of ocean biomes
 			Debug.Log ("Ocean seed planted.");
 			generateOcean ();
 		}
-		mountainRand = Random.Range (8, 15);
+		mountainRand = Random.Range (4, 10);//default 8,15
 		for (int i = 0; i <= mountainRand; i++) { //Generating random number of mountain biomes
 			Debug.Log ("Mountain seed planted.");
 			generateMountain();
@@ -133,14 +133,15 @@ public class generationManager : MonoBehaviour {
 							if (i >= 5 && j >= 5) {
 								if (rand <= 2) {
 									Vector3 pos = map [i] [j].transform.position;
-									//Destroy (map [i] [j].gameObject);
-									//baseHandler home = ((GameObject)Instantiate (homeBase, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<baseHandler> ();
-									//GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
-									//home.name = "homeBase";
-									//home.baseLocation = pos;
-									//objToDelete = homeCollider;
-									//StartCoroutine ("destroyThing");
-									//homePlaced = true;
+									Destroy (map [i] [j].gameObject);
+									baseHandler home = ((GameObject)Instantiate (homeBase, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<baseHandler> ();
+									GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
+									home.name = "homeBase";
+									home.basePosition.X = i;
+									home.basePosition.Y = j;
+									objToDelete = homeCollider;
+									StartCoroutine ("destroyThing");
+									homePlaced = true;
 								}
 							}
 						}
@@ -150,7 +151,7 @@ public class generationManager : MonoBehaviour {
 							int rand = Random.Range (1, 101);
 							if (rand <= 65) {
 								map [i] [j].newSpriteSet = true;
-							} else if (rand >= 65 && rand <= 70) {
+							} else if (rand >= 60 && rand <= 75) {
 								int rand2 = Random.Range (1, 2);
 								if (rand2 == 1) {
 									map [i] [j].sr.sprite = lightCactusSand1;
@@ -161,7 +162,7 @@ public class generationManager : MonoBehaviour {
 									map [i] [j].newSpriteSet = true;
 									map [i] [j].tileType = "Light Cactus Sand";
 								}
-							} else if (rand >= 70 && rand <= 80) {
+							} else if (rand >= 75 && rand <= 85) {
 								int rand2 = Random.Range (1, 3);
 								if (rand2 == 1) {
 									map [i] [j].sr.sprite = lightRocksSand1;
@@ -176,7 +177,7 @@ public class generationManager : MonoBehaviour {
 									map [i] [j].newSpriteSet = true;
 									map [i] [j].tileType = "Light Rocks Sand";
 								}
-							} else if (rand >= 80 && rand <= 100) {
+							} else if (rand >= 85 && rand <= 100) {
 								map [i] [j].sr.sprite = heavyCactusSand;
 								map [i] [j].newSpriteSet = true;
 								map [i] [j].tileType = "Heavy Cactus Sand";
