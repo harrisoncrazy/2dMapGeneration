@@ -55,9 +55,11 @@ public class defaultBuilding : MonoBehaviour {
 			selected = false;
 			trSelect = null;
 			tileOutlineSprite.SetActive (false);
+			GameManager.Instance.isBuildingSelected = false;
 		} else {
 			selected = true;
 			GameManager.Instance.selectedTile = this.transform;
+			GameManager.Instance.isBuildingSelected = true;
 			tileOutlineSprite.SetActive (true);
 		}
 

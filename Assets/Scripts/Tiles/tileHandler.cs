@@ -72,6 +72,9 @@ public class tileHandler : MonoBehaviour {
 		colliderMain = gameObject.GetComponent<CircleCollider2D> ();
 		tileGreyed.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, .75f);
 		tileHighlighter.GetComponent<SpriteRenderer> ().color = new Color (200f, 0f, 0f, .65f);
+
+		discovered = true;
+		inSight = true; 
 	}
 
 	// Update is called once per frame
@@ -124,15 +127,23 @@ public class tileHandler : MonoBehaviour {
 
 	public void OnMouseDown() {
 		if (discovered) {//if the tile has been seen and discovered
-			if (GameManager.Instance.isBuildingSelected == false) {//not allowing tiles to be selected if a building is selected
-				if (selected && transform == trSelect) {
-					selected = false;
-					trSelect = null;
-					tileOutlineSprite.SetActive (false);
-				} else {
-					selected = true;
-					GameManager.Instance.selectedTile = this.transform;
-					tileOutlineSprite.SetActive (true);
+			if (inputHandler.Instance.checkPlacementStatus() == false) {
+				if (GameManager.Instance.isBuildingSelected == false) {//not allowing tiles to be selected if a building is selected
+					if (selected && transform == trSelect) {
+						selected = false;
+						trSelect = null;
+						tileOutlineSprite.SetActive (false);
+					} else {
+						selected = true;
+						GameManager.Instance.selectedTile = this.transform;
+						tileOutlineSprite.SetActive (true);
+					}
+				}
+			} else { //if placing a building
+				if (GameManager.Instance.placingWoodGatherer) {
+					sr.sprite = GameManager.Instance.woodGatherer;
+					tileType = "Wood Gatherer"; //replace with placement of a prefab
+					inputHandler.Instance.disablePlacementMode();
 				}
 			}
 		}
@@ -154,8 +165,10 @@ public class tileHandler : MonoBehaviour {
 	void OnTriggerStay2D (Collider2D col) {
 		if (col.gameObject.tag == "viewCollider") {
 			discovered = true;
+			inSight = true;
 		}
 		if (col.gameObject.tag == "sightCollider") {
+			discovered = true;
 			inSight = true;
 		}
 

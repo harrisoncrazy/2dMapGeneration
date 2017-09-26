@@ -10,6 +10,14 @@ public class GameManager : MonoBehaviour {
 
 	public bool isBuildingSelected = false;
 
+	//building sprites
+	public Sprite woodGatherer;
+
+	//building bools
+	public bool placingWoodGatherer;/* REPLACE WTIH ARRAY OF BOOLS */
+	public bool placingFoodGatherer;
+	public bool placingStoneGatherer;
+
 	// Use this for initialization
 	void Start () {
 		Instance = this;
@@ -17,12 +25,10 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (selectedTile != null) {
-			if (selectedTile.gameObject.GetComponent<tileHandler> () == null) {
-				isBuildingSelected = true;
-			} else {
-				isBuildingSelected = false;
-			}
-		}
+		
+	}
+
+	public void disablePlacementModes() { //run thru the array of bools and disable them all
+		placingWoodGatherer = false;
 	}
 }

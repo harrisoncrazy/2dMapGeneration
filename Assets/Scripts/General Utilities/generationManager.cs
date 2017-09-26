@@ -11,7 +11,6 @@ public class generationManager : MonoBehaviour {
 	public GameObject homeBase;
 	public GameObject homeBaseCollider;
 
-	public GameObject riverCollider;
 
 	public GameObject objToDelete;
 
@@ -56,10 +55,6 @@ public class generationManager : MonoBehaviour {
 
 	public Sprite mountainTile;
 
-	//river generation values
-	private Vector2 point1;
-	private Vector2 point2;
-
 	private float generationTimerOne = 1.0f;
 	private float generationTimerTwo = 1.0f;
 	public bool genStepOneDone = false;
@@ -68,7 +63,6 @@ public class generationManager : MonoBehaviour {
 	private int snowRand;
 	private int oceanRand;
 	private int mountainRand;
-	private int riverRand;
 
 	//Map Size ints, and floats for generation
 	public int mapSizeX = 11;
@@ -139,8 +133,8 @@ public class generationManager : MonoBehaviour {
 									home.name = "homeBase";
 									home.basePosition.X = i;
 									home.basePosition.Y = j;
-									objToDelete = homeCollider;
-									StartCoroutine ("destroyThing");
+									//objToDelete = homeCollider;
+									//StartCoroutine ("destroyThing");
 									homePlaced = true;
 								}
 							}
@@ -152,7 +146,7 @@ public class generationManager : MonoBehaviour {
 							if (rand <= 65) {
 								map [i] [j].newSpriteSet = true;
 							} else if (rand >= 60 && rand <= 75) {
-								int rand2 = Random.Range (1, 2);
+								int rand2 = Random.Range (1, 3);
 								if (rand2 == 1) {
 									map [i] [j].sr.sprite = lightCactusSand1;
 									map [i] [j].newSpriteSet = true;
@@ -163,7 +157,7 @@ public class generationManager : MonoBehaviour {
 									map [i] [j].tileType = "Light Cactus Sand";
 								}
 							} else if (rand >= 75 && rand <= 85) {
-								int rand2 = Random.Range (1, 3);
+								int rand2 = Random.Range (1, 4);
 								if (rand2 == 1) {
 									map [i] [j].sr.sprite = lightRocksSand1;
 									map [i] [j].newSpriteSet = true;
@@ -358,7 +352,6 @@ public class generationManager : MonoBehaviour {
 		map [xPlacer] [yPlacer].oceanSeed = true;//placing the ocean
 		map [xPlacer] [yPlacer].sr.sprite = oceanTile;
 		map [xPlacer] [yPlacer].tileType = "Ocean";
-		GameObject rivCol = ((GameObject)Instantiate (riverCollider, map [xPlacer] [yPlacer].transform.position, Quaternion.Euler (new Vector3 ())));
 		//Destroy (rivCol.gameObject);
 	}
 		
