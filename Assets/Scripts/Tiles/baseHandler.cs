@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class baseHandler : defaultBuilding {
 
+	public static baseHandler Instance;
+
 	public baseHandler() {
 		tileTitle = "Home Base";
 		tileDescription = "The main center of your city! Everything starts here!";
@@ -11,6 +13,7 @@ public class baseHandler : defaultBuilding {
 
 	// Use this for initialization
 	protected override void Start () {
+		Instance = this;
 		base.Start ();
 	}
 	
@@ -22,5 +25,10 @@ public class baseHandler : defaultBuilding {
 	protected override void OnMouseDown() {
 		base.OnMouseDown ();
 		base.setInfoPanelText (tileTitle, tileDescription);
+	}
+
+	public override void setAdjacentTilesArray ()
+	{
+		base.setAdjacentTilesArray ();
 	}
 }

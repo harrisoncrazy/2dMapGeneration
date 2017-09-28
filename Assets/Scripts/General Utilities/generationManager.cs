@@ -127,15 +127,24 @@ public class generationManager : MonoBehaviour {
 							if (i >= 5 && j >= 5 && j <= mapSizeY-5) {
 								if (rand <= 2) {
 									Vector3 pos = map [i] [j].transform.position;
-									Destroy (map [i] [j].gameObject);
+
 									baseHandler home = ((GameObject)Instantiate (homeBase, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<baseHandler> ();
 									GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
 									home.name = "homeBase";
-									home.basePosition.X = i;
-									home.basePosition.Y = j;
+									home.tilePosition.X = i;
+									home.tilePosition.Y = j;
 									//objToDelete = homeCollider;
 									//StartCoroutine ("destroyThing");
 									homePlaced = true;
+
+									home.topLeft = map [i] [j].topLeft;
+									home.topRight = map [i] [j].topRight;
+									home.Right = map [i] [j].Right;
+									home.bottomRight = map [i] [j].bottomRight;
+									home.bottomLeft = map [i] [j].bottomLeft;
+									home.Left = map [i] [j].Left;
+
+									Destroy (map [i] [j].gameObject);
 								}
 							}
 						}

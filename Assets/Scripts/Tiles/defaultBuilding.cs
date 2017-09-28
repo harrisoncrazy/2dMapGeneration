@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class defaultBuilding : MonoBehaviour {
 
-	public tileHandler.gridPosition basePosition = new tileHandler.gridPosition();
+	public tileHandler.gridPosition tilePosition = new tileHandler.gridPosition();
 
 	public GameObject tileOutlineSprite;
 
@@ -26,6 +26,15 @@ public class defaultBuilding : MonoBehaviour {
 
 	private bool isInfoPanelActive = false;
 
+	//adjacent tiles
+	public GameObject topLeft;
+	public GameObject topRight;
+	public GameObject Right;
+	public GameObject bottomRight;
+	public GameObject bottomLeft;
+	public GameObject Left;
+	public GameObject[] adjacentTiles;
+
 	public defaultBuilding() {
 		tileTitle = "default";
 		tileDescription = "default description here";
@@ -36,6 +45,16 @@ public class defaultBuilding : MonoBehaviour {
 		findTileInfoPanelThings ();
 
 		worldPosition = gameObject.transform.position;
+
+		//setting tiles to numbers
+		adjacentTiles = new GameObject[6];
+
+		adjacentTiles [0] = topLeft;
+		adjacentTiles [1] = topRight;
+		adjacentTiles [2] = Right;
+		adjacentTiles [3] = bottomRight;
+		adjacentTiles [4] = bottomLeft;
+		adjacentTiles [5] = Left;
 	}
 	
 	// Update is called once per frame
@@ -67,7 +86,7 @@ public class defaultBuilding : MonoBehaviour {
 	}
 
 	protected virtual void toggleInfoPanel () {
-		if (isInfoPanelActive == true) {
+		if (isInfoPanelActive == true && GameManager.Instance.isBuildingSelected == false) {
 			tileInfoPanel.SetActive (false);
 			CameraMovement.Instance.centerCam (worldPosition);
 			isInfoPanelActive = false;
@@ -79,15 +98,22 @@ public class defaultBuilding : MonoBehaviour {
 	}
 
 	void findTileInfoPanelThings() {
-		tileInfoPanel = GameObject.Find ("buildingInfoPanel");
-		tileText = GameObject.Find ("titleText").GetComponent<Text> ();
-		descriptionText = GameObject.Find ("descriptionText").GetComponent<Text> ();
-
-		tileInfoPanel.SetActive (false);
+		tileInfoPanel = GameManager.Instance.tileInfoPanel;
+		tileText = GameManager.Instance.tileText;
+		descriptionText = GameManager.Instance.descriptionText;
 	}
 
 	protected virtual void setInfoPanelText(string tileName, string tileDescription) {
 		tileText.text = tileName;
 		descriptionText.text = tileDescription;
+	}
+
+	public virtual void setAdjacentTilesArray() {
+		adjacentTiles [0] = topLeft;
+		adjacentTiles [1] = topRight;
+		adjacentTiles [2] = Right;
+		adjacentTiles [3] = bottomRight;
+		adjacentTiles [4] = bottomLeft;
+		adjacentTiles [5] = Left;
 	}
 }

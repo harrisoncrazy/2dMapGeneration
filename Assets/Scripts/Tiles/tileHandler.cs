@@ -141,9 +141,10 @@ public class tileHandler : MonoBehaviour {
 				}
 			} else { //if placing a building
 				if (GameManager.Instance.placingWoodGatherer) {
-					sr.sprite = GameManager.Instance.woodGatherer;
-					tileType = "Wood Gatherer"; //replace with placement of a prefab
-					inputHandler.Instance.disablePlacementMode();
+					if (GameManager.Instance.placingWoodGathererTile (mapPosition.X, mapPosition.Y, transform.position)) {
+						inputHandler.Instance.disablePlacementMode ();
+						Destroy (this.gameObject);
+					}
 				}
 			}
 		}
@@ -239,6 +240,8 @@ public class tileHandler : MonoBehaviour {
 	}
 
 	void checkAdjacentTilesStartup() {
+		int numAdjOcean = 0;
+
 		for (int i = 0; i < adjacentTiles.Length; i++) {
 			if (adjacentTiles [i] != null) {
 				string adjTileType = adjacentTiles [i].GetComponent<tileHandler> ().tileType;
@@ -263,9 +266,14 @@ public class tileHandler : MonoBehaviour {
 					break;
 				case "Ocean":
 					isNearWater = true;
+					numAdjOcean++;
 					break;
 				}
 			}
+		}
+		if (numAdjOcean == 6) {
+			sr.sprite = generationManager.Instance.oceanTile;
+			tileType = "Ocean";
 		}
 	}
 
