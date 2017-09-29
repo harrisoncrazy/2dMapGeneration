@@ -3460,9 +3460,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662f2a314a0a5d04095e2c28bfebc18a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  woodTotal: 0
-  woodPerTick: 0
   woodOutText: {fileID: 1288740740}
+  foodOutText: {fileID: 230125256}
+  stoneOutText: {fileID: 606976732}
 --- !u!4 &2100838392
 Transform:
   m_ObjectHideFlags: 0

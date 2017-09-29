@@ -21,6 +21,10 @@ public class CameraMovement : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (GameManager.Instance.isBuildingSelected == true) {
+			isCamCentered = true;
+		}
+
 		if (movedStart == false) {
 			if (generationManager.Instance.genStepTwoDone == true) {//handleling the camera during generation
 				StartCoroutine ("startCam");

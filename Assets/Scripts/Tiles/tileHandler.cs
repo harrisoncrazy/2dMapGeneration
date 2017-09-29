@@ -141,7 +141,7 @@ public class tileHandler : MonoBehaviour {
 				}
 			} else { //if placing a building
 				if (GameManager.Instance.placingWoodGatherer) {
-					if (GameManager.Instance.placingWoodGathererTile (mapPosition.X, mapPosition.Y, transform.position)) {
+					if (GameManager.Instance.placingWoodGathererTile (mapPosition.X, mapPosition.Y, transform.position, adjacentTiles)) {
 						inputHandler.Instance.disablePlacementMode ();
 						Destroy (this.gameObject);
 					}

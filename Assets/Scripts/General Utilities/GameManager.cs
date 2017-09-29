@@ -49,12 +49,21 @@ public class GameManager : MonoBehaviour {
 		placingWoodGatherer = false;
 	}
 
-	public bool placingWoodGathererTile(int x, int y, Vector3 pos) {
+	public bool placingWoodGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		woodGatherer woodGather = ((GameObject)Instantiate (GameManager.Instance.woodGatherPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<woodGatherer> ();
 		//GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
 		woodGather.name = "woodGatherer";
 		woodGather.tilePosition.X = x;
 		woodGather.tilePosition.Y = y;
+
+		woodGather.topLeft = adjArray [0];
+		woodGather.topRight = adjArray [1];
+		woodGather.Right = adjArray [2];
+		woodGather.bottomRight = adjArray [3];
+		woodGather.bottomLeft = adjArray [4];
+		woodGather.Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = woodGather.gameObject;
 		return true;
 	}
 

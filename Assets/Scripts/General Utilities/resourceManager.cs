@@ -7,9 +7,17 @@ public class resourceManager : MonoBehaviour {
 
 	public static resourceManager Instance;
 
-	public float woodTotal;
-	public float woodPerTick;
+	private float woodTotal;
+	private float woodPerTick;
 	public Text woodOutText;
+
+	private float foodTotal;
+	private float foodPerTick;
+	public Text foodOutText;
+
+	private float stoneTotal;
+	private float stonePerTick;
+	public Text stoneOutText;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +27,8 @@ public class resourceManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		woodOutText.text = "" + woodTotal;
+		foodOutText.text = "" + foodTotal;
+		stoneOutText.text = "" + stoneTotal;
 	}
 
 
@@ -26,7 +36,23 @@ public class resourceManager : MonoBehaviour {
 		woodPerTick += addTick;
 	}
 
+	public void addFoodResource(float addTick) {
+		foodPerTick += addTick;
+	}
+
+	public void addStoneResource(float addTick) {
+		stonePerTick += addTick;
+	}
+
 	public void woodResourceTick() {
 		woodTotal += woodPerTick;
+	}
+
+	public void foodResourceTick() {
+		foodTotal += foodPerTick;
+	}
+
+	public void stoneResourceTick() {
+		stoneTotal += stonePerTick;
 	}
 }

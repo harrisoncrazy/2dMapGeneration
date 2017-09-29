@@ -27,8 +27,8 @@ public class baseHandler : defaultBuilding {
 		base.setInfoPanelText (tileTitle, tileDescription);
 	}
 
-	public override void setAdjacentTilesArray ()
+	/*public override void setAdjacentTilesArray ()
 	{
 		base.setAdjacentTilesArray ();
-	}
+	}*/
 }
