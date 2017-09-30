@@ -33,7 +33,6 @@ public class defaultBuilding : MonoBehaviour {
 	public GameObject bottomRight;
 	public GameObject bottomLeft;
 	public GameObject Left;
-	public GameObject[] adjacentTiles;
 
 	public defaultBuilding() {
 		tileTitle = "default";
@@ -46,15 +45,7 @@ public class defaultBuilding : MonoBehaviour {
 
 		worldPosition = gameObject.transform.position;
 
-		//setting tiles to numbers
-		adjacentTiles = new GameObject[6];
-
-		adjacentTiles [0] = topLeft;
-		adjacentTiles [1] = topRight;
-		adjacentTiles [2] = Right;
-		adjacentTiles [3] = bottomRight;
-		adjacentTiles [4] = bottomLeft;
-		adjacentTiles [5] = Left;
+		fixAdjacentTilesAdjacency ();
 	}
 	
 	// Update is called once per frame
@@ -108,12 +99,51 @@ public class defaultBuilding : MonoBehaviour {
 		descriptionText.text = tileDescription;
 	}
 
-	public virtual void setAdjacentTilesArray() {
-		adjacentTiles [0] = topLeft;
-		adjacentTiles [1] = topRight;
-		adjacentTiles [2] = Right;
-		adjacentTiles [3] = bottomRight;
-		adjacentTiles [4] = bottomLeft;
-		adjacentTiles [5] = Left;
+	protected virtual void fixAdjacentTilesAdjacency() { //when placing a new building, add it to the adjacent tiles' adjacency
+		if (checkIfBuildingOrTile (topLeft)) { //fixing top left tile
+			topLeft.GetComponent<tileHandler> ().bottomRight = this.gameObject;
+		} else {
+			topLeft.GetComponent<defaultBuilding> ().bottomRight = this.gameObject;
+		}
+
+		if (checkIfBuildingOrTile (topRight)) { //fixing top right tile
+			topRight.GetComponent<tileHandler> ().bottomLeft = this.gameObject;
+		} else {
+			topRight.GetComponent<defaultBuilding> ().bottomLeft = this.gameObject;
+		}
+
+		if (checkIfBuildingOrTile (Right)) { //fixing top left tile
+			Right.GetComponent<tileHandler> ().Left = this.gameObject;
+		} else {
+			Right.GetComponent<defaultBuilding> ().Left = this.gameObject;
+		}
+
+		if (checkIfBuildingOrTile (bottomRight)) { //fixing top left tile
+			bottomRight.GetComponent<tileHandler> ().topLeft = this.gameObject;
+		} else {
+			bottomRight.GetComponent<defaultBuilding> ().topLeft = this.gameObject;
+		}
+
+		if (checkIfBuildingOrTile (bottomLeft)) { //fixing top left tile
+			bottomLeft.GetComponent<tileHandler> ().topRight = this.gameObject;
+		} else {
+			bottomLeft.GetComponent<defaultBuilding> ().topRight = this.gameObject;
+		}
+
+		if (checkIfBuildingOrTile (Left)) { //fixing top left tile
+			Left.GetComponent<tileHandler> ().Right = this.gameObject;
+		} else {
+			Left.GetComponent<defaultBuilding> ().Right = this.gameObject;
+		}
+	}
+
+	bool checkIfBuildingOrTile(GameObject obj) {
+		if (obj.GetComponent<tileHandler> () != null) {
+			return true;
+		} else if (obj.GetComponent<defaultBuilding> () != null) {
+			return false;
+		} else {
+			return false;
+		}
 	}
 }

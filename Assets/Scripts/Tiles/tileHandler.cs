@@ -75,6 +75,13 @@ public class tileHandler : MonoBehaviour {
 
 		discovered = true;
 		inSight = true; 
+
+		adjacentTiles [0] = topLeft;
+		adjacentTiles [1] = topRight;
+		adjacentTiles [2] = Right;
+		adjacentTiles [3] = bottomRight;
+		adjacentTiles [4] = bottomLeft;
+		adjacentTiles [5] = Left;
 	}
 
 	// Update is called once per frame
@@ -89,7 +96,7 @@ public class tileHandler : MonoBehaviour {
 		}
 
 		if (generationManager.Instance.genStepTwoDone == true) {
-			
+			colliderMain.enabled = false;
 		}
 
 		if (GameManager.Instance.selectedTile != null) {
@@ -126,6 +133,7 @@ public class tileHandler : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
+		setAdjArrayVals ();
 		if (discovered) {//if the tile has been seen and discovered
 			if (inputHandler.Instance.checkPlacementStatus() == false) {
 				if (GameManager.Instance.isBuildingSelected == false) {//not allowing tiles to be selected if a building is selected
@@ -318,6 +326,10 @@ public class tileHandler : MonoBehaviour {
 			}
 		}
 
+		setAdjArrayVals ();
+	}
+
+	void setAdjArrayVals() {
 		adjacentTiles [0] = topLeft;
 		adjacentTiles [1] = topRight;
 		adjacentTiles [2] = Right;
@@ -331,12 +343,12 @@ public class tileHandler : MonoBehaviour {
 			inSight = false;
 		}
 	}
-
+	/*
 	void OnBecameVisible() {//enabling collider when in frame of the camera
 		colliderMain.enabled = true;
 	}
 
 	void OnBecameInvisible() { //disabling collider when out of frame of the camera
 		colliderMain.enabled = false;
-	}
+	}*/
 }
