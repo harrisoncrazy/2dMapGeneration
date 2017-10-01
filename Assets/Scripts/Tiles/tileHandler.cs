@@ -76,12 +76,7 @@ public class tileHandler : MonoBehaviour {
 		discovered = true;
 		inSight = true; 
 
-		adjacentTiles [0] = topLeft;
-		adjacentTiles [1] = topRight;
-		adjacentTiles [2] = Right;
-		adjacentTiles [3] = bottomRight;
-		adjacentTiles [4] = bottomLeft;
-		adjacentTiles [5] = Left;
+		setAdjArrayVals ();
 	}
 
 	// Update is called once per frame
@@ -96,7 +91,7 @@ public class tileHandler : MonoBehaviour {
 		}
 
 		if (generationManager.Instance.genStepTwoDone == true) {
-			colliderMain.enabled = false;
+			setAdjArrayVals ();
 		}
 
 		if (GameManager.Instance.selectedTile != null) {
@@ -343,12 +338,12 @@ public class tileHandler : MonoBehaviour {
 			inSight = false;
 		}
 	}
-	/*
+
 	void OnBecameVisible() {//enabling collider when in frame of the camera
 		colliderMain.enabled = true;
 	}
 
 	void OnBecameInvisible() { //disabling collider when out of frame of the camera
 		colliderMain.enabled = false;
-	}*/
+	}
 }

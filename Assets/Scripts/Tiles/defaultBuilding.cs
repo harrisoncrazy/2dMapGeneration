@@ -33,6 +33,7 @@ public class defaultBuilding : MonoBehaviour {
 	public GameObject bottomRight;
 	public GameObject bottomLeft;
 	public GameObject Left;
+	public GameObject[] adjacentTiles;
 
 	public defaultBuilding() {
 		tileTitle = "default";
@@ -41,11 +42,24 @@ public class defaultBuilding : MonoBehaviour {
 
 	// Use this for initialization
 	protected virtual void Start () {
+		adjacentTiles = new GameObject[6];
+
 		findTileInfoPanelThings ();
 
 		worldPosition = gameObject.transform.position;
 
 		fixAdjacentTilesAdjacency ();
+
+		setAdjArrayVals ();
+	}
+
+	protected virtual void setAdjArrayVals() {
+		adjacentTiles [0] = topLeft;
+		adjacentTiles [1] = topRight;
+		adjacentTiles [2] = Right;
+		adjacentTiles [3] = bottomRight;
+		adjacentTiles [4] = bottomLeft;
+		adjacentTiles [5] = Left;
 	}
 	
 	// Update is called once per frame
@@ -61,6 +75,7 @@ public class defaultBuilding : MonoBehaviour {
 	}
 
 	protected virtual void OnMouseDown() {
+		setAdjArrayVals ();
 		if (selected && transform == trSelect) {
 			selected = false;
 			trSelect = null;
