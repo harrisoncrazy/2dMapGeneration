@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class tileHandler : MonoBehaviour {
+
+	public TextMesh tileInfoText;
 
 	//tile adjacentcy
 	bool foundAdjacent = false;
@@ -77,6 +80,8 @@ public class tileHandler : MonoBehaviour {
 		inSight = true; 
 
 		setAdjArrayVals ();
+
+		tileInfoText.text = "[" + mapPosition.X + "] [" + mapPosition.Y + "]";
 	}
 
 	// Update is called once per frame
