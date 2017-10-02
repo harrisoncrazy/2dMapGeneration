@@ -4,8 +4,73 @@ using UnityEngine;
 
 public class baseGridPosition : MonoBehaviour {
 
-	public TextMesh tileInfoText;
+	//pathfinding stuff
+	int distance;
+	public int Distance {
+		get {
+			return distance;
+		}
+		set {
+			distance = value;
+			UpdateDistanceLabel ();
+		}
+	}
 
+	void UpdateDistanceLabel() {
+		tileInfoText.text = Distance == int.MaxValue ? "" : Distance.ToString();
+	}
+
+	public void FindDistanceTo (baseGridPosition node) {
+		StartCoroutine (Search (node));
+	}
+
+	IEnumerator Search (baseGridPosition cell) {
+		for (int i = 0; i <= generationManager.Instance.mapSizeX - 1; i++) {
+			for (int j = 0; j <= generationManager.Instance.mapSizeY - 1; j++) {
+				generationManager.Instance.map [i] [j].GetComponent<baseGridPosition> ().Distance = int.MaxValue;
+			}
+		}
+			
+		WaitForSeconds delay = new WaitForSeconds (1 / 60f);
+		Queue<GameObject> frontier = new Queue<GameObject> ();
+		cell.Distance = 0;
+		frontier.Enqueue (cell.gameObject);
+		while (frontier.Count > 0) {
+			yield return delay;
+
+			GameObject current = frontier.Dequeue ();
+
+			for (int currectDirection = 0; currectDirection <= 5; currectDirection++) {//going through neigbors from top left to left clockwise
+				GameObject neighbor = current.GetComponent<baseGridPosition>().adjacentTiles [currectDirection];
+				if (neighbor != null) {
+					if (neighbor.GetComponent<tileHandler> () != null) {
+						if (neighbor.GetComponent<tileHandler> ().tileType == "Ocean") {
+							continue;
+						}
+						if (neighbor.GetComponent<tileHandler> ().tileType == "Mountain") {
+							continue;
+						}
+					}
+					if (neighbor != null && neighbor.GetComponent<baseGridPosition> ().Distance == int.MaxValue) {
+						neighbor.GetComponent<baseGridPosition> ().Distance = current.GetComponent<baseGridPosition> ().Distance + 1;
+						neighbor.GetComponent<baseGridPosition> ().UpdateDistanceLabel ();
+						frontier.Enqueue (neighbor);
+					}
+				}
+			}
+
+			if (current.GetComponent<baseGridPosition> ().Distance >= 10) {
+				break;
+			}
+		}
+	}
+
+	public int DistanceTo(baseGridPosition other) {
+		return (mapPosition.X < other.mapPosition.X ? other.mapPosition.X - mapPosition.X : mapPosition.X - other.mapPosition.X) +
+			(mapPosition.Y < other.mapPosition.Y ? other.mapPosition.Y - mapPosition.Y : mapPosition.Y - other.mapPosition.Y);
+	}
+
+	public TextMesh tileInfoText;
 
 	public GameObject topLeft;
 	public GameObject topRight;
@@ -30,11 +95,18 @@ public class baseGridPosition : MonoBehaviour {
 		adjacentTiles = new GameObject[6];	
 
 		tileInfoText.text = "[" + mapPosition.X + "] [" + mapPosition.Y + "]";
+
+		setAdjArrayVals ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	public void OnMouseDown() {
+		FindDistanceTo (this);
+		UpdateDistanceLabel ();
 	}
 
 	public void findAdjacentTiles() {

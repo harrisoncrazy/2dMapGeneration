@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114000010326368694}
   - component: {fileID: 58886255336544452}
   - component: {fileID: 222471691104492526}
+  - component: {fileID: 114795557471300622}
   m_Layer: 8
   m_Name: baseTile
   m_TagString: BaseTile
@@ -277,14 +278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2dd0c7d5c2be643bb020fb695227b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileInfoText: {fileID: 102108954493277096}
-  topLeft: {fileID: 0}
-  topRight: {fileID: 0}
-  Right: {fileID: 0}
-  bottomRight: {fileID: 0}
-  bottomLeft: {fileID: 0}
-  Left: {fileID: 0}
-  adjacentTiles: []
   tileOutlineSprite: {fileID: 1000012709696240}
   tileBlacked: {fileID: 1790474375286756}
   tileGreyed: {fileID: 1599423337309640}
@@ -306,6 +299,25 @@ MonoBehaviour:
   newSpriteSet: 0
   discovered: 0
   inSight: 0
+--- !u!114 &114795557471300622
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013534292436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d2400bc8f255944974723ad4aa7b88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileInfoText: {fileID: 102108954493277096}
+  topLeft: {fileID: 0}
+  topRight: {fileID: 0}
+  Right: {fileID: 0}
+  bottomRight: {fileID: 0}
+  bottomLeft: {fileID: 0}
+  Left: {fileID: 0}
+  adjacentTiles: []
 --- !u!210 &210680642473098398
 SortingGroup:
   m_ObjectHideFlags: 1
@@ -552,6 +564,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -25.61066, y: -3.7191403}
+  m_AnchoredPosition: {x: -84.51079, y: -8.01936}
   m_SizeDelta: {x: 1.2, y: 1.4}
   m_Pivot: {x: 0.5, y: 0.5}

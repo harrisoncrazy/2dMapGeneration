@@ -60,8 +60,6 @@ public class tileHandler : MonoBehaviour {
 
 		discovered = true;
 		inSight = true; 
-
-		this.GetComponent<baseGridPosition>().setAdjArrayVals ();
 	}
 
 	// Update is called once per frame
@@ -71,6 +69,7 @@ public class tileHandler : MonoBehaviour {
 				this.GetComponent<baseGridPosition>().findAdjacentTiles ();
 
 				checkAdjacentTilesStartup ();
+
 				foundAdjacent = true;
 			}
 		}

@@ -37,8 +37,6 @@ public class defaultBuilding : MonoBehaviour {
 		worldPosition = gameObject.transform.position;
 
 		this.GetComponent<baseGridPosition>().fixAdjacentTilesAdjacency ();
-
-		this.GetComponent<baseGridPosition>().setAdjArrayVals ();
 	}
 		
 	// Update is called once per frame
