@@ -49,7 +49,7 @@ public class woodGatherer : defaultBuilding {
 
 		woodGathererStats = new resourceBuildingClass.resourceBuildingStats ("Wood", defaultWoodReturn, tempCosts, tempPlaceTiles, tempBonus, tempPenalty); 
 
-		float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (woodGathererStats, adjacentTiles);
+		float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (woodGathererStats, this.GetComponent<baseGridPosition>().adjacentTiles);
 
 		woodReturn = defaultWoodReturn + tempEfficency;
 

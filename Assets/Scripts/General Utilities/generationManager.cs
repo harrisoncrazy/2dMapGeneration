@@ -132,18 +132,18 @@ public class generationManager : MonoBehaviour {
 										baseHandler home = ((GameObject)Instantiate (homeBase, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<baseHandler> ();
 										GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
 										home.name = "homeBase";
-										home.tilePosition.X = i;
-										home.tilePosition.Y = j;
+										home.GetComponent<baseGridPosition>().mapPosition.X = i;
+										home.GetComponent<baseGridPosition>().mapPosition.Y = j;
 										//objToDelete = homeCollider;
 										//StartCoroutine ("destroyThing");
 										homePlaced = true;
 
-										home.topLeft = map [i] [j].GetComponent<tileHandler> ().topLeft;
-										home.topRight = map [i] [j].GetComponent<tileHandler> ().topRight;
-										home.Right = map [i] [j].GetComponent<tileHandler> ().Right;
-										home.bottomRight = map [i] [j].GetComponent<tileHandler> ().bottomRight;
-										home.bottomLeft = map [i] [j].GetComponent<tileHandler> ().bottomLeft;
-										home.Left = map [i] [j].GetComponent<tileHandler> ().Left;
+										home.GetComponent<baseGridPosition> ().topLeft = map [i] [j].GetComponent<baseGridPosition> ().adjacentTiles [0];
+										home.GetComponent<baseGridPosition>().topRight = map [i] [j].GetComponent<baseGridPosition> ().adjacentTiles [1];
+										home.GetComponent<baseGridPosition>().Right = map [i] [j].GetComponent<baseGridPosition> ().adjacentTiles [2];
+										home.GetComponent<baseGridPosition>().bottomRight = map [i] [j].GetComponent<baseGridPosition> ().adjacentTiles [3];
+										home.GetComponent<baseGridPosition>().bottomLeft = map [i] [j].GetComponent<baseGridPosition> ().adjacentTiles [4];
+										home.GetComponent<baseGridPosition>().Left = map [i] [j].GetComponent<baseGridPosition> ().adjacentTiles [5];
 
 										Destroy (map [i] [j].gameObject);
 										map [i] [j] = home.gameObject;
@@ -287,32 +287,32 @@ public class generationManager : MonoBehaviour {
 				int rand = Random.Range (1, 101);//Randomly selecting a base grass tile for the base grid
 				if (rand <= 35) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
-					tile.mapPosition.X = i;
-					tile.mapPosition.Y = j;
+					tile.GetComponent<baseGridPosition>().mapPosition.X = i;
+					tile.GetComponent<baseGridPosition>().mapPosition.Y = j;
 					tile.tileType = "Heavy Forest";
 					tile.sr.sprite = HeavyForestTile;
 					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile.gameObject);
 				} else if (rand >= 35 && rand <= 60) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
-					tile.mapPosition.X = i;
-					tile.mapPosition.Y = j;
+					tile.GetComponent<baseGridPosition>().mapPosition.X = i;
+					tile.GetComponent<baseGridPosition>().mapPosition.Y = j;
 					tile.tileType = "Light Forest";
 					tile.sr.sprite = LightForestTile;
 					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile.gameObject);
 				} else if (rand >= 60 && rand <= 90) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
-					tile.mapPosition.X = i;
-					tile.mapPosition.Y = j;
+					tile.GetComponent<baseGridPosition>().mapPosition.X = i;
+					tile.GetComponent<baseGridPosition>().mapPosition.Y = j;
 					tile.tileType = "Grassland";
 					tile.sr.sprite = GrassTile;
 					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile.gameObject);
 				} else if (rand >= 90 && rand <= 97) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
-					tile.mapPosition.X = i;
-					tile.mapPosition.Y = j;
+					tile.GetComponent<baseGridPosition>().mapPosition.X = i;
+					tile.GetComponent<baseGridPosition>().mapPosition.Y = j;
 					tile.sr.sprite = HeavyForestTile;
 					tile.tileType = "Light Rocks";
 					tile.sr.sprite = LightRockTile;
@@ -320,8 +320,8 @@ public class generationManager : MonoBehaviour {
 					row.Add (tile.gameObject);
 				} else if (rand >= 97 && rand <= 100) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
-					tile.mapPosition.X = i;
-					tile.mapPosition.Y = j;
+					tile.GetComponent<baseGridPosition>().mapPosition.X = i;
+					tile.GetComponent<baseGridPosition>().mapPosition.Y = j;
 					tile.sr.sprite = HeavyForestTile;
 					tile.tileType = "Heavy Rocks";
 					tile.sr.sprite = HeavyRockTile;

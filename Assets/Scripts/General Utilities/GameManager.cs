@@ -53,15 +53,15 @@ public class GameManager : MonoBehaviour {
 		woodGatherer woodGather = ((GameObject)Instantiate (GameManager.Instance.woodGatherPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<woodGatherer> ();
 		//GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
 		woodGather.name = "woodGathererBuilding";
-		woodGather.tilePosition.X = x;
-		woodGather.tilePosition.Y = y;
+		woodGather.GetComponent<baseGridPosition>().mapPosition.X = x;
+		woodGather.GetComponent<baseGridPosition>().mapPosition.Y = y;
 
-		woodGather.topLeft = adjArray [0];
-		woodGather.topRight = adjArray [1];
-		woodGather.Right = adjArray [2];
-		woodGather.bottomRight = adjArray [3];
-		woodGather.bottomLeft = adjArray [4];
-		woodGather.Left = adjArray [5];
+		woodGather.GetComponent<baseGridPosition>().topLeft = adjArray [0];
+		woodGather.GetComponent<baseGridPosition>().topRight = adjArray [1];
+		woodGather.GetComponent<baseGridPosition>().Right = adjArray [2];
+		woodGather.GetComponent<baseGridPosition>().bottomRight = adjArray [3];
+		woodGather.GetComponent<baseGridPosition>().bottomLeft = adjArray [4];
+		woodGather.GetComponent<baseGridPosition>().Left = adjArray [5];
 
 		generationManager.Instance.map [x] [y] = woodGather.gameObject;
 		return true;

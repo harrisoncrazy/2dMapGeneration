@@ -4,17 +4,10 @@ using UnityEngine.UI;
 
 public class tileHandler : MonoBehaviour {
 
-	public TextMesh tileInfoText;
 
 	//tile adjacentcy
 	bool foundAdjacent = false;
-	public GameObject topLeft;
-	public GameObject topRight;
-	public GameObject Right;
-	public GameObject bottomRight;
-	public GameObject bottomLeft;
-	public GameObject Left;
-	public GameObject[] adjacentTiles;
+
 
 
 	public GameObject tileOutlineSprite; //gameobject of highlight Sprite
@@ -45,15 +38,6 @@ public class tileHandler : MonoBehaviour {
 
 	//Tile info values
 	public string tileType;
-	public struct gridPosition {
-		public int X, Y;
-
-		public gridPosition(int x, int y) {
-			this.X = x;
-			this.Y = y;
-		}
-	}
-	public gridPosition mapPosition = new gridPosition();
 	public bool isNearWater = false; //if the tile is close by to water
 
 
@@ -69,8 +53,6 @@ public class tileHandler : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		adjacentTiles = new GameObject[6];
-
 		sr = GetComponent<SpriteRenderer> ();
 		colliderMain = gameObject.GetComponent<CircleCollider2D> ();
 		tileGreyed.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, .75f);
@@ -79,16 +61,14 @@ public class tileHandler : MonoBehaviour {
 		discovered = true;
 		inSight = true; 
 
-		setAdjArrayVals ();
-
-		tileInfoText.text = "[" + mapPosition.X + "] [" + mapPosition.Y + "]";
+		this.GetComponent<baseGridPosition>().setAdjArrayVals ();
 	}
 
 	// Update is called once per frame
 	void Update () {
 		if (generationManager.Instance.genStepOneDone == true) {
 			if (foundAdjacent == false) {//adjacent tile startup
-				findAdjacentTiles ();
+				this.GetComponent<baseGridPosition>().findAdjacentTiles ();
 
 				checkAdjacentTilesStartup ();
 				foundAdjacent = true;
@@ -96,7 +76,7 @@ public class tileHandler : MonoBehaviour {
 		}
 
 		if (generationManager.Instance.genStepTwoDone == true) {
-			setAdjArrayVals ();
+			this.GetComponent<baseGridPosition>().setAdjArrayVals ();
 		}
 
 		if (GameManager.Instance.selectedTile != null) {
@@ -133,7 +113,7 @@ public class tileHandler : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
-		setAdjArrayVals ();
+		this.GetComponent<baseGridPosition>().setAdjArrayVals ();
 		if (discovered) {//if the tile has been seen and discovered
 			if (inputHandler.Instance.checkPlacementStatus() == false) {
 				if (GameManager.Instance.isBuildingSelected == false) {//not allowing tiles to be selected if a building is selected
@@ -149,7 +129,7 @@ public class tileHandler : MonoBehaviour {
 				}
 			} else { //if placing a building
 				if (GameManager.Instance.placingWoodGatherer) {
-					if (GameManager.Instance.placingWoodGathererTile (mapPosition.X, mapPosition.Y, transform.position, adjacentTiles)) {
+					if (GameManager.Instance.placingWoodGathererTile (this.GetComponent<baseGridPosition>().mapPosition.X, this.GetComponent<baseGridPosition>().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition>().adjacentTiles)) {
 						inputHandler.Instance.disablePlacementMode ();
 						Destroy (this.gameObject);
 					}
@@ -250,9 +230,9 @@ public class tileHandler : MonoBehaviour {
 	void checkAdjacentTilesStartup() {
 		int numAdjOcean = 0;
 
-		for (int i = 0; i < adjacentTiles.Length; i++) {
-			if (adjacentTiles [i] != null) {
-				string adjTileType = adjacentTiles [i].GetComponent<tileHandler> ().tileType;
+		for (int i = 0; i < this.GetComponent<baseGridPosition>().adjacentTiles.Length; i++) {
+			if (this.GetComponent<baseGridPosition>().adjacentTiles [i] != null) {
+				string adjTileType = this.GetComponent<baseGridPosition>().adjacentTiles [i].GetComponent<tileHandler> ().tileType;
 				switch (adjTileType) {
 				case "Sand":
 					if (!tileType.Contains("Sand")) {
@@ -283,59 +263,6 @@ public class tileHandler : MonoBehaviour {
 			sr.sprite = generationManager.Instance.oceanTile;
 			tileType = "Ocean";
 		}
-	}
-
-	void findAdjacentTiles() {
-		if (mapPosition.Y % 2 == 0) {//if on an even y row
-			if ((mapPosition.X - 1) > 0 && (mapPosition.Y + 1) < generationManager.Instance.mapSizeY) {
-				topLeft = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y + 1)].GetComponent<tileHandler> ().gameObject;
-			}
-			if ((mapPosition.Y + 1) < generationManager.Instance.mapSizeY) {
-				topRight = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y + 1)].GetComponent<tileHandler> ().gameObject;
-			}
-			if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX) {
-				Right = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y)].GetComponent<tileHandler> ().gameObject;
-			}
-			if ((mapPosition.Y - 1) > 0) {
-				bottomRight = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y - 1)].GetComponent<tileHandler> ().gameObject;
-			}
-			if ((mapPosition.X - 1) > 0 && (mapPosition.Y - 1) > 0) {
-				bottomLeft = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y - 1)].GetComponent<tileHandler> ().gameObject;
-			}
-			if ((mapPosition.X - 1) >= 0) {
-				Left = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y)].GetComponent<tileHandler> ().gameObject; 
-			}
-		} else if (mapPosition.Y % 2 == 1) {//if on an odd y row
-			if ((mapPosition.Y + 1) < generationManager.Instance.mapSizeY) {
-				topLeft = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y + 1)].GetComponent<tileHandler> ().gameObject;
-			}
-			if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX && (mapPosition.Y + 1) < generationManager.Instance.mapSizeY) {
-				topRight = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y + 1)].GetComponent<tileHandler> ().gameObject;
-			}
-			if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX) {
-				Right = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y)].GetComponent<tileHandler> ().gameObject;
-			}
-			if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX && (mapPosition.Y - 1) > 0) {
-				bottomRight = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y - 1)].GetComponent<tileHandler> ().gameObject;
-			}
-			if ((mapPosition.Y - 1) > 0) {
-				bottomLeft = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y - 1)].GetComponent<tileHandler> ().gameObject;
-			}
-			if ((mapPosition.X - 1) >= 0) {
-				Left = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y)].GetComponent<tileHandler> ().gameObject;
-			}
-		}
-
-		setAdjArrayVals ();
-	}
-
-	void setAdjArrayVals() {
-		adjacentTiles [0] = topLeft;
-		adjacentTiles [1] = topRight;
-		adjacentTiles [2] = Right;
-		adjacentTiles [3] = bottomRight;
-		adjacentTiles [4] = bottomLeft;
-		adjacentTiles [5] = Left;
 	}
 
 	void OnTriggerExit2D (Collider2D col) {//leaving sight, enabling fog of war
