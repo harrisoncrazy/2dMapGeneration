@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28d2400bc8f255944974723ad4aa7b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Distance: 0
+  selectOutline: {fileID: 1530755194539434}
   tileInfoText: {fileID: 102523876264259782}
   topLeft: {fileID: 0}
   topRight: {fileID: 0}

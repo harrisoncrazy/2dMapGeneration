@@ -330,7 +330,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &177783946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,6 +499,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad918aca7953e5f4182fa052103befc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previousCell: {fileID: 0}
+  searchFromCell: {fileID: 0}
   selectedTile: {fileID: 0}
   isBuildingSelected: 0
   woodGatherPrefab: {fileID: 1542900173023774, guid: ef5ed6f14827cee47943759d456aee76,

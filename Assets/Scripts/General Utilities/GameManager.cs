@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance;
 
+	//pathfinding values
+	public baseGridPosition previousCell, searchFromCell;
+
 	public Transform selectedTile;
 
 	public bool isBuildingSelected = false;
