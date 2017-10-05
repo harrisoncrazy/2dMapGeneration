@@ -8,8 +8,6 @@ public class tileHandler : MonoBehaviour {
 	//tile adjacentcy
 	bool foundAdjacent = false;
 
-
-
 	public GameObject tileOutlineSprite; //gameobject of highlight Sprite
 	public GameObject tileBlacked;
 	public GameObject tileGreyed;
@@ -74,7 +72,7 @@ public class tileHandler : MonoBehaviour {
 			}
 		}
 
-		if (generationManager.Instance.genStepTwoDone == true) {
+		if (generationManager.Instance.genStepThreeDone == true) {
 			this.GetComponent<baseGridPosition>().setAdjArrayVals ();
 		}
 
@@ -128,7 +126,17 @@ public class tileHandler : MonoBehaviour {
 				}
 			} else { //if placing a building
 				if (GameManager.Instance.placingWoodGatherer) {
-					if (GameManager.Instance.placingWoodGathererTile (this.GetComponent<baseGridPosition>().mapPosition.X, this.GetComponent<baseGridPosition>().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition>().adjacentTiles)) {
+					if (GameManager.Instance.placingWoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+						inputHandler.Instance.disablePlacementMode ();
+						Destroy (this.gameObject);
+					} 
+				} else if (GameManager.Instance.placingStoneGatherer) {
+					if (GameManager.Instance.placingStoneGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+						inputHandler.Instance.disablePlacementMode ();
+						Destroy (this.gameObject);
+					}
+				} else if (GameManager.Instance.placingFoodGatherer) {
+					if (GameManager.Instance.placingFoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
 						inputHandler.Instance.disablePlacementMode ();
 						Destroy (this.gameObject);
 					}
@@ -142,11 +150,6 @@ public class tileHandler : MonoBehaviour {
 			tileBlacked.SetActive (true);
 		} else if (discovered == true) {
 			tileBlacked.SetActive (false);
-		}
-		if (inSight == false && discovered == true) {//If not seen currently
-			tileGreyed.SetActive (true);
-		} else if (inSight == true) {
-			tileGreyed.SetActive (false);
 		}
 	}
 
@@ -164,26 +167,22 @@ public class tileHandler : MonoBehaviour {
 			if (col.gameObject.GetComponent<tileHandler> () != null) {
 				if (sandSeed == true) { //if the current tile is the sand seed
 					col.gameObject.GetComponent<tileHandler> ().adjacentSand = true;
-					col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.defaultSand;
 					col.gameObject.GetComponent<tileHandler> ().tileType = "Sand";
 				}
 
 				if (snowSeed == true) { //if the current tile is the snow seed
 					col.gameObject.GetComponent<tileHandler> ().adjacentSnow = true;
-					col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.GrassSnowTile;
 					col.gameObject.GetComponent<tileHandler> ().tileType = "Snow";
 				}
 
 				if (oceanSeed == true) { //if the current tile is the ocean seed
 					col.gameObject.GetComponent<tileHandler> ().adjacentOcean = true;
-					col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.oceanTile;
 					col.gameObject.GetComponent<tileHandler> ().tileType = "Ocean";
 				}
 
 				if (mountainSeed == true) {
 					if (stopSpread == false) {
 						if (col.gameObject.GetComponent<tileHandler> ().mountainSeed != true) {
-							col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.mountainTile;
 							col.gameObject.GetComponent<tileHandler> ().mountainSeed = true;
 							col.gameObject.GetComponent<tileHandler> ().tileType = "Mountain";
 							stopSpread = true;
@@ -194,7 +193,6 @@ public class tileHandler : MonoBehaviour {
 				if (stopSpread == false) {//if the current tile has not stopped spreading
 					if (adjacentSand == true) {//setting any adjacent tiles to sand tiles
 						col.gameObject.GetComponent<tileHandler> ().adjacentSand = true;
-						col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.defaultSand;
 						col.gameObject.GetComponent<tileHandler> ().tileType = "Sand";
 						int stopper = Random.Range (0, 5); //stopping spread if a certain value is selected
 						if (stopper >= 3) {
@@ -204,7 +202,6 @@ public class tileHandler : MonoBehaviour {
 
 					if (adjacentSnow == true) {//setting any adjacent tiles to sand tiles
 						col.gameObject.GetComponent<tileHandler> ().adjacentSnow = true;
-						col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.GrassSnowTile;
 						col.gameObject.GetComponent<tileHandler> ().tileType = "Snow";
 						int stopper = Random.Range (0, 5); //stopping spread if a certain value is selected
 						if (stopper >= 3) {
@@ -214,7 +211,6 @@ public class tileHandler : MonoBehaviour {
 
 					if (adjacentOcean == true) {//setting any adjacent tiles to ocean tiles
 						col.gameObject.GetComponent<tileHandler> ().adjacentOcean = true;
-						col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.oceanTile;
 						col.gameObject.GetComponent<tileHandler> ().tileType = "Ocean";
 						int stopper = Random.Range (0, 5); //stopping spread if a certain value is selected
 						if (stopper >= 3) {
@@ -230,24 +226,24 @@ public class tileHandler : MonoBehaviour {
 		int numAdjOcean = 0;
 
 		for (int i = 0; i < this.GetComponent<baseGridPosition>().adjacentTiles.Length; i++) {
-			if (this.GetComponent<baseGridPosition>().adjacentTiles [i] != null) {
+			if (this.GetComponent<baseGridPosition>().adjacentTiles [i] != null && this.GetComponent<baseGridPosition>().adjacentTiles[i].GetComponent<tileHandler>() != null) {
 				string adjTileType = this.GetComponent<baseGridPosition>().adjacentTiles [i].GetComponent<tileHandler> ().tileType;
 				switch (adjTileType) {
 				case "Sand":
 					if (!tileType.Contains("Sand")) {
-						sr.sprite = generationManager.Instance.defaultDirt;
+						//sr.sprite = generationManager.Instance.defaultDirt;
 						tileType = "Dirt";
 					}
 					break;
 				case "Snow":
 					if (!tileType.Contains("Snow")) {
-						sr.sprite = generationManager.Instance.defaultStone;
+						//sr.sprite = generationManager.Instance.defaultStone;
 						tileType = "Stone";
 					}
 					break;
 				case "Mountain":
 					if (!tileType.Contains("Mountain")) {
-						sr.sprite = generationManager.Instance.defaultStone;
+						//sr.sprite = generationManager.Instance.defaultStone;
 						tileType = "Stone";
 					}
 					break;
@@ -259,7 +255,7 @@ public class tileHandler : MonoBehaviour {
 			}
 		}
 		if (numAdjOcean == 6) {
-			sr.sprite = generationManager.Instance.oceanTile;
+			//sr.sprite = generationManager.Instance.oceanTile;
 			tileType = "Ocean";
 		}
 	}

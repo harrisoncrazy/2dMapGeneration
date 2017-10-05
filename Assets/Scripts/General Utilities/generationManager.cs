@@ -17,48 +17,50 @@ public class generationManager : MonoBehaviour {
 	public bool homePlaced = false;
 
 	//Grass tile sprites
-	public Sprite HeavyForestTile;
-	public Sprite LightForestTile;
-	public Sprite GrassTile;
-	public Sprite HeavyRockTile;
-	public Sprite LightRockTile;
+	public GameObject HeavyForestTile;
+	public GameObject LightForestTile;
+	public GameObject GrassTile;
+	public GameObject HeavyRockTile;
+	public GameObject LightRockTile;
 
 	//Desert tile Sprites
-	public Sprite defaultSand;
-	public Sprite lightCactusSand1;
-	public Sprite lightCactusSand2;
-	public Sprite heavyCactusSand;
-	public Sprite lightRocksSand1;
-	public Sprite lightRocksSand2;
-	public Sprite lightRocksSand3;
+	public GameObject defaultSand;
+	public GameObject lightCactusSand1;
+	public GameObject lightCactusSand2;
+	public GameObject heavyCactusSand;
+	public GameObject lightRocksSand1;
+	public GameObject lightRocksSand2;
+	public GameObject lightRocksSand3;
 
 	//Dirt tile Sprites
-	public Sprite defaultDirt;
-	public Sprite lightForestDirt;
-	public Sprite heavyForestDirt;
-	public Sprite lightRocksDirt1;
-	public Sprite lightRocksDirt2;
+	public GameObject defaultDirt;
+	public GameObject lightForestDirt;
+	public GameObject heavyForestDirt;
+	public GameObject lightRocksDirt1;
+	public GameObject lightRocksDirt2;
 
 	//Snow tile Sprites
-	public Sprite HeavyForestSnowTile;
-	public Sprite LightForestSnowTile;
-	public Sprite GrassSnowTile;
-	public Sprite HeavyRockSnowTile;
-	public Sprite LightRockSnowTile;
+	public GameObject HeavyForestSnowTile;
+	public GameObject LightForestSnowTile;
+	public GameObject GrassSnowTile;
+	public GameObject HeavyRockSnowTile;
+	public GameObject LightRockSnowTile;
 
 	//Stone tile Sprites
-	public Sprite defaultStone;
-	public Sprite LightForestStone;
-	public Sprite HeavyForestStone;
+	public GameObject defaultStone;
+	public GameObject LightForestStone;
+	public GameObject HeavyForestStone;
 
-	public Sprite oceanTile;
+	public GameObject oceanTile;
 
-	public Sprite mountainTile;
+	public GameObject mountainTile;
 
 	private float generationTimerOne = 1.0f;
-	private float generationTimerTwo = 1.0f;
+	private float generationTimerTwo = 2.0f;
+	private float generationTimerThree = 1.0f;
 	public bool genStepOneDone = false;
 	public bool genStepTwoDone = false;
+	public bool genStepThreeDone = false;
 	private int sandRand;
 	private int snowRand;
 	private int oceanRand;
@@ -78,22 +80,22 @@ public class generationManager : MonoBehaviour {
 		generateMap ();
 		sandRand = Random.Range (1, 2);//default 2,4
 		for (int i = 0; i <= sandRand; i++) { //Generating random number of sand biomes
-			Debug.Log ("Sand seed planted.");
+			//Debug.Log ("Sand seed planted.");
 			generateSand ();
 		}
 		snowRand = Random.Range (1, 3);//default 1,5
 		for (int i = 0; i <= snowRand; i++) { //Generating random number of snow biomes
-			Debug.Log ("Snow seed planted.");
+			//Debug.Log ("Snow seed planted.");
 			generateSnow ();
 		}
 		oceanRand = Random.Range (3, 5);//default 5,8
 		for (int i = 0; i <= oceanRand; i++) { //Generating random number of ocean biomes
-			Debug.Log ("Ocean seed planted.");
+			//Debug.Log ("Ocean seed planted.");
 			generateOcean ();
 		}
 		mountainRand = Random.Range (4, 10);//default 8,15
 		for (int i = 0; i <= mountainRand; i++) { //Generating random number of mountain biomes
-			Debug.Log ("Mountain seed planted.");
+			//Debug.Log ("Mountain seed planted.");
 			generateMountain();
 		}
 	}
@@ -118,7 +120,7 @@ public class generationManager : MonoBehaviour {
 			}
 		}
 
-		if (genStepTwoDone == true) {//after the second gen step is done
+		if (genStepTwoDone == true && genStepThreeDone == false) {//after the second gen step is done
 			for (int i = 0; i <= mapSizeX - 1; i++) {
 				for (int j = 0; j <= mapSizeY - 1; j++) {
 					if (map [i] [j].GetComponent<tileHandler> () != null) {
@@ -151,121 +153,126 @@ public class generationManager : MonoBehaviour {
 								}
 							}
 						}
-						if (map [i] [j].GetComponent<tileHandler> ().tileType == "Sand") {//Iterating thru the list of tiles, finding those marked as default sand and selecting a random tile for them to be
+						if (map [i] [j].GetComponent<tileHandler> () != null && map [i] [j].GetComponent<tileHandler> ().tileType == "Sand") {//Iterating thru the list of tiles, finding those marked as default sand and selecting a random tile for them to be
 							if (map [i] [j].GetComponent<tileHandler> ().newSpriteSet == false) {
 								int rand = Random.Range (1, 101);
 								if (rand <= 65) {
+									swapTiles (map [i] [j], defaultSand, "Sand");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 								} else if (rand >= 60 && rand <= 75) {
 									int rand2 = Random.Range (1, 3);
 									if (rand2 == 1) {
-										map [i] [j].GetComponent<tileHandler> ().sr.sprite = lightCactusSand1;
+										swapTiles (map [i] [j], lightCactusSand1, "Light Cactus Sand");
 										map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 										map [i] [j].GetComponent<tileHandler> ().tileType = "Light Cactus Sand";
 									} else if (rand2 == 2) {
-										map [i] [j].GetComponent<tileHandler> ().sr.sprite = lightCactusSand2;
+										swapTiles (map [i] [j], lightCactusSand2, "Light Cactus Sand");
 										map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 										map [i] [j].GetComponent<tileHandler> ().tileType = "Light Cactus Sand";
 									}
 								} else if (rand >= 75 && rand <= 85) {
 									int rand2 = Random.Range (1, 4);
 									if (rand2 == 1) {
-										map [i] [j].GetComponent<tileHandler> ().sr.sprite = lightRocksSand1;
+										swapTiles (map [i] [j], lightRocksSand1, "Light Rocks Sand");
 										map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 										map [i] [j].GetComponent<tileHandler> ().tileType = "Light Rocks Sand";
 									} else if (rand2 == 2) {
-										map [i] [j].GetComponent<tileHandler> ().sr.sprite = lightRocksSand2;
+										swapTiles (map [i] [j], lightRocksSand2, "Light Rocks Sand");
 										map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 										map [i] [j].GetComponent<tileHandler> ().tileType = "Light Rocks Sand";
 									} else if (rand2 == 3) {
-										map [i] [j].GetComponent<tileHandler> ().sr.sprite = lightRocksSand3;
+										swapTiles (map [i] [j], lightRocksSand3, "Light Rocks Sand");
 										map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 										map [i] [j].GetComponent<tileHandler> ().tileType = "Light Rocks Sand";
 									}
 								} else if (rand >= 85 && rand <= 100) {
-									map [i] [j].GetComponent<tileHandler> ().sr.sprite = heavyCactusSand;
+									swapTiles (map [i] [j], heavyCactusSand, "Heavy Cactus Sand");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 									map [i] [j].GetComponent<tileHandler> ().tileType = "Heavy Cactus Sand";
 								}
 							}
 						}
-						if (map [i] [j].GetComponent<tileHandler> ().tileType == "Dirt") {//finding the dirt tiles and randomizing
+						if (map [i] [j].GetComponent<tileHandler> () != null && map [i] [j].GetComponent<tileHandler> ().tileType == "Dirt") {//finding the dirt tiles and randomizing
 							if (map [i] [j].GetComponent<tileHandler> ().newSpriteSet == false) {
 								int rand = Random.Range (1, 101);
 								if (rand <= 35) {
+									swapTiles (map [i] [j], defaultDirt, "Dirt");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 								} else if (rand >= 35 && rand <= 70) {
 									int rand2 = Random.Range (1, 2);
 									if (rand2 == 1) {
-										map [i] [j].GetComponent<tileHandler> ().sr.sprite = lightForestDirt;
+										swapTiles (map [i] [j], lightForestDirt, "Light Forest Dirt");
 										map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
-										map [i] [j].GetComponent<tileHandler> ().tileType = "Light Forest Dirt";
 									}
 								} else if (rand >= 70 && rand <= 80) {
 									int rand2 = Random.Range (1, 3);
 									if (rand2 == 1) {
-										map [i] [j].GetComponent<tileHandler> ().sr.sprite = lightRocksDirt1;
+										swapTiles (map [i] [j], lightRocksDirt1, "Light Rocks Dirt");
 										map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
-										map [i] [j].GetComponent<tileHandler> ().tileType = "Light Rocks Dirt";
 									} else if (rand2 == 2) {
-										map [i] [j].GetComponent<tileHandler> ().sr.sprite = lightRocksDirt2;
+										swapTiles (map [i] [j], lightRocksDirt2, "Light Rocks Dirt");
 										map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
-										map [i] [j].GetComponent<tileHandler> ().tileType = "Light Rocks Dirt";
 									}
 								} else if (rand >= 80 && rand <= 100) {
-									map [i] [j].GetComponent<tileHandler> ().sr.sprite = heavyForestDirt;
+									swapTiles (map [i] [j], heavyForestDirt, "Heavy Forest Dirt");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
-									map [i] [j].GetComponent<tileHandler> ().tileType = "Heavy Forest Dirt";
 								}
 							}
 						}
 
-						if (map [i] [j].GetComponent<tileHandler> ().tileType == "Snow") {//finding the snow tiles and randomizing
+						if (map [i] [j].GetComponent<tileHandler> () != null && map [i] [j].GetComponent<tileHandler> ().tileType == "Snow") {//finding the snow tiles and randomizing
 							if (map [i] [j].GetComponent<tileHandler> ().newSpriteSet == false) {
 								int rand = Random.Range (1, 101);
 								if (rand <= 35) {
+									swapTiles (map [i] [j], GrassSnowTile, "Snow");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
-									;
 								} else if (rand >= 35 && rand <= 60) {
-									map [i] [j].GetComponent<tileHandler> ().sr.sprite = LightForestSnowTile;
+									swapTiles (map [i] [j], LightForestSnowTile, "Light Forest Snow");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 									map [i] [j].GetComponent<tileHandler> ().tileType = "Light Forest Snow";
 								} else if (rand >= 60 && rand <= 90) {
-									map [i] [j].GetComponent<tileHandler> ().sr.sprite = HeavyForestSnowTile;
+									swapTiles (map [i] [j], HeavyForestSnowTile, "Heavy Forest Snow");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
-									map [i] [j].GetComponent<tileHandler> ().tileType = "Heavy Forest Snow";
 								} else if (rand >= 90 && rand <= 97) {
-									map [i] [j].GetComponent<tileHandler> ().sr.sprite = LightRockSnowTile;
+									swapTiles (map [i] [j], LightRockSnowTile, "Light Rocks Snow");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
-									map [i] [j].GetComponent<tileHandler> ().tileType = "Light Rocks Snow";
 								} else if (rand >= 97 && rand <= 100) {
-									map [i] [j].GetComponent<tileHandler> ().sr.sprite = HeavyRockSnowTile;
+									swapTiles (map [i] [j], HeavyRockSnowTile, "Heavy Rocks Snow");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
-									map [i] [j].GetComponent<tileHandler> ().tileType = "Heavy Rocks Snow";
 								}
 							}
 						}
 
-						if (map [i] [j].GetComponent<tileHandler> ().tileType == "Stone") {//finding the stone tiles and randomizing
+						if (map [i] [j].GetComponent<tileHandler> () != null && map [i] [j].GetComponent<tileHandler> ().tileType == "Stone") {//finding the stone tiles and randomizing
 							if (map [i] [j].GetComponent<tileHandler> ().newSpriteSet == false) {
 								int rand = Random.Range (1, 101);
 								if (rand <= 45) {
+									swapTiles (map [i] [j], defaultStone, "Stone");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
-									;
 								} else if (rand >= 45 && rand <= 75) {
-									map [i] [j].GetComponent<tileHandler> ().sr.sprite = LightForestStone;
+									swapTiles (map [i] [j], LightForestStone, "Light Forest Stone");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
-									map [i] [j].GetComponent<tileHandler> ().tileType = "Light Forest Stone";
 								} else if (rand >= 75 && rand <= 100) {
-									map [i] [j].GetComponent<tileHandler> ().sr.sprite = HeavyForestStone;
+									swapTiles (map [i] [j], HeavyForestStone, "Heavy Forest Stone");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
-									map [i] [j].GetComponent<tileHandler> ().tileType = "Heavy Forest Stone";
 								}
 							}
 						}
+
+						if (map [i] [j].GetComponent<tileHandler> () != null && map [i] [j].GetComponent<tileHandler> ().tileType == "Ocean") {//finding ocean tiles and swapping to the gameobjects
+							swapTiles(map[i][j],oceanTile,"Ocean");
+							map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
+						}
+
+						if (map [i] [j].GetComponent<tileHandler> () != null && map [i] [j].GetComponent<tileHandler> ().tileType == "Mountain") {//finding mountain tiles and swapping to the gameobjects
+							swapTiles(map[i][j],mountainTile,"Mountain");
+							map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
+						} 
 					}
 				}
 			}
+			genStepThreeDone = true;
+			Debug.Log ("end");
 		}
 	}
 
@@ -286,45 +293,43 @@ public class generationManager : MonoBehaviour {
 				jDiff = j + (.03f * j); //Offsetting the Y
 				int rand = Random.Range (1, 101);//Randomly selecting a base grass tile for the base grid
 				if (rand <= 35) {
-					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
+					tileHandler tile = ((GameObject)Instantiate (HeavyForestTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
 					tile.GetComponent<baseGridPosition>().mapPosition.X = i;
 					tile.GetComponent<baseGridPosition>().mapPosition.Y = j;
 					tile.tileType = "Heavy Forest";
-					tile.sr.sprite = HeavyForestTile;
+					//tile.sr.sprite = HeavyForestTile;
 					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile.gameObject);
 				} else if (rand >= 35 && rand <= 60) {
-					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
+					tileHandler tile = ((GameObject)Instantiate (LightForestTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
 					tile.GetComponent<baseGridPosition>().mapPosition.X = i;
 					tile.GetComponent<baseGridPosition>().mapPosition.Y = j;
 					tile.tileType = "Light Forest";
-					tile.sr.sprite = LightForestTile;
+					//tile.sr.sprite = LightForestTile;
 					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile.gameObject);
 				} else if (rand >= 60 && rand <= 90) {
-					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
+					tileHandler tile = ((GameObject)Instantiate (GrassTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
 					tile.GetComponent<baseGridPosition>().mapPosition.X = i;
 					tile.GetComponent<baseGridPosition>().mapPosition.Y = j;
 					tile.tileType = "Grassland";
-					tile.sr.sprite = GrassTile;
+					//tile.sr.sprite = GrassTile;
 					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile.gameObject);
 				} else if (rand >= 90 && rand <= 97) {
-					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
+					tileHandler tile = ((GameObject)Instantiate (LightRockTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
 					tile.GetComponent<baseGridPosition>().mapPosition.X = i;
 					tile.GetComponent<baseGridPosition>().mapPosition.Y = j;
-					tile.sr.sprite = HeavyForestTile;
 					tile.tileType = "Light Rocks";
-					tile.sr.sprite = LightRockTile;
+					//tile.sr.sprite = LightRockTile;
 					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile.gameObject);
 				} else if (rand >= 97 && rand <= 100) {
-					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
+					tileHandler tile = ((GameObject)Instantiate (HeavyRockTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
 					tile.GetComponent<baseGridPosition>().mapPosition.X = i;
 					tile.GetComponent<baseGridPosition>().mapPosition.Y = j;
-					tile.sr.sprite = HeavyForestTile;
 					tile.tileType = "Heavy Rocks";
-					tile.sr.sprite = HeavyRockTile;
+					//tile.sr.sprite = HeavyRockTile;
 					tile.name = "Tile X:" + i + " Y:" + j;
 					row.Add (tile.gameObject);
 				}
@@ -341,30 +346,28 @@ public class generationManager : MonoBehaviour {
 	void generateSand() {
 		int xPlacer = Random.Range (0, mapSizeX - 1);//Generating random place to put the sand seed
 		int yPlacer = Random.Range (0, mapSizeY - 1);
-		Debug.Log (xPlacer);
-		Debug.Log (yPlacer);
+		//Debug.Log (xPlacer);
+		//Debug.Log (yPlacer);
 		map [xPlacer] [yPlacer].GetComponent<tileHandler>().sandSeed = true;//placing the sand
-		map [xPlacer] [yPlacer].GetComponent<tileHandler>().sr.sprite = defaultSand;
 		map [xPlacer] [yPlacer].GetComponent<tileHandler>().tileType = "Sand";
 	}
 
 	void generateSnow() {
 		int xPlacer = Random.Range (0, mapSizeX - 1);//Generating random place to put the snow seed
 		int yPlacer = Random.Range (0, mapSizeY - 1);
-		Debug.Log (xPlacer);
-		Debug.Log (yPlacer);
+		//Debug.Log (xPlacer);
+		//Debug.Log (yPlacer);
 		map [xPlacer] [yPlacer].GetComponent<tileHandler>().snowSeed = true;//placing the snow
-		map [xPlacer] [yPlacer].GetComponent<tileHandler>().sr.sprite = GrassSnowTile;
 		map [xPlacer] [yPlacer].GetComponent<tileHandler>().tileType = "Snow";
 	}
 
 	void generateOcean() {
 		int xPlacer = Random.Range (0, mapSizeX - 1);//Generating random place to put the ocean seed
 		int yPlacer = Random.Range (0, mapSizeY - 1);
-		Debug.Log (xPlacer);
-		Debug.Log (yPlacer);
+		//Debug.Log (xPlacer);
+		//Debug.Log (yPlacer);
+
 		map [xPlacer] [yPlacer].GetComponent<tileHandler>().oceanSeed = true;//placing the ocean
-		map [xPlacer] [yPlacer].GetComponent<tileHandler>().sr.sprite = oceanTile;
 		map [xPlacer] [yPlacer].GetComponent<tileHandler>().tileType = "Ocean";
 		//Destroy (rivCol.gameObject);
 	}
@@ -373,7 +376,23 @@ public class generationManager : MonoBehaviour {
 		int xPlacer1 = Random.Range (0, mapSizeX);//Generating random place to put the mountain seed
 		int yPlacer1 = Random.Range (0, mapSizeY);
 		map [xPlacer1] [yPlacer1].GetComponent<tileHandler>().mountainSeed = true;//placing the mountain
-		map [xPlacer1] [yPlacer1].GetComponent<tileHandler>().sr.sprite = mountainTile;
 		map [xPlacer1] [yPlacer1].GetComponent<tileHandler>().tileType = "Mountain";
+	}
+
+	public void swapTiles(GameObject originalTile, GameObject newTile, string newTileType) {
+		Vector3 orignalTrans = originalTile.transform.position;
+		int xPosOri = originalTile.GetComponent<baseGridPosition> ().mapPosition.X;
+		int yPosOri = originalTile.GetComponent<baseGridPosition> ().mapPosition.Y;
+
+		tileHandler tile = ((GameObject)Instantiate (newTile, orignalTrans, Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
+		map [xPosOri] [yPosOri] = tile.gameObject;
+		tile.GetComponent<baseGridPosition>().mapPosition.X = xPosOri;
+		tile.GetComponent<baseGridPosition>().mapPosition.Y = yPosOri;
+		tile.tileType = newTileType;
+		//tile.sr.sprite = HeavyRockTile;
+		tile.name = "Tile X:" + xPosOri + " Y:" + yPosOri;
+
+
+		Destroy (originalTile);
 	}
 }
