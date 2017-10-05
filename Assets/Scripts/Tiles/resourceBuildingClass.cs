@@ -59,6 +59,7 @@ public class resourceBuildingClass : MonoBehaviour {
 			string tempTileType = stats.adjBonusTiles [i].tileType;
 			float tempBonusAdd = stats.adjBonusTiles [i].bonus;
 
+
 			for (int j = 0; adjTiles.Length > j; j++) {//going through each adjacent tile
 				if (adjTiles [j].GetComponent<tileHandler> () != null) { //if a default tile with no building
 					if (adjTiles [j].GetComponent<tileHandler> ().tileType.Contains (tempTileType)) {
@@ -96,5 +97,44 @@ public class resourceBuildingClass : MonoBehaviour {
 		float totalBonus = tempBonusTotal + tempPenaltyTotal;
 
 		return totalBonus;
+	}
+
+	public static bool readResourcesForPlacingBuilding (resourceTypeCost[] costs) {
+		for (int i = 0; costs.Length > i; i++) {
+			string tempCostType = costs [i].resourceType;
+			int tempCost = costs [i].cost;
+
+			if (tempCostType == "Wood") {
+				if (tempCost < resourceManager.Instance.returnTotalWood ()) {
+					return true;
+				}
+			} else if (tempCostType == "Stone") {
+				if (tempCost < resourceManager.Instance.returnTotalStone ()) {
+					return true;
+				}
+			} else if (tempCostType == "Food") {
+				if (tempCost < resourceManager.Instance.returnTotalFood ()) {
+					return true;
+				}
+			} else {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	public static void removeResourcesFromPlacement (resourceTypeCost[] costs) {
+		for (int i = 0; costs.Length > i; i++) {
+			string tempCostType = costs [i].resourceType;
+			int tempCost = costs [i].cost;
+
+			if (tempCostType == "Wood") {
+				resourceManager.Instance.removeWood (tempCost);
+			} else if (tempCostType == "Stone") {
+				resourceManager.Instance.removeStone (tempCost);
+			} else if (tempCostType == "Food") {
+				resourceManager.Instance.removeFood (tempCost);
+			}
+		}
 	}
 }

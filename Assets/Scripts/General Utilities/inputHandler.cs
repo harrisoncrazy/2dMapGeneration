@@ -16,21 +16,33 @@ public class inputHandler : MonoBehaviour {
 	void Update () {
 		if (ifPlacementModeActive == false) {
 			if (Input.GetKeyDown (KeyCode.R)) {
-				//set gamemanager building bool to true
-				GameManager.Instance.placingWoodGatherer = true;
-				ifPlacementModeActive = true;
-			} 
-
-			if (Input.GetKeyDown (KeyCode.T)) {
-				//set gamemanager building bool to true
-				GameManager.Instance.placingFoodGatherer = true;
-				ifPlacementModeActive = true;
+				if (resourceBuildingClass.readResourcesForPlacingBuilding (buildingCosts.Instance.woodGatherBuidlingCost)) {
+					//set gamemanager building bool to true
+					GameManager.Instance.placingWoodGatherer = true;
+					ifPlacementModeActive = true;
+				} else {
+					Debug.Log ("Insufficent Resources");
+				}
 			} 
 
 			if (Input.GetKeyDown (KeyCode.Y)) {
-				//set gamemanager building bool to true
-				GameManager.Instance.placingStoneGatherer = true;
-				ifPlacementModeActive = true;
+				if (resourceBuildingClass.readResourcesForPlacingBuilding (buildingCosts.Instance.foodGatherBuildingCost)) {
+					//set gamemanager building bool to true
+					GameManager.Instance.placingFoodGatherer = true;
+					ifPlacementModeActive = true;
+				} else {
+					Debug.Log ("Insufficent Resources");
+				}
+			} 
+
+			if (Input.GetKeyDown (KeyCode.T)) {
+				if (resourceBuildingClass.readResourcesForPlacingBuilding (buildingCosts.Instance.stoneGatherBuildingCost)) {
+					//set gamemanager building bool to true
+					GameManager.Instance.placingStoneGatherer = true;
+					ifPlacementModeActive = true;
+				} else {
+					Debug.Log ("Insufficent Resources");
+				}
 			} 
 		}
 	}

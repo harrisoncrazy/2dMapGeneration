@@ -7,15 +7,15 @@ public class resourceManager : MonoBehaviour {
 
 	public static resourceManager Instance;
 
-	private float woodTotal;
+	private float woodTotal = 100;
 	private float woodPerTick;
 	public Text woodOutText;
 
-	private float foodTotal;
+	private float foodTotal = 0;
 	private float foodPerTick;
 	public Text foodOutText;
 
-	private float stoneTotal;
+	private float stoneTotal = 50;
 	private float stonePerTick;
 	public Text stoneOutText;
 
@@ -26,9 +26,9 @@ public class resourceManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		woodOutText.text = "" + woodTotal;
-		foodOutText.text = "" + foodTotal;
-		stoneOutText.text = "" + stoneTotal;
+		woodOutText.text = woodTotal.ToString("F1");
+		foodOutText.text = foodTotal.ToString("F1");
+		stoneOutText.text = stoneTotal.ToString("F1");
 	}
 
 
@@ -54,5 +54,29 @@ public class resourceManager : MonoBehaviour {
 
 	public void stoneResourceTick() {
 		stoneTotal += stonePerTick;
+	}
+
+	public float returnTotalWood() {
+		return woodTotal;
+	}
+
+	public float returnTotalStone() {
+		return stoneTotal;
+	}
+
+	public float returnTotalFood() {
+		return foodTotal;
+	}
+
+	public void removeWood(int total) {
+		woodTotal -= total;
+	}
+
+	public void removeFood(int total) {
+		foodTotal -= total;
+	}
+
+	public void removeStone(int total) {
+		stoneTotal -= total;
 	}
 }

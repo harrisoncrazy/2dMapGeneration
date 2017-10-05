@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class baseGridPosition : MonoBehaviour {
 
+	//Pathfinding values
 	public GameObject PathFrom { get; set; }
 
 	public GameObject selectOutline;
@@ -31,79 +32,12 @@ public class baseGridPosition : MonoBehaviour {
 	void UpdateDistanceLabel() {//updating the debug text on tiles
 		tileInfoText.text = Distance == int.MaxValue ? "" : Distance.ToString();
 	}
-
-	public void FindPath (baseGridPosition fromCell, baseGridPosition toCell) {//finding distance to the current selected tile
-		StartCoroutine (Search (fromCell, toCell));
-	}
-
-	IEnumerator Search (baseGridPosition fromCell, baseGridPosition toCell) {
-		for (int i = 0; i <= generationManager.Instance.mapSizeX - 1; i++) {//setting all tiles distance value to max for pathfinding reasons
-			for (int j = 0; j <= generationManager.Instance.mapSizeY - 1; j++) {
-				generationManager.Instance.map [i] [j].GetComponent<baseGridPosition> ().Distance = int.MaxValue;
-				generationManager.Instance.map [i] [j].GetComponent<baseGridPosition> ().selectOutline.SetActive (false);
-			}
-		}
-		fromCell.selectOutline.SetActive (true);
-		toCell.selectOutline.SetActive (true);
-			
-		WaitForSeconds delay = new WaitForSeconds (0.0f);//delay for viewing debuging
-		List<GameObject> frontier = new List<GameObject> ();//queue of pathfinding
-		fromCell.Distance = 0;
-		frontier.Add (fromCell.gameObject);//pushing first object to queue
-		while (frontier.Count > 0) {
-			yield return delay;
-			GameObject current = frontier [0];
-			frontier.RemoveAt (0);
-
-			if (current == toCell.gameObject) {
-				current = current.GetComponent<baseGridPosition> ().PathFrom;
-				while (current != fromCell) {
-					current.GetComponent<baseGridPosition> ().selectOutline.SetActive (true);
-					current = current.GetComponent<baseGridPosition> ().PathFrom;
-				}
-				break;
-			}
-
-			for (int currectDirection = 0; currectDirection <= 5; currectDirection++) {//going through neigbors from top left to left clockwise
-				GameObject neighbor = current.GetComponent<baseGridPosition> ().adjacentTiles [currectDirection];
-
-				if (neighbor == null) {
-					continue;
-				}
-				int distance = current.GetComponent<baseGridPosition> ().Distance;
-				if (neighbor.GetComponent<tileHandler> () != null) {//making ocean and mountain tiles impassible
-					if (neighbor.GetComponent<tileHandler> ().tileType == "Ocean") {
-						continue;
-					}
-					if (neighbor.GetComponent<tileHandler> ().tileType == "Mountain") {
-						continue;
-					}
-					if (neighbor.GetComponent<tileHandler> ().tileType.Contains ("Sand")) {
-						distance += 2;
-					}
-					if (neighbor.GetComponent<tileHandler> ().tileType.Contains ("Heavy Rock")) {
-						distance += 2;
-					}
-				}
-				distance += 1;
-				if (neighbor.GetComponent<baseGridPosition> ().Distance == int.MaxValue) {
-					neighbor.GetComponent<baseGridPosition> ().Distance = distance;
-					neighbor.GetComponent<baseGridPosition> ().PathFrom = current;
-					neighbor.GetComponent<baseGridPosition> ().SearchHeuristic = neighbor.GetComponent<baseGridPosition> ().DistanceTo (toCell);
-					frontier.Add (neighbor);
-				} else if (distance < neighbor.GetComponent<baseGridPosition> ().Distance) {
-					neighbor.GetComponent<baseGridPosition> ().Distance = distance;
-					neighbor.GetComponent<baseGridPosition> ().PathFrom = current;
-				}
-				frontier.Sort ((x, y) => x.GetComponent<baseGridPosition> ().SearchPriority.CompareTo (y.GetComponent<baseGridPosition> ().SearchPriority));
-			}
-		}
-	}
-
+		
 	public int DistanceTo (baseGridPosition other) {
 		return (mapPosition.X < other.mapPosition.X ? other.mapPosition.X - mapPosition.X : mapPosition.X - other.mapPosition.X) +
 		(mapPosition.Y < other.mapPosition.Y ? other.mapPosition.Y - mapPosition.Y : mapPosition.Y - other.mapPosition.Y);
 	}
+	//end of pathfinding values
 
 
 	public TextMesh tileInfoText;
@@ -114,7 +48,7 @@ public class baseGridPosition : MonoBehaviour {
 	public GameObject bottomRight;
 	public GameObject bottomLeft;
 	public GameObject Left;
-	public GameObject[] adjacentTiles;
+	public GameObject[] adjacentTiles = new GameObject[6];
 
 	public struct gridPosition {
 		public int X, Y;
@@ -128,9 +62,11 @@ public class baseGridPosition : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		adjacentTiles = new GameObject[6];	
+		//adjacentTiles = new GameObject[6];	
 
-		tileInfoText.text = "[" + mapPosition.X + "] [" + mapPosition.Y + "]";
+		//tileInfoText.text = "[" + mapPosition.X + "] [" + mapPosition.Y + "]";
+		tileInfoText.text = "";
+
 
 		setAdjArrayVals ();
 	}
@@ -140,7 +76,7 @@ public class baseGridPosition : MonoBehaviour {
 		
 	}
 
-	public void OnMouseDown() {
+	public void OnMouseDown() {/*
 		if (Input.GetKey (KeyCode.LeftShift)) {//if left shift is pressed, sets cell to search from
 			if (GameManager.Instance.searchFromCell = this) {
 				selectOutline.SetActive (false);//deslecting
@@ -151,48 +87,48 @@ public class baseGridPosition : MonoBehaviour {
 
 		} else if (GameManager.Instance.searchFromCell && GameManager.Instance.searchFromCell != this) {
 			this.selectOutline.SetActive (true);
-			FindPath (GameManager.Instance.searchFromCell, GameManager.Instance.selectedTile.gameObject.GetComponent<baseGridPosition>());
-		}
+			pathfindingManager.Instance.FindPath (GameManager.Instance.searchFromCell, GameManager.Instance.selectedTile.gameObject.GetComponent<baseGridPosition>());
+		}*/
 	}
 
 	public void findAdjacentTiles() {
 		if (mapPosition.Y % 2 == 0) {//if on an even y row
 			if ((mapPosition.X - 1) > 0 && (mapPosition.Y + 1) < generationManager.Instance.mapSizeY) {
-				topLeft = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y + 1)].GetComponent<tileHandler> ().gameObject;
+				topLeft = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y + 1)];
 			}
 			if ((mapPosition.Y + 1) < generationManager.Instance.mapSizeY) {
-				topRight = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y + 1)].GetComponent<tileHandler> ().gameObject;
+				topRight = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y + 1)];
 			}
 			if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX) {
-				Right = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y)].GetComponent<tileHandler> ().gameObject;
+				Right = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y)];
 			}
 			if ((mapPosition.Y - 1) > 0) {
-				bottomRight = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y - 1)].GetComponent<tileHandler> ().gameObject;
+				bottomRight = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y - 1)];
 			}
 			if ((mapPosition.X - 1) > 0 && (mapPosition.Y - 1) > 0) {
-				bottomLeft = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y - 1)].GetComponent<tileHandler> ().gameObject;
+				bottomLeft = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y - 1)];
 			}
 			if ((mapPosition.X - 1) >= 0) {
-				Left = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y)].GetComponent<tileHandler> ().gameObject; 
+				Left = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y)]; 
 			}
 		} else if (mapPosition.Y % 2 == 1) {//if on an odd y row
 			if ((mapPosition.Y + 1) < generationManager.Instance.mapSizeY) {
-				topLeft = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y + 1)].GetComponent<tileHandler> ().gameObject;
+				topLeft = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y + 1)];
 			}
 			if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX && (mapPosition.Y + 1) < generationManager.Instance.mapSizeY) {
-				topRight = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y + 1)].GetComponent<tileHandler> ().gameObject;
+				topRight = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y + 1)];
 			}
 			if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX) {
-				Right = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y)].GetComponent<tileHandler> ().gameObject;
+				Right = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y)];
 			}
-			if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX && (mapPosition.Y - 1) > 0) {
-				bottomRight = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y - 1)].GetComponent<tileHandler> ().gameObject;
+			if ((mapPosition.X + 1) < generationManager.Instance.mapSizeX && (mapPosition.Y - 1) >= 0) {
+				bottomRight = generationManager.Instance.map [(mapPosition.X + 1)] [(mapPosition.Y - 1)];
 			}
-			if ((mapPosition.Y - 1) > 0) {
-				bottomLeft = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y - 1)].GetComponent<tileHandler> ().gameObject;
+			if ((mapPosition.Y - 1) >= 0) {
+				bottomLeft = generationManager.Instance.map [(mapPosition.X)] [(mapPosition.Y - 1)];
 			}
 			if ((mapPosition.X - 1) >= 0) {
-				Left = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y)].GetComponent<tileHandler> ().gameObject;
+				Left = generationManager.Instance.map [(mapPosition.X - 1)] [(mapPosition.Y)];
 			}
 		}
 

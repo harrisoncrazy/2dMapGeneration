@@ -303,7 +303,13 @@ MonoBehaviour:
   bottomRight: {fileID: 0}
   bottomLeft: {fileID: 0}
   Left: {fileID: 0}
-  adjacentTiles: []
+  adjacentTiles:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!210 &210103050953096248
 SortingGroup:
   m_ObjectHideFlags: 1

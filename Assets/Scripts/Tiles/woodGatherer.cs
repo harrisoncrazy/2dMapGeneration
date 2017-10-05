@@ -7,7 +7,7 @@ public class woodGatherer : defaultBuilding {
 	public resourceBuildingClass.resourceBuildingStats woodGathererStats;
 
 	private float defaultWoodReturn = 0.5f;
-	private float woodReturn = Mathf.Clamp(0.0f, 0.0f, 5.0f);
+	public float woodReturn = Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public woodGatherer() {
 		tileTitle = "Wood Gatherer";
@@ -18,18 +18,19 @@ public class woodGatherer : defaultBuilding {
 	protected override void Start () {
 		base.Start ();
 
-		constructResourceStats ();
+		StartCoroutine ("delay");
+	}
 
+	IEnumerator delay() {
+		yield return new WaitForSeconds (0.15f);
+		constructResourceStats ();
 		resourceManager.Instance.addWoodResource (woodGathererStats.efficiency);
+
+		tileDescription = "Brings wood into your resources!" + "\nProviding: " + woodReturn + " wood per turn.";
 	}
 
 	void constructResourceStats() {
-		resourceBuildingClass.resourceTypeCost woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 25);
-		resourceBuildingClass.resourceTypeCost stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 10);
-		resourceBuildingClass.resourceTypeCost[] tempCosts = new resourceBuildingClass.resourceTypeCost[] {
-			woodCost,
-			stoneCost
-		}; 
+		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGatherBuidlingCost;
 
 		string[] tempPlaceTiles = new string[] { "Grass", "Forest", "Stone", "Dirt" };
 
@@ -51,16 +52,18 @@ public class woodGatherer : defaultBuilding {
 
 		float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (woodGathererStats, this.GetComponent<baseGridPosition>().adjacentTiles);
 
+		//Debug.Log ("Temp Efficencey: " + tempEfficency + ". Default: " + defaultWoodReturn + ".");
+
 		woodReturn = defaultWoodReturn + tempEfficency;
 
-		if (woodReturn < 0)
+		//Debug.Log ("Total Wood return: " + woodReturn);
+
+		/*
+		if (woodReturn <= 0) {
 			woodReturn = 0;
+		}*/
 
 		woodGathererStats.efficiency = woodReturn;
-	}
-
-	void calculateWoodReturn() {
-		woodReturn = defaultWoodReturn + woodGathererStats.efficiency;
 	}
 
 	// Update is called once per frame
@@ -70,7 +73,7 @@ public class woodGatherer : defaultBuilding {
 
 	protected override void OnMouseDown() {
 		base.OnMouseDown ();
-		tileDescription = "Brings wood into your resources!" + "\nProviding: " + woodReturn + " wood per turn.";
+		//tileDescription = "Brings wood into your resources!" + "\nProviding: " + woodReturn + " wood per turn.";
 		base.setInfoPanelText (tileTitle, tileDescription);
 	}
 }
