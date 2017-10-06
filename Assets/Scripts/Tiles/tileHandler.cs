@@ -73,6 +73,7 @@ public class tileHandler : MonoBehaviour {
 		}
 
 		if (generationManager.Instance.genStepThreeDone == true) {
+			this.GetComponent<baseGridPosition>().findAdjacentTiles ();
 			this.GetComponent<baseGridPosition>().setAdjArrayVals ();
 		}
 

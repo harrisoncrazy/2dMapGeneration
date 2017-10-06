@@ -76,7 +76,7 @@ public class baseGridPosition : MonoBehaviour {
 		
 	}
 
-	public void OnMouseDown() {/*
+	public void OnMouseDown() {
 		if (Input.GetKey (KeyCode.LeftShift)) {//if left shift is pressed, sets cell to search from
 			if (GameManager.Instance.searchFromCell = this) {
 				selectOutline.SetActive (false);//deslecting
@@ -88,7 +88,7 @@ public class baseGridPosition : MonoBehaviour {
 		} else if (GameManager.Instance.searchFromCell && GameManager.Instance.searchFromCell != this) {
 			this.selectOutline.SetActive (true);
 			pathfindingManager.Instance.FindPath (GameManager.Instance.searchFromCell, GameManager.Instance.selectedTile.gameObject.GetComponent<baseGridPosition>());
-		}*/
+		}
 	}
 
 	public void findAdjacentTiles() {
@@ -156,51 +156,5 @@ public class baseGridPosition : MonoBehaviour {
 		bottomLeft.GetComponent<baseGridPosition> ().topRight = this.gameObject;
 
 		Left.GetComponent<baseGridPosition> ().Right = this.gameObject;
-		/*
-		if (checkIfBuildingOrTile (topLeft)) { //fixing top left tile
-			topLeft.GetComponent<tileHandler> ().bottomRight = this.gameObject;
-		} else {
-			topLeft.GetComponent<defaultBuilding> ().bottomRight = this.gameObject;
-		}
-
-		if (checkIfBuildingOrTile (topRight)) { //fixing top right tile
-			topRight.GetComponent<tileHandler> ().bottomLeft = this.gameObject;
-		} else {
-			topRight.GetComponent<defaultBuilding> ().bottomLeft = this.gameObject;
-		}
-
-		if (checkIfBuildingOrTile (Right)) { //fixing top left tile
-			Right.GetComponent<tileHandler> ().Left = this.gameObject;
-		} else {
-			Right.GetComponent<defaultBuilding> ().Left = this.gameObject;
-		}
-
-		if (checkIfBuildingOrTile (bottomRight)) { //fixing top left tile
-			bottomRight.GetComponent<tileHandler> ().topLeft = this.gameObject;
-		} else {
-			bottomRight.GetComponent<defaultBuilding> ().topLeft = this.gameObject;
-		}
-
-		if (checkIfBuildingOrTile (bottomLeft)) { //fixing top left tile
-			bottomLeft.GetComponent<tileHandler> ().topRight = this.gameObject;
-		} else {
-			bottomLeft.GetComponent<defaultBuilding> ().topRight = this.gameObject;
-		}
-
-		if (checkIfBuildingOrTile (Left)) { //fixing top left tile
-			Left.GetComponent<tileHandler> ().Right = this.gameObject;
-		} else {
-			Left.GetComponent<defaultBuilding> ().Right = this.gameObject;
-		}*/
 	}
-	/*
-	bool checkIfBuildingOrTile(GameObject obj) {
-		if (obj.GetComponent<tileHandler> () != null) {
-			return true;
-		} else if (obj.GetComponent<defaultBuilding> () != null) {
-			return false;
-		} else {
-			return false;
-		}
-	}*/
 }
