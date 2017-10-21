@@ -11,10 +11,10 @@ public class pathfindingManager : MonoBehaviour {
 	}
 
 	public void FindPath (baseGridPosition fromCell, baseGridPosition toCell) {//finding distance to the current selected tile
-		StartCoroutine (Search (fromCell, toCell));
+		Search (fromCell, toCell);
 	}
 
-	IEnumerator Search (baseGridPosition fromCell, baseGridPosition toCell) {
+	void Search (baseGridPosition fromCell, baseGridPosition toCell) {
 		for (int i = 0; i <= generationManager.Instance.mapSizeX - 1; i++) {//setting all tiles distance value to max for pathfinding reasons
 			for (int j = 0; j <= generationManager.Instance.mapSizeY - 1; j++) {
 				generationManager.Instance.map [i] [j].GetComponent<baseGridPosition> ().Distance = int.MaxValue;
@@ -24,12 +24,12 @@ public class pathfindingManager : MonoBehaviour {
 		fromCell.selectOutline.SetActive (true);
 		toCell.selectOutline.SetActive (true);
 
-		WaitForSeconds delay = new WaitForSeconds (0.0f);//delay for viewing debuging
+		//WaitForSeconds delay = new WaitForSeconds (0.0f);//delay for viewing debuging
 		List<GameObject> frontier = new List<GameObject> ();//queue of pathfinding
 		fromCell.Distance = 0;
 		frontier.Add (fromCell.gameObject);//pushing first object to queue
 		while (frontier.Count > 0) {
-			yield return delay;
+			//yield return delay;
 			GameObject current = frontier [0];
 			frontier.RemoveAt (0);
 
