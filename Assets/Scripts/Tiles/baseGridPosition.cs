@@ -5,11 +5,13 @@ using UnityEngine;
 public class baseGridPosition : MonoBehaviour {
 
 	//Pathfinding values
-	public GameObject PathFrom { get; set; }
+	public baseGridPosition PathFrom { get; set; }
 
 	public GameObject selectOutline;
 
 	public int SearchHeuristic { get; set; }
+
+	public baseGridPosition NextWithSamePriority { get; set; }
 
 	//pathfinding stuff
 	int distance;

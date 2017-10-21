@@ -100,30 +100,47 @@ public class resourceBuildingClass : MonoBehaviour {
 	}
 
 	public static bool readResourcesForPlacingBuilding (resourceTypeCost[] costs) {
-		for (int i = 0; costs.Length > i; i++) {
+		int totalOkay = 0;//total for adding up if all resource types are good
+		//Debug.Log (costs.Length);
+
+		for (int i = 0; costs.Length > i; i++) { //going through all the resource type requirements
 			string tempCostType = costs [i].resourceType;
 			int tempCost = costs [i].cost;
 
-			if (tempCostType == "Wood") {
-				if (tempCost < resourceManager.Instance.returnTotalWood ()) {
-					return true;
+			switch (tempCostType) {//checking if there is enough of the resource type
+			case "Wood":
+				if (tempCost <= resourceManager.Instance.returnTotalWood ()) {
+					totalOkay++;
 				}
-			} else if (tempCostType == "Stone") {
-				if (tempCost < resourceManager.Instance.returnTotalStone ()) {
-					return true;
+				break;
+			case "Stone":
+				if (tempCost <= resourceManager.Instance.returnTotalStone ()) {
+					totalOkay++;
 				}
-			} else if (tempCostType == "Food") {
-				if (tempCost < resourceManager.Instance.returnTotalFood ()) {
-					return true;
+				break;
+			case "Food":
+				if (tempCost <= resourceManager.Instance.returnTotalFood ()) {
+					totalOkay++;
 				}
-			} else {
-				return false;
-			}
+				break;
+			case "Manpower":
+				if (tempCost <= resourceManager.Instance.returnTotalManpower ()) {
+					totalOkay++;
+				}
+				break;
+			};
 		}
-		return false;
+
+		//Debug.Log (totalOkay);
+
+		if (totalOkay >= costs.Length) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
-	public static void removeResourcesFromPlacement (resourceTypeCost[] costs) {
+	public static void removeResourcesFromPlacement (resourceTypeCost[] costs) { //removing resource from the total stockpiles
 		for (int i = 0; costs.Length > i; i++) {
 			string tempCostType = costs [i].resourceType;
 			int tempCost = costs [i].cost;
@@ -134,7 +151,18 @@ public class resourceBuildingClass : MonoBehaviour {
 				resourceManager.Instance.removeStone (tempCost);
 			} else if (tempCostType == "Food") {
 				resourceManager.Instance.removeFood (tempCost);
+			} else if (tempCostType == "Manpower") {
+				resourceManager.Instance.removeManpower (tempCost);
 			}
 		}
 	}
+	/*
+	public static bool checkPlacementType (resourceBuildingStats stats, string tileType) {
+		for (int i = 0; stats.placeableTileTypes.Length > i; i++) {
+			if (stats.placeableTileTypes [i].Contains (tileType)) {
+				return true;
+			}
+		}
+		return false;
+	}*/
 }

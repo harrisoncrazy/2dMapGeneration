@@ -6,12 +6,12 @@ public class foodGatherer : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats foodGathererStats;
 
-	private float defaultFoodReturn = 0.5f;
+	private float defaultFoodReturn = 0.1f;
 	public float foodReturn = Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public foodGatherer() {
 		tileTitle = "Food Gatherer";
-		tileDescription = "Brings Food into your resources!" + "\nProviding: " + foodReturn + " food per turn.";
+		tileDescription = "Gathers berries and easy to hunt animals." + "\nProviding: " + foodReturn + " food per turn.";
 	}
 
 	// Use this for initialization
@@ -26,31 +26,36 @@ public class foodGatherer : defaultBuilding {
 		constructResourceStats ();
 		resourceManager.Instance.addFoodResource (foodGathererStats.efficiency);
 
-		tileDescription = "Brings Food into your resources!" + "\nProviding: " + foodReturn + " food per turn.";
+		tileDescription = "Gathers berries and easy to hunt animals." + "\nProviding: " + foodReturn + " food per turn.";
 	}
 
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.stoneGatherBuildingCost;
 
-		string[] tempPlaceTiles = new string[] { "Grass", "Forest", "Stone", "Dirt" };
+		string[] tempPlaceTiles = new string[] { "Grassland" };
 
+		/*
 		resourceBuildingClass.adjBonus waterBonus = new resourceBuildingClass.adjBonus ("Ocean", 0.2f);
 		resourceBuildingClass.adjBonus plainGrassBonus = new resourceBuildingClass.adjBonus ("Grassland", 0.1f);
 		resourceBuildingClass.adjBonus baseBonus = new resourceBuildingClass.adjBonus ("Base", 0.5f);
+		*/
 
 		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] {
-			waterBonus,
+			/*waterBonus,
 			plainGrassBonus,
-			baseBonus
+			baseBonus*/
 		};
 			
+		/*
 		resourceBuildingClass.adjPenalty buildingPenalty = new resourceBuildingClass.adjPenalty ("Building", 0.2f);
 		resourceBuildingClass.adjPenalty sandPenalty = new resourceBuildingClass.adjPenalty ("Sand", 0.1f);
 		resourceBuildingClass.adjPenalty snowPenalty = new resourceBuildingClass.adjPenalty ("Snow", 0.1f);
+		*/
+
 		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {
-			sandPenalty,
+			/*sandPenalty,
 			snowPenalty,
-			buildingPenalty
+			buildingPenalty*/
 		};
 
 		foodGathererStats = new resourceBuildingClass.resourceBuildingStats ("Food", defaultFoodReturn, tempCosts, tempPlaceTiles, tempBonus, tempPenalty); 
@@ -62,11 +67,6 @@ public class foodGatherer : defaultBuilding {
 		foodReturn = defaultFoodReturn + tempEfficency;
 
 		//Debug.Log ("Total Wood return: " + woodReturn);
-
-		/*
-		if (woodReturn <= 0) {
-			woodReturn = 0;
-		}*/
 
 		foodGathererStats.efficiency = foodReturn;
 	}

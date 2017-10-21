@@ -6,12 +6,12 @@ public class woodGatherer : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats woodGathererStats;
 
-	private float defaultWoodReturn = 0.5f;
+	private float defaultWoodReturn = 0.1f;
 	public float woodReturn = Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public woodGatherer() {
 		tileTitle = "Wood Gatherer";
-		tileDescription = "Brings wood into your resources!" + "\nProviding: " + woodReturn + " wood per turn.";
+		tileDescription = "Gathers fallen wood and sticks for building material" + "\nProviding: " + woodReturn + " wood per turn.";
 	}
 
 	// Use this for initialization
@@ -26,26 +26,31 @@ public class woodGatherer : defaultBuilding {
 		constructResourceStats ();
 		resourceManager.Instance.addWoodResource (woodGathererStats.efficiency);
 
-		tileDescription = "Brings wood into your resources!" + "\nProviding: " + woodReturn + " wood per turn.";
+		tileDescription = "Gathers fallen wood and sticks for building material" + "\nProviding: " + woodReturn + " wood per turn.";
 	}
 
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGatherBuidlingCost;
 
-		string[] tempPlaceTiles = new string[] { "Grass", "Forest", "Stone", "Dirt" };
+		string[] tempPlaceTiles = new string[] { "Grassland" };
 
+		/*
 		resourceBuildingClass.adjBonus forestBonus = new resourceBuildingClass.adjBonus ("Forest", 0.1f);
 		resourceBuildingClass.adjBonus baseBonus = new resourceBuildingClass.adjBonus ("Base", 0.5f);
+*/
 
-		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { forestBonus, baseBonus };
+		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { /*forestBonus, baseBonus*/ };
 
+		/*
 		resourceBuildingClass.adjPenalty stonePenalty = new resourceBuildingClass.adjPenalty ("Rock", 0.1f);
 		resourceBuildingClass.adjPenalty buildingPenalty = new resourceBuildingClass.adjPenalty ("Building", 0.2f);
 		resourceBuildingClass.adjPenalty mountainPenalty = new resourceBuildingClass.adjPenalty ("Mountain", 0.3f);
+		*/
+
 		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {
-			stonePenalty,
+			/*stonePenalty,
 			buildingPenalty,
-			mountainPenalty
+			mountainPenalty*/
 		};
 
 		woodGathererStats = new resourceBuildingClass.resourceBuildingStats ("Wood", defaultWoodReturn, tempCosts, tempPlaceTiles, tempBonus, tempPenalty); 

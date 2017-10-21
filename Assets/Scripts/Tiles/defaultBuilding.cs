@@ -24,6 +24,9 @@ public class defaultBuilding : MonoBehaviour {
 
 	private bool isInfoPanelActive = false;
 
+	private float timer = 2.0f;
+	private bool fixedTiles = false;
+
 	public defaultBuilding() {
 		tileTitle = "default";
 		tileDescription = "default description here";
@@ -41,6 +44,15 @@ public class defaultBuilding : MonoBehaviour {
 		
 	// Update is called once per frame
 	protected virtual void Update () {
+		if (fixedTiles == false) {
+			timer -= Time.deltaTime;
+			if (timer <= 0) {
+				this.GetComponent<baseGridPosition> ().findAdjacentTiles ();
+				this.GetComponent<baseGridPosition> ().fixAdjacentTilesAdjacency ();
+				fixedTiles = true;
+			}
+		}
+
 		if (GameManager.Instance.selectedTile != null) {
 			trSelect = GameManager.Instance.selectedTile;
 		}

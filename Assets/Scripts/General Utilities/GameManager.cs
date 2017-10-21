@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour {
 
 	private float timerTick = 1.0f;
 
+	private int manpowerTickDown = 5;//delaying manpower add
+
 	// Use this for initialization
 	void Start () {
 		Instance = this;
@@ -50,6 +52,11 @@ public class GameManager : MonoBehaviour {
 		resourceManager.Instance.woodResourceTick ();
 		resourceManager.Instance.stoneResourceTick ();
 		resourceManager.Instance.foodResourceTick ();
+		manpowerTickDown--;
+		if (manpowerTickDown <= 0) {
+			resourceManager.Instance.manpowerResourceTick ();
+			manpowerTickDown = 5;
+		}
 	}
 
 	public void disablePlacementModes() { //run thru the array of bools and disable them all
@@ -60,7 +67,7 @@ public class GameManager : MonoBehaviour {
 
 	public bool placingWoodGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		woodGatherer woodGather = ((GameObject)Instantiate (woodGatherPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<woodGatherer> ();
-		//GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
+
 		woodGather.name = "woodGathererBuilding";
 		woodGather.GetComponent<baseGridPosition> ().mapPosition.X = x;
 		woodGather.GetComponent<baseGridPosition> ().mapPosition.Y = y;

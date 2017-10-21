@@ -2571,7 +2571,7 @@ GameObject:
   - component: {fileID: 1642626488}
   - component: {fileID: 1642626487}
   m_Layer: 5
-  m_Name: waterAmountText
+  m_Name: manpowerAmountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2716,7 +2716,7 @@ GameObject:
   - component: {fileID: 1717135686}
   - component: {fileID: 1717135685}
   m_Layer: 5
-  m_Name: waterText
+  m_Name: manpowerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2737,8 +2737,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030517578, y: 25}
-  m_SizeDelta: {x: 48.8, y: 21.867}
+  m_AnchoredPosition: {x: 0.000024438, y: 26.679}
+  m_SizeDelta: {x: 62.08, y: 18.81}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1717135685
 MonoBehaviour:
@@ -2761,7 +2761,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 15
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -2772,7 +2772,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Water:
+  m_Text: 'Manpower:
 
 '
 --- !u!222 &1717135686
@@ -3652,6 +3652,7 @@ MonoBehaviour:
   woodOutText: {fileID: 1288740740}
   foodOutText: {fileID: 230125256}
   stoneOutText: {fileID: 606976732}
+  manpowerOutText: {fileID: 1642626487}
 --- !u!4 &2100838392
 Transform:
   m_ObjectHideFlags: 0

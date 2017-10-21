@@ -7,7 +7,7 @@ public class resourceManager : MonoBehaviour {
 
 	public static resourceManager Instance;
 
-	private float woodTotal = 100;
+	private float woodTotal = 30;
 	private float woodPerTick;
 	public Text woodOutText;
 
@@ -15,13 +15,19 @@ public class resourceManager : MonoBehaviour {
 	private float foodPerTick;
 	public Text foodOutText;
 
-	private float stoneTotal = 50;
+	private float stoneTotal = 30;
 	private float stonePerTick;
 	public Text stoneOutText;
+
+	private float manpowerTotal = 0;
+	private float manpowerPerTick;
+	public Text manpowerOutText;
 
 	// Use this for initialization
 	void Start () {
 		Instance = this;
+
+		addManpowerResource (1.0f);//adding the default tick from home base
 	}
 	
 	// Update is called once per frame
@@ -29,9 +35,11 @@ public class resourceManager : MonoBehaviour {
 		woodOutText.text = woodTotal.ToString("F1");
 		foodOutText.text = foodTotal.ToString("F1");
 		stoneOutText.text = stoneTotal.ToString("F1");
+		manpowerOutText.text = manpowerTotal.ToString("F1");
 	}
 
 
+	//ADDING
 	public void addWoodResource(float addTick) {
 		woodPerTick += addTick;
 	}
@@ -44,6 +52,12 @@ public class resourceManager : MonoBehaviour {
 		stonePerTick += addTick;
 	}
 
+	public void addManpowerResource(float addTick) {
+		manpowerPerTick += addTick;
+	}
+		
+
+	//TICKS
 	public void woodResourceTick() {
 		woodTotal += woodPerTick;
 	}
@@ -56,6 +70,12 @@ public class resourceManager : MonoBehaviour {
 		stoneTotal += stonePerTick;
 	}
 
+	public void manpowerResourceTick() {
+		manpowerTotal += manpowerPerTick;
+	}
+
+
+	//RETURNS
 	public float returnTotalWood() {
 		return woodTotal;
 	}
@@ -68,6 +88,12 @@ public class resourceManager : MonoBehaviour {
 		return foodTotal;
 	}
 
+	public float returnTotalManpower() {
+		return manpowerTotal;
+	}
+
+
+	//REMOVAL
 	public void removeWood(int total) {
 		woodTotal -= total;
 	}
@@ -78,5 +104,9 @@ public class resourceManager : MonoBehaviour {
 
 	public void removeStone(int total) {
 		stoneTotal -= total;
+	}
+
+	public void removeManpower(int total) {
+		manpowerTotal -= total;
 	}
 }
