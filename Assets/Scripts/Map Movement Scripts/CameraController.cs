@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
+	public static CameraController Instance;
+
 	Transform swivel, stick;
 
 	float zoom = 1f;
@@ -13,6 +15,9 @@ public class CameraController : MonoBehaviour {
 
 	public float moveSpeed;
 
+	public float rotationSpeed;
+	float rotationAngle;
+
 	void Awake() {
 		swivel = transform.GetChild (0);
 		stick = swivel.GetChild (0);
@@ -20,7 +25,7 @@ public class CameraController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		Instance = this;
 	}
 	
 	// Update is called once per frame
@@ -30,10 +35,17 @@ public class CameraController : MonoBehaviour {
 			AdjustZoom (zoomDelta);
 		}
 
-		float xDelta = Input.GetAxis ("Horizontal");
-		float zDelta = Input.GetAxis ("Vertical");
-		if (xDelta != 0f || zDelta != 0f) {
-			AdjustPosition (xDelta, zDelta);
+		float rotationDelta = Input.GetAxis ("Rotation");
+		if (rotationDelta != 0f) {
+			AdjustRotation (rotationDelta);
+		}
+
+		if (GameManager.Instance.isBuildingSelected == false) {
+			float xDelta = Input.GetAxis ("Horizontal");
+			float yDelta = Input.GetAxis ("Vertical");
+			if (xDelta != 0f || yDelta != 0f) {
+				AdjustPosition (xDelta, yDelta);
+			}
 		}
 	}
 
@@ -47,13 +59,39 @@ public class CameraController : MonoBehaviour {
 		swivel.localRotation = Quaternion.Euler (angle, 0f, 0f);
 	}
 
-	void AdjustPosition (float xDelta, float zDelta) {
-		Vector3 direction = new Vector3 (xDelta, zDelta, 0f).normalized;
-		float damping = Mathf.Max (Mathf.Abs (xDelta), Mathf.Abs (zDelta));
+	void AdjustRotation (float delta) {
+		rotationAngle += delta * rotationSpeed * Time.deltaTime;
+		if (rotationAngle < 0f) {
+			rotationAngle += 360f;
+		} else if (rotationAngle >= 360f) {
+			rotationAngle -= 360f;
+		}
+		transform.localRotation = Quaternion.Euler (0f, 0f, rotationAngle);
+	}
+
+	void AdjustPosition (float xDelta, float yDelta) {
+		Vector3 direction = transform.localRotation * new Vector3 (xDelta, yDelta, 0f).normalized;
+		float damping = Mathf.Max (Mathf.Abs (xDelta), Mathf.Abs (yDelta));
 		float distance = moveSpeed * damping * Time.deltaTime;
 
 		Vector3 position = transform.localPosition;
 		position += direction * distance;
+		transform.localPosition = ClampPosition(position);
+	}
+
+	Vector3 ClampPosition (Vector3 position) {
+		float xMax = generationManager.Instance.mapSizeX + 15f;
+		float yMax = generationManager.Instance.mapSizeY;
+
+		position.x = Mathf.Clamp (position.x, 0f, xMax);
+		position.y = Mathf.Clamp (position.y, 0f, yMax);
+
+		return position;
+	}
+
+	public void setCameraPos(float xPos, float yPos) {
+		Vector3 position = new Vector3 (xPos, yPos, transform.localPosition.z);
+
 		transform.localPosition = position;
 	}
 }

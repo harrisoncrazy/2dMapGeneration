@@ -19,7 +19,6 @@ public class baseGridPosition : MonoBehaviour {
 		}
 		set {
 			distance = value;
-			UpdateDistanceLabel ();
 		}
 	}
 
@@ -29,7 +28,9 @@ public class baseGridPosition : MonoBehaviour {
 		}
 	}
 
-	void UpdateDistanceLabel() {//updating the debug text on tiles
+	public int SearchPhase { get; set; }
+
+	public void SetLabel() {//updating the debug text on tiles
 		tileInfoText.text = Distance == int.MaxValue ? "" : Distance.ToString();
 	}
 		

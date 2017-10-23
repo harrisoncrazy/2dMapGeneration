@@ -10,42 +10,73 @@ public class pathfindingManager : MonoBehaviour {
 		Instance = this;
 	}
 
+	baseGridPosition currentPathFrom, currentPathTo;
+	bool currentPathExists;
+
 	public void FindPath (baseGridPosition fromCell, baseGridPosition toCell) {//finding distance to the current selected tile
-		Search (fromCell, toCell);
+		//System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+		//sw.Start ();
+
+		ClearPath ();
+		currentPathFrom = fromCell;
+		currentPathTo = toCell;
+		currentPathExists = Search (fromCell, toCell);
+		ShowPath ();
+
+		//sw.Stop ();
+		//Debug.Log (sw.ElapsedMilliseconds);
 	}
 
-	void Search (baseGridPosition fromCell, baseGridPosition toCell) {
-		for (int i = 0; i <= generationManager.Instance.mapSizeX - 1; i++) {//setting all tiles distance value to max for pathfinding reasons
-			for (int j = 0; j <= generationManager.Instance.mapSizeY - 1; j++) {
-				generationManager.Instance.map [i] [j].GetComponent<baseGridPosition> ().Distance = int.MaxValue;
-				generationManager.Instance.map [i] [j].GetComponent<baseGridPosition> ().selectOutline.SetActive (false);
+	void ShowPath() {
+		if (currentPathExists) {
+			baseGridPosition current = currentPathTo;
+			while (current != currentPathFrom) {
+				current.selectOutline.SetActive (true);
+				current.SetLabel ();
+				current = current.PathFrom.GetComponent<baseGridPosition>();
 			}
 		}
+	}
+
+	void ClearPath() {
+		if (currentPathExists) {
+			baseGridPosition current = currentPathTo;
+			while (current != currentPathFrom) {
+				current.tileInfoText.text = null;
+				current.selectOutline.SetActive (false);
+				current = current.PathFrom.GetComponent<baseGridPosition>();
+			}
+			current.selectOutline.SetActive (false);
+			currentPathExists = false;
+		}
+		currentPathFrom = currentPathTo = null;
+	}
+
+	int searchFrontierPhase;
+
+	bool Search (baseGridPosition fromCell, baseGridPosition toCell) {
+		searchFrontierPhase += 2;
+
 		fromCell.selectOutline.SetActive (true);
 		toCell.selectOutline.SetActive (true);
 
-		//WaitForSeconds delay = new WaitForSeconds (0.0f);//delay for viewing debuging
 		List<GameObject> frontier = new List<GameObject> ();//queue of pathfinding
+		fromCell.SearchPhase = searchFrontierPhase;
 		fromCell.Distance = 0;
 		frontier.Add (fromCell.gameObject);//pushing first object to queue
 		while (frontier.Count > 0) {
-			//yield return delay;
 			GameObject current = frontier [0];
 			frontier.RemoveAt (0);
+			current.GetComponent<baseGridPosition> ().SearchPhase += 1;
 
 			if (current == toCell.gameObject) {
-				current = current.GetComponent<baseGridPosition> ().PathFrom;
-				while (current != fromCell) {
-					current.GetComponent<baseGridPosition> ().selectOutline.SetActive (true);
-					current = current.GetComponent<baseGridPosition> ().PathFrom;
-				}
-				break;
+				return true;
 			}
 
 			for (int currectDirection = 0; currectDirection <= 5; currectDirection++) {//going through neigbors from top left to left clockwise
 				GameObject neighbor = current.GetComponent<baseGridPosition> ().adjacentTiles [currectDirection];
 
-				if (neighbor == null) {
+				if (neighbor == null || neighbor.GetComponent<baseGridPosition>().SearchPhase > searchFrontierPhase) {
 					continue;
 				}
 				int distance = current.GetComponent<baseGridPosition> ().Distance;
@@ -64,7 +95,8 @@ public class pathfindingManager : MonoBehaviour {
 					}
 				}
 				distance += 1;
-				if (neighbor.GetComponent<baseGridPosition> ().Distance == int.MaxValue) {
+				if (neighbor.GetComponent<baseGridPosition> ().SearchPhase < searchFrontierPhase) {
+					neighbor.GetComponent<baseGridPosition> ().SearchPhase = searchFrontierPhase;
 					neighbor.GetComponent<baseGridPosition> ().Distance = distance;
 					neighbor.GetComponent<baseGridPosition> ().PathFrom = current;
 					neighbor.GetComponent<baseGridPosition> ().SearchHeuristic = neighbor.GetComponent<baseGridPosition> ().DistanceTo (toCell);
@@ -76,5 +108,7 @@ public class pathfindingManager : MonoBehaviour {
 				frontier.Sort ((x, y) => x.GetComponent<baseGridPosition> ().SearchPriority.CompareTo (y.GetComponent<baseGridPosition> ().SearchPriority));
 			}
 		}
+
+		return false;
 	}
 }

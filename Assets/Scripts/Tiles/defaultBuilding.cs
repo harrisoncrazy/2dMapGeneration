@@ -83,11 +83,11 @@ public class defaultBuilding : MonoBehaviour {
 	protected virtual void toggleInfoPanel () {
 		if (isInfoPanelActive == true && GameManager.Instance.isBuildingSelected == false) {
 			tileInfoPanel.SetActive (false);
-			CameraMovement.Instance.centerCam (worldPosition);
+			CameraController.Instance.setCameraPos (worldPosition.x, worldPosition.y);
 			isInfoPanelActive = false;
 		} else {
 			tileInfoPanel.SetActive (true);
-			CameraMovement.Instance.centerCam (worldPosition);
+			CameraController.Instance.setCameraPos (worldPosition.x, worldPosition.y);
 			isInfoPanelActive = true;
 		}
 	}
