@@ -58,6 +58,7 @@ public class defaultBuilding : MonoBehaviour {
 				fixedTiles = true;
 				}
 				catch (Exception e) {
+					Debug.Log (e);
 					fixedTiles = true;
 				}
 			}

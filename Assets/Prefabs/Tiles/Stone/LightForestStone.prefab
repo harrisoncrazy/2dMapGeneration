@@ -685,6 +685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28d2400bc8f255944974723ad4aa7b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PathFrom: {fileID: 0}
   selectOutline: {fileID: 1366525948312830}
   tileInfoText: {fileID: 102197660373167142}
   topLeft: {fileID: 0}
@@ -715,6 +716,7 @@ MonoBehaviour:
   tileBlacked: {fileID: 1926141266641340}
   tileGreyed: {fileID: 1722916951315688}
   tileHighlighter: {fileID: 1470912124520974}
+  ThreeDObjects: {fileID: 1247097802744122}
   colliderMain: {fileID: 0}
   shutdown: 0
   sandSeed: 0

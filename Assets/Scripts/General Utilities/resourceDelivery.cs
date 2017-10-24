@@ -55,17 +55,33 @@ public class resourceDelivery : MonoBehaviour {
 	}
 
 	IEnumerator TravelPath () {
+		Vector3 a, b, c = pathToFollow [0].transform.position;
+
+		float t = Time.deltaTime* travelSpeed;
 		for (int i = 1; i < pathToFollow.Count; i++) {
+			a = c;
+			b = pathToFollow [i - 1].transform.position;
+			c = (b + pathToFollow [i].transform.position) * 0.5f;
 
-			Vector3 a = pathToFollow [i - 1].transform.position;
-			Vector3 b = pathToFollow [i].transform.position;
-
-			for (float t = 0f; t < 1f; t += Time.deltaTime * travelSpeed) {
-				transform.localPosition = Vector3.Lerp (a, b, t);
-				transform.LookAt (b);
+			for (; t < 1f; t += Time.deltaTime * travelSpeed) {
+				transform.localPosition = Bezier.GetPoint (a, b, c, t);
+				Vector3 d = Bezier.GetDerivative (a, b, c, t);
+				transform.localRotation = Quaternion.LookRotation (d);
 				yield return null;
 			}
+			t -= 1f;
 		}
+
+		a = c;
+		b = pathToFollow[pathToFollow.Count - 1].transform.position;
+		c = b;
+		for (; t < 1f; t += Time.deltaTime * travelSpeed) {
+			transform.localPosition = Vector3.Lerp(a, b, t);
+			Vector3 d = Bezier.GetDerivative (a, b, c, t);
+			transform.localRotation = Quaternion.LookRotation (d);
+			yield return null;
+		}
+			
 		checkResourceType ();
 		Destroy (this.gameObject);
 	}

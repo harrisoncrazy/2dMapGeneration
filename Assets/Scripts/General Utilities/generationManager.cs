@@ -57,7 +57,7 @@ public class generationManager : MonoBehaviour {
 
 	private float generationTimerOne = 1.0f;
 	private float generationTimerTwo = 2.0f;
-	private float generationTimerThree = 1.0f;
+	//private float generationTimerThree = 1.0f;
 	public bool genStepOneDone = false;
 	public bool genStepTwoDone = false;
 	public bool genStepThreeDone = false;
@@ -132,7 +132,7 @@ public class generationManager : MonoBehaviour {
 										Vector3 pos = map [i] [j].transform.position;
 
 										baseHandler home = ((GameObject)Instantiate (homeBase, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<baseHandler> ();
-										GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
+										//GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
 										home.name = "homeBase";
 										home.GetComponent<baseGridPosition>().mapPosition.X = i;
 										home.GetComponent<baseGridPosition>().mapPosition.Y = j;

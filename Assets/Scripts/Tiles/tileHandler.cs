@@ -12,7 +12,7 @@ public class tileHandler : MonoBehaviour {
 	public GameObject tileBlacked;
 	public GameObject tileGreyed;
 	public GameObject tileHighlighter;
-
+	public GameObject ThreeDObjects;
 
 	public CircleCollider2D colliderMain;
 	public bool shutdown = false;
@@ -48,6 +48,7 @@ public class tileHandler : MonoBehaviour {
 	public bool discovered = false;
 	public bool inSight = false;
 
+	private bool disabled = false;
 
 	// Use this for initialization
 	void Start () {
@@ -62,31 +63,32 @@ public class tileHandler : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (generationManager.Instance.genStepOneDone == true) {
-			if (foundAdjacent == false) {//adjacent tile startup
-				this.GetComponent<baseGridPosition>().findAdjacentTiles ();
+		if (disabled == false) {
+			if (generationManager.Instance.genStepOneDone == true) {
+				if (foundAdjacent == false) {//adjacent tile startup
+					this.GetComponent<baseGridPosition> ().findAdjacentTiles ();
 
-				checkAdjacentTilesStartup ();
+					checkAdjacentTilesStartup ();
 
-				foundAdjacent = true;
+					foundAdjacent = true;
+				}
 			}
-		}
 
-		if (generationManager.Instance.genStepThreeDone == true) {
-			this.GetComponent<baseGridPosition>().findAdjacentTiles ();
-			this.GetComponent<baseGridPosition>().setAdjArrayVals ();
-		}
+			if (generationManager.Instance.genStepThreeDone == true) {
+				this.GetComponent<baseGridPosition> ().findAdjacentTiles ();
+				this.GetComponent<baseGridPosition> ().setAdjArrayVals ();
+			}
 
-		if (GameManager.Instance.selectedTile != null) {
-			trSelect = GameManager.Instance.selectedTile;
-		}
-		//Swapping selected tile
-		if (selected == true && this.transform != trSelect) { //If the currently selected tile and the transform do not equal the new selection, deselect this tile
-			selected = false;
-			tileOutlineSprite.SetActive (false);
-		}
+			if (GameManager.Instance.selectedTile != null) {
+				trSelect = GameManager.Instance.selectedTile;
+			}
+			//Swapping selected tile
+			if (selected == true && this.transform != trSelect) { //If the currently selected tile and the transform do not equal the new selection, deselect this tile
+				selected = false;
+				tileOutlineSprite.SetActive (false);
+			}
 
-		/*
+			/*
 		if (shutdown == true) {
 			if (generationManager.Instance.homePlaced == true) {
 				selected = false;
@@ -94,14 +96,15 @@ public class tileHandler : MonoBehaviour {
 			}
 		}*/
 
-		if (shutdown == false) { //shutting down all tile colliders at game start
-			if (generationManager.Instance.genStepTwoDone) {
-				StartCoroutine ("shutOffColliders");
-				shutdown = true;
+			if (shutdown == false) { //shutting down all tile colliders at game start
+				if (generationManager.Instance.genStepTwoDone) {
+					//StartCoroutine ("shutOffColliders");
+					shutdown = true;
+				}
 			}
-		}
 			
-		checkDiscovery ();
+			checkDiscovery ();
+		}
 	}
 
 
@@ -111,42 +114,55 @@ public class tileHandler : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
-		this.GetComponent<baseGridPosition>().setAdjArrayVals ();
-		if (discovered) {//if the tile has been seen and discovered
-			if (inputHandler.Instance.checkPlacementStatus() == false) {
-				if (GameManager.Instance.isBuildingSelected == false) {//not allowing tiles to be selected if a building is selected
-					if (selected && transform == trSelect) {
-						selected = false;
-						trSelect = null;
-						tileOutlineSprite.SetActive (false);
-					} else {
-						selected = true;
-						GameManager.Instance.selectedTile = this.transform;
-						tileOutlineSprite.SetActive (true);
+		if (disabled == false) {
+			this.GetComponent<baseGridPosition> ().setAdjArrayVals ();
+			if (discovered) {//if the tile has been seen and discovered
+				if (inputHandler.Instance.checkPlacementStatus () == false) {
+					if (GameManager.Instance.isBuildingSelected == false) {//not allowing tiles to be selected if a building is selected
+						if (selected && transform == trSelect) {
+							selected = false;
+							trSelect = null;
+							tileOutlineSprite.SetActive (false);
+						} else {
+							selected = true;
+							GameManager.Instance.selectedTile = this.transform;
+							tileOutlineSprite.SetActive (true);
+						}
 					}
-				}
-			} else { //if placing a building
-				if (GameManager.Instance.placingWoodGatherer) {
-					if (GameManager.Instance.placingWoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
-						inputHandler.Instance.disablePlacementMode ();
-						sr.sprite = null;
-						//Destroy (this.gameObject);
-					} 
-				} else if (GameManager.Instance.placingStoneGatherer) {
-					if (GameManager.Instance.placingStoneGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
-						inputHandler.Instance.disablePlacementMode ();
-						sr.sprite = null;
-						//Destroy (this.gameObject);
-					}
-				} else if (GameManager.Instance.placingFoodGatherer) {
-					if (GameManager.Instance.placingFoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
-						inputHandler.Instance.disablePlacementMode ();
-						sr.sprite = null;
-						//Destroy (this.gameObject);
+				} else { //if placing a building
+					if (GameManager.Instance.placingWoodGatherer) {
+						if (GameManager.Instance.placingWoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+							inputHandler.Instance.disablePlacementMode ();
+							disableTile ();
+							//Destroy (this.gameObject);
+						} 
+					} else if (GameManager.Instance.placingStoneGatherer) {
+						if (GameManager.Instance.placingStoneGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+							inputHandler.Instance.disablePlacementMode ();
+							disableTile ();
+							//Destroy (this.gameObject);
+						}
+					} else if (GameManager.Instance.placingFoodGatherer) {
+						if (GameManager.Instance.placingFoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+							inputHandler.Instance.disablePlacementMode ();
+							disableTile ();
+							//Destroy (this.gameObject);
+						}
 					}
 				}
 			}
 		}
+	}
+
+	void disableTile() {
+		sr.sprite = null;
+		if (ThreeDObjects != null) {
+			ThreeDObjects.SetActive (false);
+		}
+		transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z - 0.1f);
+		colliderMain.enabled = false;
+
+		disabled = true;
 	}
 
 	void checkDiscovery() { //checking to see if the current tile has been seen or not
@@ -271,10 +287,10 @@ public class tileHandler : MonoBehaviour {
 	}
 
 	void OnBecameVisible() {//enabling collider when in frame of the camera
-		colliderMain.enabled = true;
+		//colliderMain.enabled = true;
 	}
 
 	void OnBecameInvisible() { //disabling collider when out of frame of the camera
-		colliderMain.enabled = false;
+		//colliderMain.enabled = false;
 	}
 }
