@@ -6,7 +6,7 @@ public class foodGatherer : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats foodGathererStats;
 
-	private float defaultFoodReturn = 0.1f;
+	private float defaultFoodReturn = 0.5f;
 	public float foodReturn = Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public foodGatherer() {
@@ -74,6 +74,11 @@ public class foodGatherer : defaultBuilding {
 	// Update is called once per frame
 	protected override void Update() {
 		base.Update ();
+		resourceOutTick -= Time.deltaTime;
+		if (resourceOutTick <= 0) {
+			SpawnResourceDeliveryNode ("Food", foodGathererStats.efficiency);
+			resourceOutTick = 5.0f;
+		}
 	}
 
 	protected override void OnMouseDown() {

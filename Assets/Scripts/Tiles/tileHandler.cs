@@ -129,17 +129,20 @@ public class tileHandler : MonoBehaviour {
 				if (GameManager.Instance.placingWoodGatherer) {
 					if (GameManager.Instance.placingWoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
 						inputHandler.Instance.disablePlacementMode ();
-						Destroy (this.gameObject);
+						sr.sprite = null;
+						//Destroy (this.gameObject);
 					} 
 				} else if (GameManager.Instance.placingStoneGatherer) {
 					if (GameManager.Instance.placingStoneGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
 						inputHandler.Instance.disablePlacementMode ();
-						Destroy (this.gameObject);
+						sr.sprite = null;
+						//Destroy (this.gameObject);
 					}
 				} else if (GameManager.Instance.placingFoodGatherer) {
 					if (GameManager.Instance.placingFoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
 						inputHandler.Instance.disablePlacementMode ();
-						Destroy (this.gameObject);
+						sr.sprite = null;
+						//Destroy (this.gameObject);
 					}
 				}
 			}

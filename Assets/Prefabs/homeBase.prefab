@@ -284,6 +284,9 @@ MonoBehaviour:
   worldPosition: {x: 0, y: 0, z: 0}
   tileTitle: Home Base
   tileDescription: The main center of your city! Everything starts here!
+  resourceTimer: 5
+  resourceDeliveryNodePrefab: {fileID: 1483597897741358, guid: cb8d2b4a7f7ec6942af42e54d79a6f58,
+    type: 2}
 --- !u!114 &114664410779201592
 MonoBehaviour:
   m_ObjectHideFlags: 1

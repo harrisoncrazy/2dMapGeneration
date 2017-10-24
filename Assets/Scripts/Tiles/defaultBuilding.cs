@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class defaultBuilding : MonoBehaviour {
 
@@ -27,6 +28,10 @@ public class defaultBuilding : MonoBehaviour {
 	private float timer = 2.0f;
 	private bool fixedTiles = false;
 
+	public float resourceOutTick = 5.0f;
+	public GameObject resourceDeliveryNodePrefab;
+	public List<baseGridPosition> pathToBase;
+
 	public defaultBuilding() {
 		tileTitle = "default";
 		tileDescription = "default description here";
@@ -44,12 +49,17 @@ public class defaultBuilding : MonoBehaviour {
 		
 	// Update is called once per frame
 	protected virtual void Update () {
-		if (fixedTiles == false) {
+		if (fixedTiles == false) {//fixing the adjacent tiles after spawning the building (delay needed for init)
 			timer -= Time.deltaTime;
 			if (timer <= 0) {
+				try {
 				this.GetComponent<baseGridPosition> ().findAdjacentTiles ();
 				this.GetComponent<baseGridPosition> ().fixAdjacentTilesAdjacency ();
 				fixedTiles = true;
+				}
+				catch (Exception e) {
+					fixedTiles = true;
+				}
 			}
 		}
 
@@ -61,6 +71,17 @@ public class defaultBuilding : MonoBehaviour {
 			selected = false;
 			tileOutlineSprite.SetActive (false);
 		}
+	}
+
+	protected virtual void SpawnResourceDeliveryNode(string type, float amount) {
+		resourceDelivery resourceNode = ((GameObject)Instantiate (resourceDeliveryNodePrefab, transform.position, Quaternion.Euler (new Vector3 ()))).GetComponent<resourceDelivery> ();
+		resourceNode.sourceBuilding = this.gameObject.GetComponent<baseGridPosition> ();
+		resourceNode.toLocation = GameObject.Find ("homeBase").GetComponent<baseGridPosition> ();
+
+		resourceNode.nodeDelivery.Type = type;
+		resourceNode.nodeDelivery.Amount = amount;
+
+		resourceNode.pathToFollow = pathToBase;
 	}
 
 	protected virtual void OnMouseDown() {
@@ -80,7 +101,7 @@ public class defaultBuilding : MonoBehaviour {
 		toggleInfoPanel ();
 	}
 
-	protected virtual void toggleInfoPanel () {
+	protected virtual void toggleInfoPanel () {//toggling on or off the info panel, locking or unlocking the camera to the building
 		if (isInfoPanelActive == true && GameManager.Instance.isBuildingSelected == false) {
 			tileInfoPanel.SetActive (false);
 			CameraController.Instance.setCameraPos (worldPosition.x, worldPosition.y);
@@ -92,7 +113,7 @@ public class defaultBuilding : MonoBehaviour {
 		}
 	}
 
-	void findTileInfoPanelThings() {
+	void findTileInfoPanelThings() {//grabbing the tile info panels
 		tileInfoPanel = GameManager.Instance.tileInfoPanel;
 		tileText = GameManager.Instance.tileText;
 		descriptionText = GameManager.Instance.descriptionText;
@@ -101,5 +122,9 @@ public class defaultBuilding : MonoBehaviour {
 	protected virtual void setInfoPanelText(string tileName, string tileDescription) {
 		tileText.text = tileName;
 		descriptionText.text = tileDescription;
+	}
+
+	protected virtual void findPathToBase() {
+
 	}
 }

@@ -6,7 +6,7 @@ public class stoneGatherer : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats stoneGathererStats;
 
-	private float defaultStoneReturn = 0.1f;
+	private float defaultStoneReturn = 0.5f;
 	public float stoneReturn = Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public stoneGatherer() {
@@ -85,6 +85,11 @@ public class stoneGatherer : defaultBuilding {
 	// Update is called once per frame
 	protected override void Update() {
 		base.Update ();
+		resourceOutTick -= Time.deltaTime;
+		if (resourceOutTick <= 0) {
+			SpawnResourceDeliveryNode ("Stone", stoneGathererStats.efficiency);
+			resourceOutTick = 5.0f;
+		}
 	}
 
 	protected override void OnMouseDown() {

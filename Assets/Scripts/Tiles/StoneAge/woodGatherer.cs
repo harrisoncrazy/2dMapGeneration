@@ -6,8 +6,8 @@ public class woodGatherer : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats woodGathererStats;
 
-	private float defaultWoodReturn = 0.1f;
-	public float woodReturn = Mathf.Clamp(0.0f, 0.0f, 5.0f);
+	private float defaultWoodReturn = 0.5f;
+	public float woodReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public woodGatherer() {
 		tileTitle = "Wood Gatherer";
@@ -24,7 +24,7 @@ public class woodGatherer : defaultBuilding {
 	IEnumerator delay() {
 		yield return new WaitForSeconds (0.15f);
 		constructResourceStats ();
-		resourceManager.Instance.addWoodResource (woodGathererStats.efficiency);
+		//resourceManager.Instance.addWoodResource (woodGathererStats.efficiency);
 
 		tileDescription = "Gathers fallen wood and sticks for building material" + "\nProviding: " + woodReturn + " wood per turn.";
 	}
@@ -74,6 +74,11 @@ public class woodGatherer : defaultBuilding {
 	// Update is called once per frame
 	protected override void Update() {
 		base.Update ();
+		resourceOutTick -= Time.deltaTime;
+		if (resourceOutTick <= 0) {
+			SpawnResourceDeliveryNode ("Wood", woodGathererStats.efficiency);
+			resourceOutTick = 5.0f;
+		}
 	}
 
 	protected override void OnMouseDown() {

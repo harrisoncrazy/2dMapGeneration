@@ -286,6 +286,9 @@ MonoBehaviour:
   tileDescription: 'Brings Food into your resources!
 
     Providing: 0 stone per turn.'
+  resourceTimer: 5
+  resourceDeliveryNodePrefab: {fileID: 1483597897741358, guid: cb8d2b4a7f7ec6942af42e54d79a6f58,
+    type: 2}
   foodReturn: 0
 --- !u!114 &114766600730241962
 MonoBehaviour:

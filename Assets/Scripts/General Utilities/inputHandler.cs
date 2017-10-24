@@ -6,7 +6,7 @@ public class inputHandler : MonoBehaviour {
 
 	public static inputHandler Instance;
 
-	private bool ifPlacementModeActive;
+	private bool ifPlacementModeActive = false;
 
 	void Start() {
 		Instance = this;

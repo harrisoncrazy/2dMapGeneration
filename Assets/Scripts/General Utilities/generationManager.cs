@@ -140,6 +140,8 @@ public class generationManager : MonoBehaviour {
 										//StartCoroutine ("destroyThing");
 										homePlaced = true;
 
+										CameraController.Instance.setCameraPos (home.transform.position.x, home.transform.position.y);
+
 										home.GetComponent<baseGridPosition> ().topLeft = map [i] [j].GetComponent<baseGridPosition> ().adjacentTiles [0];
 										home.GetComponent<baseGridPosition>().topRight = map [i] [j].GetComponent<baseGridPosition> ().adjacentTiles [1];
 										home.GetComponent<baseGridPosition>().Right = map [i] [j].GetComponent<baseGridPosition> ().adjacentTiles [2];

@@ -40,16 +40,16 @@ public class resourceManager : MonoBehaviour {
 
 
 	//ADDING
-	public void addWoodResource(float addTick) {
-		woodPerTick += addTick;
+	public void addWoodResource(float addAmount) {
+		woodTotal += addAmount;
 	}
 
-	public void addFoodResource(float addTick) {
-		foodPerTick += addTick;
+	public void addFoodResource(float addAmount) {
+		foodTotal += addAmount;
 	}
 
-	public void addStoneResource(float addTick) {
-		stonePerTick += addTick;
+	public void addStoneResource(float addAmount) {
+		stoneTotal += addAmount;
 	}
 
 	public void addManpowerResource(float addTick) {
@@ -58,6 +58,7 @@ public class resourceManager : MonoBehaviour {
 		
 
 	//TICKS
+	/*
 	public void woodResourceTick() {
 		woodTotal += woodPerTick;
 	}
@@ -68,7 +69,7 @@ public class resourceManager : MonoBehaviour {
 
 	public void stoneResourceTick() {
 		stoneTotal += stonePerTick;
-	}
+	}*/
 
 	public void manpowerResourceTick() {
 		manpowerTotal += manpowerPerTick;

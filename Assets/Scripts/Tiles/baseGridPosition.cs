@@ -5,7 +5,7 @@ using UnityEngine;
 public class baseGridPosition : MonoBehaviour {
 
 	//Pathfinding values
-	public GameObject PathFrom { get; set; }
+	public GameObject PathFrom;// { get; set; }
 
 	public GameObject selectOutline;
 
@@ -29,6 +29,8 @@ public class baseGridPosition : MonoBehaviour {
 	}
 
 	public int SearchPhase { get; set; }
+
+
 
 	public void SetLabel() {//updating the debug text on tiles
 		tileInfoText.text = Distance == int.MaxValue ? "" : Distance.ToString();

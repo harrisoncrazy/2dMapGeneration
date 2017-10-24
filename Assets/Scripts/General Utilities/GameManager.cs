@@ -49,9 +49,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void updateResourceTotals() {
-		resourceManager.Instance.woodResourceTick ();
-		resourceManager.Instance.stoneResourceTick ();
-		resourceManager.Instance.foodResourceTick ();
+		//resourceManager.Instance.woodResourceTick ();
+		//resourceManager.Instance.stoneResourceTick ();
+		//resourceManager.Instance.foodResourceTick ();
 		manpowerTickDown--;
 		if (manpowerTickDown <= 0) {
 			resourceManager.Instance.manpowerResourceTick ();
@@ -67,6 +67,17 @@ public class GameManager : MonoBehaviour {
 
 	public bool placingWoodGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		woodGatherer woodGather = ((GameObject)Instantiate (woodGatherPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<woodGatherer> ();
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), GameObject.Find("homeBase").GetComponent<baseGridPosition>())) {
+			Destroy (woodGather.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());
+		woodGather.pathToBase = pathfindingManager.Instance.GetPath ();
+		woodGather.pathToBase [0] = woodGather.GetComponent<baseGridPosition> ();
+		woodGather.pathToBase [1].PathFrom = woodGather.gameObject;
 
 		woodGather.name = "woodGathererBuilding";
 		woodGather.GetComponent<baseGridPosition> ().mapPosition.X = x;
@@ -88,7 +99,18 @@ public class GameManager : MonoBehaviour {
 
 	public bool placingStoneGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		stoneGatherer stoneGather = ((GameObject)Instantiate (stoneGatherPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<stoneGatherer> ();
-		//GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), GameObject.Find("homeBase").GetComponent<baseGridPosition>())) {
+			Destroy (stoneGather.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());
+		stoneGather.pathToBase = pathfindingManager.Instance.GetPath ();
+		stoneGather.pathToBase [0] = stoneGather.GetComponent<baseGridPosition> ();
+		stoneGather.pathToBase [1].PathFrom = stoneGather.gameObject;
+
 		stoneGather.name = "stoneGathererBuilding";
 		stoneGather.GetComponent<baseGridPosition> ().mapPosition.X = x;
 		stoneGather.GetComponent<baseGridPosition> ().mapPosition.Y = y;
@@ -109,7 +131,18 @@ public class GameManager : MonoBehaviour {
 
 	public bool placingFoodGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		foodGatherer foodGather = ((GameObject)Instantiate (foodGatherPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<foodGatherer> ();
-		//GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), GameObject.Find("homeBase").GetComponent<baseGridPosition>())) {
+			Destroy (foodGather.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());
+		foodGather.pathToBase = pathfindingManager.Instance.GetPath ();
+		foodGather.pathToBase [0] = foodGather.GetComponent<baseGridPosition> ();
+		foodGather.pathToBase [1].PathFrom = foodGather.gameObject;
+
 		foodGather.name = "foodGathererBuilding";
 		foodGather.GetComponent<baseGridPosition> ().mapPosition.X = x;
 		foodGather.GetComponent<baseGridPosition> ().mapPosition.Y = y;

@@ -284,6 +284,9 @@ MonoBehaviour:
   worldPosition: {x: 0, y: 0, z: 0}
   tileTitle: Wood Gatherer
   tileDescription: Brings wood into your resources!
+  resourceTimer: 5
+  resourceDeliveryNodePrefab: {fileID: 1483597897741358, guid: cb8d2b4a7f7ec6942af42e54d79a6f58,
+    type: 2}
   woodReturn: 0
 --- !u!114 &114943232945122200
 MonoBehaviour:

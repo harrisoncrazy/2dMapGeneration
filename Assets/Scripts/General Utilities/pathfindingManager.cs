@@ -10,18 +10,31 @@ public class pathfindingManager : MonoBehaviour {
 		Instance = this;
 	}
 
-	baseGridPosition currentPathFrom, currentPathTo;
+	public baseGridPosition currentPathFrom, currentPathTo;
 	bool currentPathExists;
+
+	public List<baseGridPosition> GetPath() {
+		if (!currentPathExists) {
+			return null;
+		}
+		List<baseGridPosition> path = ListPool<baseGridPosition>.Get ();
+		for (baseGridPosition c = currentPathTo; c != currentPathFrom; c = c.PathFrom.GetComponent<baseGridPosition>()) {
+			path.Add (c);
+		}
+		path.Add (currentPathFrom);
+		path.Reverse ();
+		return path;
+	}
 
 	public void FindPath (baseGridPosition fromCell, baseGridPosition toCell) {//finding distance to the current selected tile
 		//System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 		//sw.Start ();
 
-		ClearPath ();
+		//ClearPath ();
 		currentPathFrom = fromCell;
 		currentPathTo = toCell;
 		currentPathExists = Search (fromCell, toCell);
-		ShowPath ();
+		//ShowPath ();
 
 		//sw.Stop ();
 		//Debug.Log (sw.ElapsedMilliseconds);
@@ -54,11 +67,11 @@ public class pathfindingManager : MonoBehaviour {
 
 	int searchFrontierPhase;
 
-	bool Search (baseGridPosition fromCell, baseGridPosition toCell) {
+	public bool Search (baseGridPosition fromCell, baseGridPosition toCell) {
 		searchFrontierPhase += 2;
 
-		fromCell.selectOutline.SetActive (true);
-		toCell.selectOutline.SetActive (true);
+		//fromCell.selectOutline.SetActive (true);
+		//toCell.selectOutline.SetActive (true);
 
 		List<GameObject> frontier = new List<GameObject> ();//queue of pathfinding
 		fromCell.SearchPhase = searchFrontierPhase;
