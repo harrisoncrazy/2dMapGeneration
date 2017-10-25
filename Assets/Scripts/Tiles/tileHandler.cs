@@ -148,6 +148,12 @@ public class tileHandler : MonoBehaviour {
 							disableTile ();
 							//Destroy (this.gameObject);
 						}
+					} else if (GameManager.Instance.placingLeanToHouse) {
+						if (GameManager.Instance.placingLeanToHouseTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+							inputHandler.Instance.disablePlacementMode ();
+							disableTile ();
+							//Destroy (this.gameObject);
+						}
 					}
 				}
 			}

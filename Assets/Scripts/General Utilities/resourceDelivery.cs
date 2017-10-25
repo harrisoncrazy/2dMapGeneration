@@ -97,6 +97,9 @@ public class resourceDelivery : MonoBehaviour {
 		case "Food":
 			resourceManager.Instance.addFoodResource (nodeDelivery.Amount);
 			break;
+		case "Manpower":
+			resourceManager.Instance.addManpowerResource (nodeDelivery.Amount);
+			break;
 		}
 	}
 }

@@ -9,6 +9,7 @@ public class buildingCosts : MonoBehaviour {
 	public resourceBuildingClass.resourceTypeCost[] woodGatherBuidlingCost;
 	public resourceBuildingClass.resourceTypeCost[] stoneGatherBuildingCost;
 	public resourceBuildingClass.resourceTypeCost[] foodGatherBuildingCost;
+	public resourceBuildingClass.resourceTypeCost[] leanToHouseBuildingCost;
 
 	void Start () {
 		Instance = this;
@@ -38,6 +39,15 @@ public class buildingCosts : MonoBehaviour {
 			woodCost,
 			stoneCost,
 			manpowerCost
+		};
+
+		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 15);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 10);
+		resourceBuildingClass.resourceTypeCost foodCost = new resourceBuildingClass.resourceTypeCost ("Food", 0);
+		leanToHouseBuildingCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			foodCost
 		};
 	} 
 }

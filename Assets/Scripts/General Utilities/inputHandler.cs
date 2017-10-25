@@ -43,7 +43,15 @@ public class inputHandler : MonoBehaviour {
 				} else {
 					Debug.Log ("Insufficent Resources");
 				}
-			} 
+			}
+			if (Input.GetKeyDown (KeyCode.U)) {
+				if (resourceBuildingClass.readResourcesForPlacingBuilding (buildingCosts.Instance.leanToHouseBuildingCost)) {
+					GameManager.Instance.placingLeanToHouse = true;
+					ifPlacementModeActive = true;
+				} else {
+					Debug.Log("Insufficent Resources");
+				}
+			}
 		}
 	}
 

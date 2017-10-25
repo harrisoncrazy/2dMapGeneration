@@ -280,6 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28d2400bc8f255944974723ad4aa7b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PathFrom: {fileID: 0}
   selectOutline: {fileID: 1916967495023334}
   tileInfoText: {fileID: 102236746808297644}
   topLeft: {fileID: 0}
@@ -312,9 +313,10 @@ MonoBehaviour:
   tileDescription: 'Brings Stone into your resources!
 
     Providing: 0 stone per turn.'
-  resourceTimer: 5
+  resourceOutTick: 5
   resourceDeliveryNodePrefab: {fileID: 1483597897741358, guid: cb8d2b4a7f7ec6942af42e54d79a6f58,
     type: 2}
+  pathToBase: []
   stoneReturn: 0
 --- !u!210 &210603342422177162
 SortingGroup:

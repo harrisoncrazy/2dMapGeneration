@@ -18,11 +18,13 @@ public class GameManager : MonoBehaviour {
 	public GameObject woodGatherPrefab;
 	public GameObject stoneGatherPrefab;
 	public GameObject foodGatherPrefab;
+	public GameObject leanToHousePrefab;
 
 	//building bools
 	public bool placingWoodGatherer;/* REPLACE WTIH ARRAY OF BOOLS */
 	public bool placingFoodGatherer;
 	public bool placingStoneGatherer;
+	public bool placingLeanToHouse;
 
 	//pop up panel values
 	public GameObject tileInfoPanel;
@@ -63,6 +65,7 @@ public class GameManager : MonoBehaviour {
 		placingWoodGatherer = false;
 		placingStoneGatherer = false;
 		placingFoodGatherer = false;
+		placingLeanToHouse = false;
 	}
 
 	public bool placingWoodGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
@@ -157,6 +160,27 @@ public class GameManager : MonoBehaviour {
 		generationManager.Instance.map [x] [y] = foodGather.gameObject;
 
 		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.foodGatherBuildingCost);
+
+		return true;
+	}
+
+	public bool placingLeanToHouseTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		leanToHouse house = ((GameObject)Instantiate (leanToHousePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<leanToHouse> ();
+
+		house.name = "leanToHouse";
+		house.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		house.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		house.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		house.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		house.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		house.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		house.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		house.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = house.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.leanToHouseBuildingCost);
 
 		return true;
 	}
