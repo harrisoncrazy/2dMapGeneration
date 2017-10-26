@@ -7,11 +7,12 @@ public class leanToHouse : defaultBuilding {
 	public resourceBuildingClass.resourceBuildingStats leanToHouseStats;
 
 	private float defaultManpowerReturn = 1.0f;
+	private int valToAddMaxManpower = 2;
 	public float manpowerReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public leanToHouse() {
 		tileTitle = "Lean To";
-		tileDescription = "A basic house for your citizens" + "\nProviding: " + manpowerReturn + " manpower per turn.";
+		tileDescription = "A basic house for your citizens" + "\nProviding: " + manpowerReturn + " manpower per turn. \nAdding: " + valToAddMaxManpower + " to manpower cache.";
 	}
 
 	// Use this for initialization
@@ -29,10 +30,11 @@ public class leanToHouse : defaultBuilding {
 		tileDescription = "A basic house for your citizens" + "\nProviding: " + manpowerReturn + " manpower per turn.";
 
 		resourceManager.Instance.addManpowerResource (defaultManpowerReturn);
+		resourceManager.Instance.addToManpowerTotal (valToAddMaxManpower);
 	}
 
 	void constructResourceStats() {
-		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGatherBuidlingCost;
+		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.leanToHouse.buildingCosts;
 
 		string[] tempPlaceTiles = new string[] { "Grassland" };
 

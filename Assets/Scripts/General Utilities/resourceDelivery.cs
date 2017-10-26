@@ -9,6 +9,8 @@ public class resourceDelivery : MonoBehaviour {
 
 	public List<baseGridPosition> pathToFollow;
 
+	public bool isDestroyed = false;
+
 	public float travelSpeed = 0.55f;
 
 	public baseGridPosition Location {
@@ -21,12 +23,7 @@ public class resourceDelivery : MonoBehaviour {
 		}
 	}
 
-	public struct ResourceToDeliver {
-		public string Type;
-		public float Amount;
-	}
-
-	public ResourceToDeliver nodeDelivery = new ResourceToDeliver();
+	public List<resourceBuildingClass.resourceTypeCost> nodeDelivery = new List<resourceBuildingClass.resourceTypeCost>();
 
 	baseGridPosition location;
 
@@ -87,19 +84,39 @@ public class resourceDelivery : MonoBehaviour {
 	}
 
 	void checkResourceType() {
-		switch (nodeDelivery.Type) {
-		case "Wood":
-			resourceManager.Instance.addWoodResource (nodeDelivery.Amount);
-			break;
-		case "Stone":
-			resourceManager.Instance.addStoneResource (nodeDelivery.Amount);
-			break;
-		case "Food":
-			resourceManager.Instance.addFoodResource (nodeDelivery.Amount);
-			break;
-		case "Manpower":
-			resourceManager.Instance.addManpowerResource (nodeDelivery.Amount);
-			break;
+		for (int i = 0; i < nodeDelivery.Count; i++) {
+			switch (nodeDelivery[i].resourceType) {
+			case "Wood":
+				resourceManager.Instance.addWoodResource (nodeDelivery[i].cost);
+				break;
+			case "Stone":
+				resourceManager.Instance.addStoneResource (nodeDelivery[i].cost);
+				break;
+			case "Food":
+				resourceManager.Instance.addFoodResource (nodeDelivery[i].cost);
+				break;
+			}
 		}
 	}
+
+	/*
+	void OnTriggerEnter(Collider other) {
+		Debug.Log (nodeDelivery.Count);
+		Debug.Log (nodeDelivery [0].cost);
+		if (this.isDestroyed) {
+			for (int i = 0; i <= other.GetComponent<resourceDelivery> ().nodeDelivery.Count - 1; i++) {
+				resourceBuildingClass.resourceTypeCost temp = new resourceBuildingClass.resourceTypeCost ();
+				temp.resourceType = nodeDelivery [i].resourceType;
+				temp.cost = nodeDelivery [i].cost;
+
+				other.GetComponent<resourceDelivery> ().nodeDelivery.Add (temp);
+			}
+
+			Destroy (this.gameObject);
+		} else {
+			resourceDelivery otherDeliverer = other.gameObject.GetComponent<resourceDelivery> ();
+			if (otherDeliverer)
+				otherDeliverer.isDestroyed = true;
+		}
+	}*/
 }

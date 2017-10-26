@@ -12,7 +12,11 @@ public class GameManager : MonoBehaviour {
 
 	public Transform selectedTile;
 
+
+	public bool isPlacementModeActive = false;
 	public bool isBuildingSelected = false;
+
+	public bool isBuildingPanelActive = false;
 
 	//building stuff
 	public GameObject woodGatherPrefab;
@@ -21,10 +25,24 @@ public class GameManager : MonoBehaviour {
 	public GameObject leanToHousePrefab;
 
 	//building bools
-	public bool placingWoodGatherer;/* REPLACE WTIH ARRAY OF BOOLS */
-	public bool placingFoodGatherer;
-	public bool placingStoneGatherer;
-	public bool placingLeanToHouse;
+	public struct buildingPlaceMode
+	{
+		public string buildingName;
+		public bool isPlacing;
+
+		public buildingPlaceMode(string name) {
+			buildingName = name;
+			isPlacing = false;
+		}
+	}
+
+	//placement bools
+	public buildingPlaceMode woodGather = new buildingPlaceMode ("woodGather");
+	public buildingPlaceMode stoneGather= new buildingPlaceMode ("stoneGather");
+	public buildingPlaceMode foodGather = new buildingPlaceMode ("foodGather");
+	public buildingPlaceMode leanToHouse = new buildingPlaceMode ("leanToHouse");
+
+	public buildingPlaceMode[] buildingBools;
 
 	//pop up panel values
 	public GameObject tileInfoPanel;
@@ -39,6 +57,7 @@ public class GameManager : MonoBehaviour {
 	void Start () {
 		Instance = this;
 		GrabBuildingInfoPanel ();
+		addBuildingBools ();
 	}
 
 	// Update is called once per frame
@@ -59,13 +78,6 @@ public class GameManager : MonoBehaviour {
 			resourceManager.Instance.manpowerResourceTick ();
 			manpowerTickDown = 5;
 		}
-	}
-
-	public void disablePlacementModes() { //run thru the array of bools and disable them all
-		placingWoodGatherer = false;
-		placingStoneGatherer = false;
-		placingFoodGatherer = false;
-		placingLeanToHouse = false;
 	}
 
 	public bool placingWoodGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
@@ -95,7 +107,7 @@ public class GameManager : MonoBehaviour {
 
 		generationManager.Instance.map [x] [y] = woodGather.gameObject;
 
-		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.woodGatherBuidlingCost);
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.woodGather.buildingCosts);
 
 		return true;
 	}
@@ -127,7 +139,7 @@ public class GameManager : MonoBehaviour {
 
 		generationManager.Instance.map [x] [y] = stoneGather.gameObject;
 
-		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.stoneGatherBuildingCost);
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.stoneGather.buildingCosts);
 
 		return true;
 	}
@@ -159,7 +171,7 @@ public class GameManager : MonoBehaviour {
 
 		generationManager.Instance.map [x] [y] = foodGather.gameObject;
 
-		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.foodGatherBuildingCost);
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.foodGather.buildingCosts);
 
 		return true;
 	}
@@ -180,7 +192,7 @@ public class GameManager : MonoBehaviour {
 
 		generationManager.Instance.map [x] [y] = house.gameObject;
 
-		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.leanToHouseBuildingCost);
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.leanToHouse.buildingCosts);
 
 		return true;
 	}
@@ -191,5 +203,43 @@ public class GameManager : MonoBehaviour {
 		descriptionText = GameObject.Find ("descriptionText").GetComponent<Text> ();
 
 		tileInfoPanel.SetActive (false);
+	}
+
+	private void addBuildingBools() {
+		buildingBools = new buildingPlaceMode[125];
+
+		buildingBools[0] = woodGather;
+		buildingBools[1] = stoneGather;
+		buildingBools[2] = foodGather;
+		buildingBools[3] = leanToHouse;
+
+		disablePlacementModes ();
+	}
+
+	public void disablePlacementModes() {
+		for (int i = 0; i < buildingBools.Length; i++) {
+			buildingBools [i].isPlacing = false;
+		}
+	}
+
+	public bool checkPlacementAt (string buildingName) {
+		for (int i = 0; i <= buildingBools.Length; i++) {
+			if (buildingBools [i].buildingName.Contains (buildingName)) {
+				return buildingBools [i].isPlacing;
+			}
+		}
+		return false;
+	}
+
+	public void enablePlacementMode (string buildingName) {
+		for (int i = 0; i < buildingBools.Length; i++) {
+			if (buildingBools [i].buildingName != null) {
+				if (buildingBools [i].buildingName == buildingName) {
+					buildingBools [i].isPlacing = true;
+					Debug.Log (buildingBools [i].buildingName + "Is Active");
+					return;
+				}
+			}
+		}
 	}
 }

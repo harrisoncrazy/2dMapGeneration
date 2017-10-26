@@ -22,6 +22,7 @@ public class resourceManager : MonoBehaviour {
 	private float manpowerTotal = 0;
 	private float manpowerPerTick;
 	public Text manpowerOutText;
+	public int maxManpower = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -35,7 +36,9 @@ public class resourceManager : MonoBehaviour {
 		woodOutText.text = woodTotal.ToString("F1");
 		foodOutText.text = foodTotal.ToString("F1");
 		stoneOutText.text = stoneTotal.ToString("F1");
-		manpowerOutText.text = manpowerTotal.ToString("F1");
+		manpowerOutText.text = "" + manpowerTotal.ToString("F0") + "/" + maxManpower.ToString("F0");
+
+		manpowerTotal = Mathf.Clamp (manpowerTotal, 0, maxManpower);
 	}
 
 
@@ -54,6 +57,10 @@ public class resourceManager : MonoBehaviour {
 
 	public void addManpowerResource(float addTick) {
 		manpowerPerTick += addTick;
+	}
+
+	public void addToManpowerTotal(int addAmount) {
+		maxManpower += addAmount;
 	}
 		
 
@@ -95,19 +102,19 @@ public class resourceManager : MonoBehaviour {
 
 
 	//REMOVAL
-	public void removeWood(int total) {
+	public void removeWood(float total) {
 		woodTotal -= total;
 	}
 
-	public void removeFood(int total) {
+	public void removeFood(float total) {
 		foodTotal -= total;
 	}
 
-	public void removeStone(int total) {
+	public void removeStone(float total) {
 		stoneTotal -= total;
 	}
 
-	public void removeManpower(int total) {
+	public void removeManpower(float total) {
 		manpowerTotal -= total;
 	}
 }

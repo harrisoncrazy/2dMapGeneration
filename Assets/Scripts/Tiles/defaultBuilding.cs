@@ -79,27 +79,32 @@ public class defaultBuilding : MonoBehaviour {
 		resourceNode.sourceBuilding = this.gameObject.GetComponent<baseGridPosition> ();
 		resourceNode.toLocation = GameObject.Find ("homeBase").GetComponent<baseGridPosition> ();
 
-		resourceNode.nodeDelivery.Type = type;
-		resourceNode.nodeDelivery.Amount = amount;
+		resourceBuildingClass.resourceTypeCost temp = new resourceBuildingClass.resourceTypeCost();
+		temp.resourceType = type;
+		temp.cost = amount;
+
+		resourceNode.nodeDelivery.Add (temp);
 
 		resourceNode.pathToFollow = pathToBase;
 	}
 
 	protected virtual void OnMouseDown() {
-		this.GetComponent<baseGridPosition>().setAdjArrayVals ();
-		if (selected && transform == trSelect) {
-			selected = false;
-			trSelect = null;
-			tileOutlineSprite.SetActive (false);
-			GameManager.Instance.isBuildingSelected = false;
-		} else {
-			selected = true;
-			GameManager.Instance.selectedTile = this.transform;
-			GameManager.Instance.isBuildingSelected = true;
-			tileOutlineSprite.SetActive (true);
-		}
+		if (GameManager.Instance.isPlacementModeActive == false) {
+			this.GetComponent<baseGridPosition> ().setAdjArrayVals ();
+			if (selected && transform == trSelect) {
+				selected = false;
+				trSelect = null;
+				tileOutlineSprite.SetActive (false);
+				GameManager.Instance.isBuildingSelected = false;
+			} else {
+				selected = true;
+				GameManager.Instance.selectedTile = this.transform;
+				GameManager.Instance.isBuildingSelected = true;
+				tileOutlineSprite.SetActive (true);
+			}
 
-		toggleInfoPanel ();
+			toggleInfoPanel ();
+		}
 	}
 
 	protected virtual void toggleInfoPanel () {//toggling on or off the info panel, locking or unlocking the camera to the building
@@ -111,6 +116,8 @@ public class defaultBuilding : MonoBehaviour {
 			tileInfoPanel.SetActive (true);
 			CameraController.Instance.setCameraPos (worldPosition.x, worldPosition.y);
 			isInfoPanelActive = true;
+			inputHandler.Instance.buildingPanel.SetActive (false);
+			GameManager.Instance.isBuildingPanelActive = false;
 		}
 	}
 
@@ -123,9 +130,5 @@ public class defaultBuilding : MonoBehaviour {
 	protected virtual void setInfoPanelText(string tileName, string tileDescription) {
 		tileText.text = tileName;
 		descriptionText.text = tileDescription;
-	}
-
-	protected virtual void findPathToBase() {
-
 	}
 }

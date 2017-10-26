@@ -128,7 +128,7 @@ public class generationManager : MonoBehaviour {
 							int rand = Random.Range (1, 101);//finding a random placement for the home base, in a grass tile
 							if (homePlaced == false) {
 								if (i >= 5 && j >= 5 && j <= mapSizeY - 5) {
-									if (rand <= 2) {
+									if (rand <= 5) {
 										Vector3 pos = map [i] [j].transform.position;
 
 										baseHandler home = ((GameObject)Instantiate (homeBase, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<baseHandler> ();

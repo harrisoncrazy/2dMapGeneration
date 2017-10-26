@@ -32,7 +32,7 @@ public class stoneGatherer : defaultBuilding {
 	}
 
 	void constructResourceStats() {
-		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.stoneGatherBuildingCost;
+		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.stoneGather.buildingCosts;
 
 		string[] tempPlaceTiles = new string[] { "Grassland" };
 

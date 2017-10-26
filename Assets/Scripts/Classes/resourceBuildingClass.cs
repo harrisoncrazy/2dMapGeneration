@@ -6,7 +6,7 @@ public class resourceBuildingClass : MonoBehaviour {
 
 	public struct resourceTypeCost {
 		public string resourceType;
-		public int cost;
+		public float cost;
 
 		public resourceTypeCost (string t, int c) {
 			resourceType = t;
@@ -105,7 +105,7 @@ public class resourceBuildingClass : MonoBehaviour {
 
 		for (int i = 0; costs.Length > i; i++) { //going through all the resource type requirements
 			string tempCostType = costs [i].resourceType;
-			int tempCost = costs [i].cost;
+			float tempCost = costs [i].cost;
 
 			switch (tempCostType) {//checking if there is enough of the resource type
 			case "Wood":
@@ -143,7 +143,7 @@ public class resourceBuildingClass : MonoBehaviour {
 	public static void removeResourcesFromPlacement (resourceTypeCost[] costs) { //removing resource from the total stockpiles
 		for (int i = 0; costs.Length > i; i++) {
 			string tempCostType = costs [i].resourceType;
-			int tempCost = costs [i].cost;
+			float tempCost = costs [i].cost;
 
 			if (tempCostType == "Wood") {
 				resourceManager.Instance.removeWood (tempCost);

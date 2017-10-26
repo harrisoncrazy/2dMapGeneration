@@ -117,7 +117,7 @@ public class tileHandler : MonoBehaviour {
 		if (disabled == false) {
 			this.GetComponent<baseGridPosition> ().setAdjArrayVals ();
 			if (discovered) {//if the tile has been seen and discovered
-				if (inputHandler.Instance.checkPlacementStatus () == false) {
+				if (GameManager.Instance.isPlacementModeActive == false) {
 					if (GameManager.Instance.isBuildingSelected == false) {//not allowing tiles to be selected if a building is selected
 						if (selected && transform == trSelect) {
 							selected = false;
@@ -130,25 +130,25 @@ public class tileHandler : MonoBehaviour {
 						}
 					}
 				} else { //if placing a building
-					if (GameManager.Instance.placingWoodGatherer) {
+					if (GameManager.Instance.checkPlacementAt("woodGather")) {
 						if (GameManager.Instance.placingWoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
 							inputHandler.Instance.disablePlacementMode ();
 							disableTile ();
 							//Destroy (this.gameObject);
 						} 
-					} else if (GameManager.Instance.placingStoneGatherer) {
+					} else if (GameManager.Instance.checkPlacementAt("stoneGather")) {
 						if (GameManager.Instance.placingStoneGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
 							inputHandler.Instance.disablePlacementMode ();
 							disableTile ();
 							//Destroy (this.gameObject);
 						}
-					} else if (GameManager.Instance.placingFoodGatherer) {
+					} else if (GameManager.Instance.checkPlacementAt("foodGather")) {
 						if (GameManager.Instance.placingFoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
 							inputHandler.Instance.disablePlacementMode ();
 							disableTile ();
 							//Destroy (this.gameObject);
 						}
-					} else if (GameManager.Instance.placingLeanToHouse) {
+					} else if (GameManager.Instance.checkPlacementAt("leanToHouse")) {
 						if (GameManager.Instance.placingLeanToHouseTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
 							inputHandler.Instance.disablePlacementMode ();
 							disableTile ();

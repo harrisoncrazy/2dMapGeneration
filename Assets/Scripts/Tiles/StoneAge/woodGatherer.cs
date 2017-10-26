@@ -30,7 +30,7 @@ public class woodGatherer : defaultBuilding {
 	}
 
 	void constructResourceStats() {
-		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGatherBuidlingCost;
+		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
 		string[] tempPlaceTiles = new string[] { "Grassland" };
 
