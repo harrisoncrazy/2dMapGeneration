@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class woodGatherer : defaultBuilding {
 
-	public resourceBuildingClass.resourceBuildingStats woodGathererStats;
+	public resourceBuildingClass.resourceBuildingStats woodGathererStats = new resourceBuildingClass.resourceBuildingStats();
 
 	private float defaultWoodReturn = 0.5f;
 	public float woodReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
@@ -32,8 +32,6 @@ public class woodGatherer : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
-		string[] tempPlaceTiles = new string[] { "Grassland" };
-
 		/*
 		resourceBuildingClass.adjBonus forestBonus = new resourceBuildingClass.adjBonus ("Forest", 0.1f);
 		resourceBuildingClass.adjBonus baseBonus = new resourceBuildingClass.adjBonus ("Base", 0.5f);
@@ -53,7 +51,7 @@ public class woodGatherer : defaultBuilding {
 			mountainPenalty*/
 		};
 
-		woodGathererStats = new resourceBuildingClass.resourceBuildingStats ("Wood", defaultWoodReturn, tempCosts, tempPlaceTiles, tempBonus, tempPenalty); 
+		woodGathererStats = new resourceBuildingClass.resourceBuildingStats ("Wood", defaultWoodReturn, tempCosts, tempBonus, tempPenalty); 
 
 		float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (woodGathererStats, this.GetComponent<baseGridPosition>().adjacentTiles);
 

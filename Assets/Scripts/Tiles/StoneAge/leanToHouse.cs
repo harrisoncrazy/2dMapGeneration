@@ -36,8 +36,6 @@ public class leanToHouse : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.leanToHouse.buildingCosts;
 
-		string[] tempPlaceTiles = new string[] { "Grassland" };
-
 		/*
 		resourceBuildingClass.adjBonus forestBonus = new resourceBuildingClass.adjBonus ("Forest", 0.1f);
 		resourceBuildingClass.adjBonus baseBonus = new resourceBuildingClass.adjBonus ("Base", 0.5f);
@@ -57,7 +55,7 @@ public class leanToHouse : defaultBuilding {
 			mountainPenalty*/
 		};
 
-		leanToHouseStats = new resourceBuildingClass.resourceBuildingStats ("Manpower", defaultManpowerReturn, tempCosts, tempPlaceTiles, tempBonus, tempPenalty); 
+		leanToHouseStats = new resourceBuildingClass.resourceBuildingStats ("Manpower", defaultManpowerReturn, tempCosts, tempBonus, tempPenalty); 
 
 		float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (leanToHouseStats, this.GetComponent<baseGridPosition>().adjacentTiles);
 

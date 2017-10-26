@@ -32,8 +32,6 @@ public class foodGatherer : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.foodGather.buildingCosts;
 
-		string[] tempPlaceTiles = new string[] { "Grassland" };
-
 		/*
 		resourceBuildingClass.adjBonus waterBonus = new resourceBuildingClass.adjBonus ("Ocean", 0.2f);
 		resourceBuildingClass.adjBonus plainGrassBonus = new resourceBuildingClass.adjBonus ("Grassland", 0.1f);
@@ -58,7 +56,7 @@ public class foodGatherer : defaultBuilding {
 			buildingPenalty*/
 		};
 
-		foodGathererStats = new resourceBuildingClass.resourceBuildingStats ("Food", defaultFoodReturn, tempCosts, tempPlaceTiles, tempBonus, tempPenalty); 
+		foodGathererStats = new resourceBuildingClass.resourceBuildingStats ("Food", defaultFoodReturn, tempCosts, tempBonus, tempPenalty); 
 
 		float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (foodGathererStats, this.GetComponent<baseGridPosition>().adjacentTiles);
 

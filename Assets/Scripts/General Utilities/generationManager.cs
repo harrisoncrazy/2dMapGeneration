@@ -198,7 +198,7 @@ public class generationManager : MonoBehaviour {
 							if (map [i] [j].GetComponent<tileHandler> ().newSpriteSet == false) {
 								int rand = Random.Range (1, 101);
 								if (rand <= 35) {
-									swapTiles (map [i] [j], defaultDirt, "Dirt");
+									swapTiles (map [i] [j], defaultDirt, "DirtGrassland");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 								} else if (rand >= 35 && rand <= 70) {
 									int rand2 = Random.Range (1, 2);
@@ -226,7 +226,7 @@ public class generationManager : MonoBehaviour {
 							if (map [i] [j].GetComponent<tileHandler> ().newSpriteSet == false) {
 								int rand = Random.Range (1, 101);
 								if (rand <= 35) {
-									swapTiles (map [i] [j], GrassSnowTile, "Snow");
+									swapTiles (map [i] [j], GrassSnowTile, "SnowGrassland");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 								} else if (rand >= 35 && rand <= 60) {
 									swapTiles (map [i] [j], LightForestSnowTile, "Light Forest Snow");
@@ -249,7 +249,7 @@ public class generationManager : MonoBehaviour {
 							if (map [i] [j].GetComponent<tileHandler> ().newSpriteSet == false) {
 								int rand = Random.Range (1, 101);
 								if (rand <= 45) {
-									swapTiles (map [i] [j], defaultStone, "Stone");
+									swapTiles (map [i] [j], defaultStone, "StoneGrassland");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 								} else if (rand >= 45 && rand <= 75) {
 									swapTiles (map [i] [j], LightForestStone, "Light Forest Stone");

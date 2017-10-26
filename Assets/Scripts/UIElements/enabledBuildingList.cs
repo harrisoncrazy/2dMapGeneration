@@ -12,13 +12,15 @@ public class enabledBuildingList : MonoBehaviour {
 		public string builidingDescription;//description for display
 		public resourceBuildingClass.resourceTypeCost[] costTotals;//total cost for description
 		public string buildingType;//code name of the building
+		public string[] placeableTileTypes;
 
-		public buildingData(bool isOn, string name, buildingCosts.buildingInfo info, string type) {
+		public buildingData(bool isOn, string name, buildingCosts.buildingInfo info, string type, string[] ptt) {
 			isEnabled = isOn;
 			buildingName = name;
 			builidingDescription = info.buildingDescription;
 			costTotals = info.buildingCosts;
 			buildingType = type;
+			placeableTileTypes = ptt;
 		}
 
 		public string returnCostsAsString() {
@@ -48,13 +50,14 @@ public class enabledBuildingList : MonoBehaviour {
 		yield return new WaitForSeconds (1.0f);
 
 		//Stone Era
-		woodGather = new buildingData (true, "Wood Gatherer", buildingCosts.Instance.woodGather, "woodGather");
-		stoneGather = new buildingData (true, "Stone Gatherer", buildingCosts.Instance.stoneGather, "stoneGather");
-		foodGather = new buildingData (true, "Food Gatherer", buildingCosts.Instance.foodGather, "foodGather");
-		leanToHouse = new buildingData (true, "Lean To", buildingCosts.Instance.leanToHouse, "leanToHouse");
+		string[] tempPlaceTiles = new string[] { "Grassland" };
+		woodGather = new buildingData (true, "Wood Gatherer", buildingCosts.Instance.woodGather, "woodGather", tempPlaceTiles);
+		stoneGather = new buildingData (true, "Stone Gatherer", buildingCosts.Instance.stoneGather, "stoneGather", tempPlaceTiles);
+		foodGather = new buildingData (true, "Food Gatherer", buildingCosts.Instance.foodGather, "foodGather", tempPlaceTiles);
+		leanToHouse = new buildingData (true, "Lean To", buildingCosts.Instance.leanToHouse, "leanToHouse", tempPlaceTiles);
 
 		//Bronze Era
-		basicLumberer = new buildingData(true, "Basic Lumberer", buildingCosts.Instance.basicLumberer, "basicLumberer");
+		basicLumberer = new buildingData(true, "Basic Lumberer", buildingCosts.Instance.basicLumberer, "basicLumberer", tempPlaceTiles);
 
 		availableBuildings [0] = woodGather;
 		availableBuildings [1] = stoneGather;

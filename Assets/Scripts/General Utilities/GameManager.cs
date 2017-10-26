@@ -83,10 +83,24 @@ public class GameManager : MonoBehaviour {
 	public bool placingWoodGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		woodGatherer woodGather = ((GameObject)Instantiate (woodGatherPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<woodGatherer> ();
 
+		float j = 2.0f;
+
+		while (j <= 0) {
+			j -= Time.deltaTime;
+		}
+
 		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), GameObject.Find("homeBase").GetComponent<baseGridPosition>())) {
 			Destroy (woodGather.gameObject);
 			Debug.Log ("No path to home base");
 			return false;
+		}
+			
+		for (int i = 0; i < enabledBuildingList.Instance.woodGather.placeableTileTypes.Length; i++) {
+			if (enabledBuildingList.Instance.woodGather.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+				Destroy (woodGather.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
 		}
 
 		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());

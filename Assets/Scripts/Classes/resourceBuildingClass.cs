@@ -38,15 +38,15 @@ public class resourceBuildingClass : MonoBehaviour {
 		public string resourceType;
 		public float efficiency;
 		public resourceTypeCost[] costs;
-		public string[] placeableTileTypes;
+		//public string[] placeableTileTypes;
 		public adjBonus[] adjBonusTiles;
 		public adjPenalty[] adjPenaltyTiles;
 
-		public resourceBuildingStats(string rType, float e, resourceTypeCost[] c, string[] pTT, adjBonus[] aBT, adjPenalty[] aPT) {
+		public resourceBuildingStats(string rType, float e, resourceTypeCost[] c, adjBonus[] aBT, adjPenalty[] aPT) {
 			resourceType = rType;
 			efficiency = e;
 			costs = c;
-			placeableTileTypes = pTT;
+			//placeableTileTypes = pTT;
 			adjBonusTiles = aBT;
 			adjPenaltyTiles = aPT;
 		}
