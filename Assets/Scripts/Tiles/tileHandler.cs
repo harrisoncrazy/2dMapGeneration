@@ -50,6 +50,8 @@ public class tileHandler : MonoBehaviour {
 
 	private bool disabled = false;
 
+	private bool currentBuildingPlaceable = false;
+
 	// Use this for initialization
 	void Start () {
 		sr = GetComponent<SpriteRenderer> ();
@@ -104,9 +106,37 @@ public class tileHandler : MonoBehaviour {
 			}
 			
 			checkDiscovery ();
+
+			if (GameManager.Instance.isPlacementModeActive == true) {
+				if (!this.GetComponent<baseGridPosition> ().hexOutline.activeSelf) {
+					readPlaceableTiles ();
+				}
+			} else if (GameManager.Instance.isPlacementModeActive == false) {
+				if (this.GetComponent<baseGridPosition> ().hexOutline.activeSelf) {
+					this.GetComponent<baseGridPosition> ().hexOutline.SetActive (false);
+					currentBuildingPlaceable = false;
+				}
+			}
 		}
 	}
 
+	void readPlaceableTiles() {
+		
+
+		string[] tempStringList = GameManager.Instance.spawnedBuildingPrefab.GetComponent<defaultBuilding> ().placeableTiles;
+
+		this.GetComponent<baseGridPosition> ().hexOutline.SetActive (true);
+		this.GetComponent<baseGridPosition> ().hexOutline.GetComponent<Renderer> ().material.color = Color.grey;
+		this.GetComponent<baseGridPosition> ().hexOutline.GetComponent<Renderer> ().material.color = new Color(.5f, .5f, .5f, 0.35f);
+
+		for (int i = 0; i < tempStringList.Length; i++) {
+			if (tileType == tempStringList [i]) {
+				this.GetComponent<baseGridPosition> ().hexOutline.GetComponent<Renderer> ().material.color = Color.green;
+				this.GetComponent<baseGridPosition> ().hexOutline.GetComponent<Renderer> ().material.color = new Color(0f, 1f, 0f, 0.35f);
+				currentBuildingPlaceable = true;
+			}
+		}
+	}
 
 	IEnumerator shutOffColliders() {//turning off colliders after a delay
 		yield return new WaitForSeconds (2.0f);
@@ -114,49 +144,69 @@ public class tileHandler : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
-		if (disabled == false) {
-			this.GetComponent<baseGridPosition> ().setAdjArrayVals ();
-			if (discovered) {//if the tile has been seen and discovered
-				if (GameManager.Instance.isPlacementModeActive == false) {
-					if (GameManager.Instance.isBuildingSelected == false) {//not allowing tiles to be selected if a building is selected
-						if (selected && transform == trSelect) {
-							selected = false;
-							trSelect = null;
-							tileOutlineSprite.SetActive (false);
-						} else {
-							selected = true;
-							GameManager.Instance.selectedTile = this.transform;
-							tileOutlineSprite.SetActive (true);
+		if (UIHoverListener.Instance.isOverUI == false) {
+			if (disabled == false) {
+				this.GetComponent<baseGridPosition> ().setAdjArrayVals ();
+				if (discovered) {//if the tile has been seen and discovered
+					if (GameManager.Instance.isPlacementModeActive == false) {
+						if (GameManager.Instance.isBuildingSelected == false) {//not allowing tiles to be selected if a building is selected
+							if (selected && transform == trSelect) {
+								selected = false;
+								trSelect = null;
+								tileOutlineSprite.SetActive (false);
+							} else {
+								selected = true;
+								GameManager.Instance.selectedTile = this.transform;
+								tileOutlineSprite.SetActive (true);
+							}
 						}
-					}
-				} else { //if placing a building
-					if (GameManager.Instance.checkPlacementAt("woodGather")) {
-						if (GameManager.Instance.placingWoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
-							inputHandler.Instance.disablePlacementMode ();
-							disableTile ();
-							//Destroy (this.gameObject);
-						} 
-					} else if (GameManager.Instance.checkPlacementAt("stoneGather")) {
-						if (GameManager.Instance.placingStoneGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
-							inputHandler.Instance.disablePlacementMode ();
-							disableTile ();
-							//Destroy (this.gameObject);
-						}
-					} else if (GameManager.Instance.checkPlacementAt("foodGather")) {
-						if (GameManager.Instance.placingFoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
-							inputHandler.Instance.disablePlacementMode ();
-							disableTile ();
-							//Destroy (this.gameObject);
-						}
-					} else if (GameManager.Instance.checkPlacementAt("leanToHouse")) {
-						if (GameManager.Instance.placingLeanToHouseTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
-							inputHandler.Instance.disablePlacementMode ();
-							disableTile ();
-							//Destroy (this.gameObject);
+					} else { //if placing a building
+						if (GameManager.Instance.checkPlacementAt ("woodGather")) {
+							if (GameManager.Instance.placingWoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+								inputHandler.Instance.disablePlacementMode ();
+								disableTile ();
+								GameManager.Instance.deleteSpawnedBuildingPrefab ();
+							} 
+						} else if (GameManager.Instance.checkPlacementAt ("stoneGather")) {
+							if (GameManager.Instance.placingStoneGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+								inputHandler.Instance.disablePlacementMode ();
+								disableTile ();
+								GameManager.Instance.deleteSpawnedBuildingPrefab ();
+							}
+						} else if (GameManager.Instance.checkPlacementAt ("foodGather")) {
+							if (GameManager.Instance.placingFoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+								inputHandler.Instance.disablePlacementMode ();
+								disableTile ();
+								GameManager.Instance.deleteSpawnedBuildingPrefab ();
+							}
+						} else if (GameManager.Instance.checkPlacementAt ("leanToHouse")) {
+							if (GameManager.Instance.placingLeanToHouseTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+								inputHandler.Instance.disablePlacementMode ();
+								disableTile ();
+								GameManager.Instance.deleteSpawnedBuildingPrefab ();
+							}
+						} else if (GameManager.Instance.checkPlacementAt ("wiseWomanHut")) {
+							if (GameManager.Instance.placingWiseWomanHutTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+								inputHandler.Instance.disablePlacementMode ();
+								disableTile ();
+								GameManager.Instance.deleteSpawnedBuildingPrefab ();
+							}
+						} else if (GameManager.Instance.checkPlacementAt ("basicLumberer")) {
+							if (GameManager.Instance.placingBasicLumbererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+								inputHandler.Instance.disablePlacementMode ();
+								disableTile ();
+								GameManager.Instance.deleteSpawnedBuildingPrefab ();
+							}
 						}
 					}
 				}
 			}
+		}
+	}
+
+	public void OnMouseOver() {
+		if (currentBuildingPlaceable == true) {
+			GameManager.Instance.currentHoveredTile = this.gameObject;
 		}
 	}
 
@@ -167,6 +217,9 @@ public class tileHandler : MonoBehaviour {
 		}
 		transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z - 0.1f);
 		colliderMain.enabled = false;
+
+		this.GetComponent<baseGridPosition> ().hexOutline.SetActive (false);
+		this.GetComponent<baseGridPosition> ().enabled = false;
 
 		disabled = true;
 	}

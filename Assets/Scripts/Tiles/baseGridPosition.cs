@@ -9,6 +9,8 @@ public class baseGridPosition : MonoBehaviour {
 
 	public GameObject selectOutline;
 
+	public GameObject hexOutline;
+
 	public int SearchHeuristic { get; set; }
 
 	//pathfinding stuff
@@ -29,8 +31,6 @@ public class baseGridPosition : MonoBehaviour {
 	}
 
 	public int SearchPhase { get; set; }
-
-
 
 	public void SetLabel() {//updating the debug text on tiles
 		tileInfoText.text = Distance == int.MaxValue ? "" : Distance.ToString();
@@ -65,6 +65,7 @@ public class baseGridPosition : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		findHexOutline ();
 		//adjacentTiles = new GameObject[6];	
 
 		//tileInfoText.text = "[" + mapPosition.X + "] [" + mapPosition.Y + "]";
@@ -73,7 +74,14 @@ public class baseGridPosition : MonoBehaviour {
 
 		setAdjArrayVals ();
 	}
-	
+
+	public void findHexOutline() {
+		hexOutline = transform.Find ("higlightHex").gameObject;
+		hexOutline.transform.localScale = new Vector3 (hexOutline.transform.localScale.x, 10f, hexOutline.transform.localScale.z);
+		hexOutline.SetActive (false);
+		tileInfoText.text = "";
+	}
+
 	// Update is called once per frame
 	void Update () {
 		

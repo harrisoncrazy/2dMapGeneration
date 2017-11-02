@@ -32,6 +32,10 @@ public class defaultBuilding : MonoBehaviour {
 	public GameObject resourceDeliveryNodePrefab;
 	public List<baseGridPosition> pathToBase;
 
+	public bool isHoverMode = false;
+
+	public string[] placeableTiles = new string[5];
+
 	public defaultBuilding() {
 		tileTitle = "default";
 		tileDescription = "default description here";
@@ -39,12 +43,14 @@ public class defaultBuilding : MonoBehaviour {
 
 	// Use this for initialization
 	protected virtual void Start () {
-
 		findTileInfoPanelThings ();
 
 		worldPosition = gameObject.transform.position;
 
-		this.GetComponent<baseGridPosition>().fixAdjacentTilesAdjacency ();
+		if (isHoverMode == false)
+			this.GetComponent<baseGridPosition> ().fixAdjacentTilesAdjacency ();
+
+		readPlaceTiles ();
 	}
 		
 	// Update is called once per frame
@@ -53,11 +59,10 @@ public class defaultBuilding : MonoBehaviour {
 			timer -= Time.deltaTime;
 			if (timer <= 0) {
 				try {
-				this.GetComponent<baseGridPosition> ().findAdjacentTiles ();
-				this.GetComponent<baseGridPosition> ().fixAdjacentTilesAdjacency ();
-				fixedTiles = true;
-				}
-				catch (Exception e) {
+					this.GetComponent<baseGridPosition> ().findAdjacentTiles ();
+					this.GetComponent<baseGridPosition> ().fixAdjacentTilesAdjacency ();
+					fixedTiles = true;
+				} catch (Exception e) {
 					Debug.Log (e);
 					fixedTiles = true;
 				}
@@ -89,22 +94,25 @@ public class defaultBuilding : MonoBehaviour {
 	}
 
 	protected virtual void OnMouseDown() {
-		if (GameManager.Instance.isPlacementModeActive == false) {
-			this.GetComponent<baseGridPosition> ().setAdjArrayVals ();
-			if (selected && transform == trSelect) {
-				selected = false;
-				trSelect = null;
-				tileOutlineSprite.SetActive (false);
-				GameManager.Instance.isBuildingSelected = false;
-			} else {
-				selected = true;
-				GameManager.Instance.selectedTile = this.transform;
-				GameManager.Instance.isBuildingSelected = true;
-				tileOutlineSprite.SetActive (true);
-			}
+		if (UIHoverListener.Instance.isOverUI == false) {
+			if (GameManager.Instance.isPlacementModeActive == false) {
+				this.GetComponent<baseGridPosition> ().setAdjArrayVals ();
+				if (selected && transform == trSelect) {
+					selected = false;
+					trSelect = null;
+					tileOutlineSprite.SetActive (false);
+					GameManager.Instance.isBuildingSelected = false;
+				} else {
+					selected = true;
+					GameManager.Instance.selectedTile = this.transform;
+					GameManager.Instance.isBuildingSelected = true;
+					tileOutlineSprite.SetActive (true);
+				}
 
-			toggleInfoPanel ();
+				toggleInfoPanel ();
+			}
 		}
+
 	}
 
 	protected virtual void toggleInfoPanel () {//toggling on or off the info panel, locking or unlocking the camera to the building
@@ -130,5 +138,13 @@ public class defaultBuilding : MonoBehaviour {
 	protected virtual void setInfoPanelText(string tileName, string tileDescription) {
 		tileText.text = tileName;
 		descriptionText.text = tileDescription;
+	}
+
+	public void readPlaceTiles() {
+		for (int i = 0; i < enabledBuildingList.Instance.availableBuildings.Length; i++) {
+			if (enabledBuildingList.Instance.availableBuildings [i].buildingName == tileTitle) {
+				placeableTiles = enabledBuildingList.Instance.availableBuildings [i].placeableTileTypes;
+			}
+		}
 	}
 }

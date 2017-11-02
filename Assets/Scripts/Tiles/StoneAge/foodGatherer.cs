@@ -17,8 +17,11 @@ public class foodGatherer : defaultBuilding {
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
-
 		StartCoroutine ("delay");
+	}
+
+	void setTileDescription() {
+		tileDescription = "Gathers berries and easy to hunt animals." + "\nProviding: " + foodReturn + " food per turn.";
 	}
 
 	IEnumerator delay() {
@@ -26,7 +29,7 @@ public class foodGatherer : defaultBuilding {
 		constructResourceStats ();
 		resourceManager.Instance.addFoodResource (foodGathererStats.efficiency);
 
-		tileDescription = "Gathers berries and easy to hunt animals." + "\nProviding: " + foodReturn + " food per turn.";
+		setTileDescription ();
 	}
 
 	void constructResourceStats() {
@@ -58,30 +61,41 @@ public class foodGatherer : defaultBuilding {
 
 		foodGathererStats = new resourceBuildingClass.resourceBuildingStats ("Food", defaultFoodReturn, tempCosts, tempBonus, tempPenalty); 
 
-		float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (foodGathererStats, this.GetComponent<baseGridPosition>().adjacentTiles);
-
-		//Debug.Log ("Temp Efficencey: " + tempEfficency + ". Default: " + defaultWoodReturn + ".");
-
-		foodReturn = defaultFoodReturn + tempEfficency;
-
-		//Debug.Log ("Total Wood return: " + woodReturn);
-
-		foodGathererStats.efficiency = foodReturn;
+		readResourceEfficency ();
 	}
 
 	// Update is called once per frame
 	protected override void Update() {
-		base.Update ();
-		resourceOutTick -= Time.deltaTime;
-		if (resourceOutTick <= 0) {
-			SpawnResourceDeliveryNode ("Food", foodGathererStats.efficiency);
-			resourceOutTick = 5.0f;
+		if (isHoverMode == false) {
+			base.Update ();
+			resourceOutTick -= Time.deltaTime;
+			if (resourceOutTick <= 0) {
+				SpawnResourceDeliveryNode ("Food", foodGathererStats.efficiency);
+				readResourceEfficency ();
+				resourceOutTick = 5.0f;
+			}
 		}
 	}
 
 	protected override void OnMouseDown() {
-		base.OnMouseDown ();
-		//tileDescription = "Brings wood into your resources!" + "\nProviding: " + woodReturn + " wood per turn.";
-		base.setInfoPanelText (tileTitle, tileDescription);
+		if (isHoverMode == false) {
+			base.OnMouseDown ();
+			//tileDescription = "Brings wood into your resources!" + "\nProviding: " + woodReturn + " wood per turn.";
+			base.setInfoPanelText (tileTitle, tileDescription);
+		}
+	}
+
+	void readResourceEfficency() {
+		if (isHoverMode == false) {
+			this.GetComponent<baseGridPosition> ().setAdjArrayVals ();
+
+			setTileDescription ();
+
+			float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (foodGathererStats, this.GetComponent<baseGridPosition> ().adjacentTiles);
+
+			foodReturn = defaultFoodReturn + tempEfficency;
+
+			foodGathererStats.efficiency = foodReturn;
+		}
 	}
 }
