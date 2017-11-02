@@ -18,29 +18,44 @@ public class GameManager : MonoBehaviour {
 
 	public bool isBuildingPanelActive = false;
 
+	public GameObject currentHoveredTile;
+	public GameObject spawnedBuildingPrefab;
+
 	//building stuff
+	//STONE AGE
 	public GameObject woodGatherPrefab;
 	public GameObject stoneGatherPrefab;
 	public GameObject foodGatherPrefab;
 	public GameObject leanToHousePrefab;
+	public GameObject wiseWomanHutPrefab;
+
+	//BRONZE AGE
+	public GameObject basicLumbererPrefab;
 
 	//building bools
 	public struct buildingPlaceMode
 	{
 		public string buildingName;
+		public GameObject buildingPrefab;
 		public bool isPlacing;
 
-		public buildingPlaceMode(string name) {
+		public buildingPlaceMode(string name, GameObject prefab) {
 			buildingName = name;
+			buildingPrefab = prefab;
 			isPlacing = false;
 		}
 	}
 
 	//placement bools
-	public buildingPlaceMode woodGather = new buildingPlaceMode ("woodGather");
-	public buildingPlaceMode stoneGather= new buildingPlaceMode ("stoneGather");
-	public buildingPlaceMode foodGather = new buildingPlaceMode ("foodGather");
-	public buildingPlaceMode leanToHouse = new buildingPlaceMode ("leanToHouse");
+	//STONE AGE
+	public buildingPlaceMode woodGather;
+	public buildingPlaceMode stoneGather;
+	public buildingPlaceMode foodGather;
+	public buildingPlaceMode leanToHouse;
+	public buildingPlaceMode wiseWomanHut;
+
+	//BRONZE AGE
+	public buildingPlaceMode basicLumberer;
 
 	public buildingPlaceMode[] buildingBools;
 
@@ -56,8 +71,21 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Instance = this;
+
+		//STONE AGE
+		woodGather = new buildingPlaceMode ("woodGather", woodGatherPrefab);
+		stoneGather= new buildingPlaceMode ("stoneGather", stoneGatherPrefab);
+		foodGather = new buildingPlaceMode ("foodGather", foodGatherPrefab);
+		leanToHouse = new buildingPlaceMode ("leanToHouse", leanToHousePrefab);
+		wiseWomanHut = new buildingPlaceMode ("wiseWomanHut", wiseWomanHutPrefab);
+
+		//BRONZE AGE
+		basicLumberer = new buildingPlaceMode ("basicLumberer", basicLumbererPrefab);
+
 		GrabBuildingInfoPanel ();
 		addBuildingBools ();
+
+		currentHoveredTile = generationManager.Instance.map [0] [0];
 	}
 
 	// Update is called once per frame
@@ -66,6 +94,10 @@ public class GameManager : MonoBehaviour {
 		if (timerTick < 0) {
 			updateResourceTotals ();
 			timerTick = 1.0f;
+		}
+
+		if (isPlacementModeActive == true) {
+			updateHoverBuildingPosition ();
 		}
 	}
 
@@ -82,12 +114,6 @@ public class GameManager : MonoBehaviour {
 
 	public bool placingWoodGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		woodGatherer woodGather = ((GameObject)Instantiate (woodGatherPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<woodGatherer> ();
-
-		float j = 2.0f;
-
-		while (j <= 0) {
-			j -= Time.deltaTime;
-		}
 
 		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), GameObject.Find("homeBase").GetComponent<baseGridPosition>())) {
 			Destroy (woodGather.gameObject);
@@ -135,6 +161,14 @@ public class GameManager : MonoBehaviour {
 			return false;
 		}
 
+		for (int i = 0; i < enabledBuildingList.Instance.stoneGather.placeableTileTypes.Length; i++) {
+			if (enabledBuildingList.Instance.stoneGather.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+				Destroy (stoneGather.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
 		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());
 		stoneGather.pathToBase = pathfindingManager.Instance.GetPath ();
 		stoneGather.pathToBase [0] = stoneGather.GetComponent<baseGridPosition> ();
@@ -167,6 +201,14 @@ public class GameManager : MonoBehaviour {
 			return false;
 		}
 
+		for (int i = 0; i < enabledBuildingList.Instance.foodGather.placeableTileTypes.Length; i++) {
+			if (enabledBuildingList.Instance.foodGather.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+				Destroy (foodGather.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
 		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());
 		foodGather.pathToBase = pathfindingManager.Instance.GetPath ();
 		foodGather.pathToBase [0] = foodGather.GetComponent<baseGridPosition> ();
@@ -193,6 +235,14 @@ public class GameManager : MonoBehaviour {
 	public bool placingLeanToHouseTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		leanToHouse house = ((GameObject)Instantiate (leanToHousePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<leanToHouse> ();
 
+		for (int i = 0; i < enabledBuildingList.Instance.leanToHouse.placeableTileTypes.Length; i++) {
+			if (enabledBuildingList.Instance.leanToHouse.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+				Destroy (house.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
 		house.name = "leanToHouse";
 		house.GetComponent<baseGridPosition> ().mapPosition.X = x;
 		house.GetComponent<baseGridPosition> ().mapPosition.Y = y;
@@ -211,6 +261,70 @@ public class GameManager : MonoBehaviour {
 		return true;
 	}
 
+	public bool placingWiseWomanHutTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		wiseWomanHut hut = ((GameObject)Instantiate (wiseWomanHutPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<wiseWomanHut> ();
+
+		for (int i = 0; i < enabledBuildingList.Instance.wiseWomanHut.placeableTileTypes.Length; i++) {
+			if (enabledBuildingList.Instance.wiseWomanHut.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+				Destroy (hut.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		hut.name = "wiseWomanHut";
+		hut.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		hut.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		hut.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		hut.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		hut.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		hut.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		hut.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		hut.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = hut.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.wiseWomanHut.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingBasicLumbererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		basicLumberer lumberer = ((GameObject)Instantiate (basicLumbererPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<basicLumberer> ();
+
+		for (int i = 0; i < enabledBuildingList.Instance.basicLumberer.placeableTileTypes.Length; i++) {
+			if (enabledBuildingList.Instance.basicLumberer.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+				Destroy (lumberer.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());
+		lumberer.pathToBase = pathfindingManager.Instance.GetPath ();
+		lumberer.pathToBase [0] = lumberer.GetComponent<baseGridPosition> ();
+		lumberer.pathToBase [1].PathFrom = lumberer.gameObject;
+
+		lumberer.name = "basicLumberer";
+		lumberer.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		lumberer.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		lumberer.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		lumberer.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		lumberer.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		lumberer.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		lumberer.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		lumberer.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = lumberer.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.wiseWomanHut.buildingCosts);
+
+		return true;
+	}
+
+
 	private void GrabBuildingInfoPanel() {
 		tileInfoPanel = GameObject.Find ("buildingInfoPanel");
 		tileText = GameObject.Find ("titleText").GetComponent<Text> ();
@@ -226,6 +340,9 @@ public class GameManager : MonoBehaviour {
 		buildingBools[1] = stoneGather;
 		buildingBools[2] = foodGather;
 		buildingBools[3] = leanToHouse;
+		buildingBools [4] = wiseWomanHut;
+
+		buildingBools [5] = basicLumberer;
 
 		disablePlacementModes ();
 	}
@@ -246,14 +363,35 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void enablePlacementMode (string buildingName) {
+		deleteSpawnedBuildingPrefab ();
 		for (int i = 0; i < buildingBools.Length; i++) {
 			if (buildingBools [i].buildingName != null) {
 				if (buildingBools [i].buildingName == buildingName) {
 					buildingBools [i].isPlacing = true;
+
+					defaultBuilding building = ((GameObject)Instantiate (buildingBools[i].buildingPrefab, new Vector3 (), Quaternion.Euler (new Vector3 ()))).GetComponent<defaultBuilding> ();
+
+					building.GetComponent<defaultBuilding> ().readPlaceTiles ();
+					building.GetComponent<defaultBuilding> ().isHoverMode = true;
+					building.GetComponent<baseGridPosition> ().findHexOutline ();
+					building.GetComponent<baseGridPosition> ().enabled = false;
+
+					spawnedBuildingPrefab = building.gameObject;
+
 					Debug.Log (buildingBools [i].buildingName + "Is Active");
 					return;
 				}
 			}
 		}
+	}
+
+	void updateHoverBuildingPosition() {
+		if (spawnedBuildingPrefab != null) {
+			spawnedBuildingPrefab.transform.position = currentHoveredTile.transform.position;
+		}
+	}
+
+	public void deleteSpawnedBuildingPrefab() {
+		Destroy (spawnedBuildingPrefab);
 	}
 }

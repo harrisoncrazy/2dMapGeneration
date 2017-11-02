@@ -30,9 +30,11 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		float zoomDelta = Input.GetAxis ("Mouse ScrollWheel");
-		if (zoomDelta != 0f) {
-			AdjustZoom (zoomDelta);
+		if (UIHoverListener.Instance.isOverUI == false) {
+			float zoomDelta = Input.GetAxis ("Mouse ScrollWheel");
+			if (zoomDelta != 0f) {
+				AdjustZoom (zoomDelta);
+			}
 		}
 
 		float rotationDelta = Input.GetAxis ("Rotation");

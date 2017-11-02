@@ -29,6 +29,8 @@ public class scrollMenuButton : MonoBehaviour {
 	}
 
 	public void OnClick() {
+		GameManager.Instance.deleteSpawnedBuildingPrefab ();
+
 		if (GameManager.Instance.isPlacementModeActive == true) {
 			inputHandler.Instance.disablePlacementMode ();
 		} else {

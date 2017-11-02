@@ -2,22 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class woodGatherer : defaultBuilding {
-
-	public resourceBuildingClass.resourceBuildingStats woodGathererStats = new resourceBuildingClass.resourceBuildingStats();
+public class basicLumberer : defaultBuilding {
+	
+	public resourceBuildingClass.resourceBuildingStats basicLumbererStats = new resourceBuildingClass.resourceBuildingStats();
 
 	private float defaultWoodReturn = 0.5f;
 	public float woodReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
-	public woodGatherer() {
-		tileTitle = "Wood Gatherer";
-		tileDescription = "Gathers fallen wood and sticks for building material" + "\nProviding: " + woodReturn + " wood per turn.";
+	public basicLumberer() {
+		tileTitle = "Basic Lumberer";
+		tileDescription = "Chops down adjacent trees for building material." + "\nProviding: " + woodReturn + " wood per turn.";
+
 	}
 
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
 		StartCoroutine ("delay");
+	}
+
+	void setTileDescription() {
+		tileDescription = "Chops down adjacent trees for building material." + "\nProviding: " + woodReturn + " wood per turn.";
 	}
 
 	IEnumerator delay() {
@@ -28,25 +33,12 @@ public class woodGatherer : defaultBuilding {
 		setTileDescription ();
 	}
 
-	void setTileDescription() {
-		tileDescription = "Gathers fallen wood and sticks for building material" + "\nProviding: " + woodReturn + " wood per turn.";
-	}
-
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
-		/*
 		resourceBuildingClass.adjBonus forestBonus = new resourceBuildingClass.adjBonus ("Forest", 0.1f);
-		resourceBuildingClass.adjBonus baseBonus = new resourceBuildingClass.adjBonus ("Base", 0.5f);
-*/
 
-		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { /*forestBonus, baseBonus*/ };
-
-		/*
-		resourceBuildingClass.adjPenalty stonePenalty = new resourceBuildingClass.adjPenalty ("Rock", 0.1f);
-		resourceBuildingClass.adjPenalty buildingPenalty = new resourceBuildingClass.adjPenalty ("Building", 0.2f);
-		resourceBuildingClass.adjPenalty mountainPenalty = new resourceBuildingClass.adjPenalty ("Mountain", 0.3f);
-		*/
+		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { forestBonus };
 
 		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {
 			/*stonePenalty,
@@ -54,7 +46,7 @@ public class woodGatherer : defaultBuilding {
 			mountainPenalty*/
 		};
 
-		woodGathererStats = new resourceBuildingClass.resourceBuildingStats ("Wood", defaultWoodReturn, tempCosts, tempBonus, tempPenalty); 
+		basicLumbererStats = new resourceBuildingClass.resourceBuildingStats ("Wood", defaultWoodReturn, tempCosts, tempBonus, tempPenalty); 
 
 		readResourceEfficency ();
 	}
@@ -65,8 +57,8 @@ public class woodGatherer : defaultBuilding {
 			base.Update ();
 			resourceOutTick -= Time.deltaTime;
 			if (resourceOutTick <= 0) {
+				SpawnResourceDeliveryNode ("Wood", basicLumbererStats.efficiency);
 				readResourceEfficency ();
-				SpawnResourceDeliveryNode ("Wood", woodGathererStats.efficiency);
 				resourceOutTick = 5.0f;
 			}
 		}
@@ -86,13 +78,13 @@ public class woodGatherer : defaultBuilding {
 
 			setTileDescription ();
 
-			float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (woodGathererStats, this.GetComponent<baseGridPosition> ().adjacentTiles);
+			float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (basicLumbererStats, this.GetComponent<baseGridPosition> ().adjacentTiles);
 
 			woodReturn = defaultWoodReturn + tempEfficency;
 
-			woodGathererStats.efficiency = woodReturn;
+			Debug.Log ("Total Wood return: " + woodReturn);
 
-
+			basicLumbererStats.efficiency = woodReturn;
 		}
 	}
 }

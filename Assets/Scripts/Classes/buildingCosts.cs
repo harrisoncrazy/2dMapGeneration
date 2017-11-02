@@ -21,6 +21,7 @@ public class buildingCosts : MonoBehaviour {
 	public buildingInfo stoneGather;
 	public buildingInfo foodGather;
 	public buildingInfo leanToHouse;
+	public buildingInfo wiseWomanHut;
 
 	//Bronze Era
 	public buildingInfo basicLumberer;
@@ -71,6 +72,18 @@ public class buildingCosts : MonoBehaviour {
 			foodCost
 		};
 		leanToHouse = new buildingInfo (leanToHouseBuildingCost, "A basic house for your citizens.");
+
+		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 20);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 15);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 5);
+		foodCost = new resourceBuildingClass.resourceTypeCost ("Food", 25);
+		resourceBuildingClass.resourceTypeCost[] wiseWomanHutBuildingCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost,
+			foodCost
+		};
+		wiseWomanHut = new buildingInfo (wiseWomanHutBuildingCost, "A place for the wisest of your population to live.");
 
 
 		//BRONZE ERA

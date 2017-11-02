@@ -7,22 +7,22 @@ public class resourceManager : MonoBehaviour {
 
 	public static resourceManager Instance;
 
-	private float woodTotal = 30;
+	private float woodTotal = 999;
 	private float woodPerTick;
 	public Text woodOutText;
 
-	private float foodTotal = 0;
+	private float foodTotal = 999;
 	private float foodPerTick;
 	public Text foodOutText;
 
-	private float stoneTotal = 30;
+	private float stoneTotal = 999;
 	private float stonePerTick;
 	public Text stoneOutText;
 
-	private float manpowerTotal = 0;
+	private float manpowerTotal = 999;
 	private float manpowerPerTick;
 	public Text manpowerOutText;
-	public int maxManpower = 5;
+	public int maxManpower = 999;
 
 	// Use this for initialization
 	void Start () {

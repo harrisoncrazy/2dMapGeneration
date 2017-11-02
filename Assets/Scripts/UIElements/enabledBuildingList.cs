@@ -33,6 +33,7 @@ public class enabledBuildingList : MonoBehaviour {
 	public buildingData stoneGather;
 	public buildingData foodGather;
 	public buildingData leanToHouse;
+	public buildingData wiseWomanHut;
 
 	//Bronze Era
 	public buildingData basicLumberer;
@@ -55,6 +56,7 @@ public class enabledBuildingList : MonoBehaviour {
 		stoneGather = new buildingData (true, "Stone Gatherer", buildingCosts.Instance.stoneGather, "stoneGather", tempPlaceTiles);
 		foodGather = new buildingData (true, "Food Gatherer", buildingCosts.Instance.foodGather, "foodGather", tempPlaceTiles);
 		leanToHouse = new buildingData (true, "Lean To", buildingCosts.Instance.leanToHouse, "leanToHouse", tempPlaceTiles);
+		wiseWomanHut = new buildingData (true, "Wise Woman's Hut", buildingCosts.Instance.wiseWomanHut, "wiseWomanHut", tempPlaceTiles);
 
 		//Bronze Era
 		basicLumberer = new buildingData(true, "Basic Lumberer", buildingCosts.Instance.basicLumberer, "basicLumberer", tempPlaceTiles);
@@ -63,7 +65,8 @@ public class enabledBuildingList : MonoBehaviour {
 		availableBuildings [1] = stoneGather;
 		availableBuildings [2] = foodGather;
 		availableBuildings [3] = leanToHouse;
-		availableBuildings [4] = basicLumberer;
+		availableBuildings [4] = wiseWomanHut;
+		availableBuildings [5] = basicLumberer;
 
 		//scrollMenuControl.Instance.ReadActiveBuildings ();
 	}

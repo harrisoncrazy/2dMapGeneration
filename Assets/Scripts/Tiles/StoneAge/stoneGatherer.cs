@@ -15,10 +15,14 @@ public class stoneGatherer : defaultBuilding {
 			"" + "\nProviding: " + stoneReturn + " stone per turn.";
 	}
 
+	void setTileDescription() {
+		tileDescription = "Gathers easy to manage rocks to fashion into tools to build buildings." +
+			"" + "\nProviding: " + stoneReturn + " stone per turn.";
+	}
+
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
-
 		StartCoroutine ("delay");
 	}
 
@@ -27,8 +31,7 @@ public class stoneGatherer : defaultBuilding {
 		constructResourceStats ();
 		resourceManager.Instance.addStoneResource (stoneGathererStats.efficiency);
 
-		tileDescription = "Gathers easy to manage rocks to fashion into tools to build buildings." +
-			"" + "\nProviding: " + stoneReturn + " stone per turn.";
+		setTileDescription ();
 	}
 
 	void constructResourceStats() {
@@ -64,35 +67,41 @@ public class stoneGatherer : defaultBuilding {
 
 		stoneGathererStats = new resourceBuildingClass.resourceBuildingStats ("Stone", defaultStoneReturn, tempCosts, tempBonus, tempPenalty); 
 
-		float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (stoneGathererStats, this.GetComponent<baseGridPosition>().adjacentTiles);
-
-		//Debug.Log ("Temp Efficencey: " + tempEfficency + ". Default: " + defaultWoodReturn + ".");
-
-		stoneReturn = defaultStoneReturn + tempEfficency;
-
-		//Debug.Log ("Total Wood return: " + woodReturn);
-
-		/*
-		if (woodReturn <= 0) {
-			woodReturn = 0;
-		}*/
-
-		stoneGathererStats.efficiency = stoneReturn;
+		readResourceEfficency ();
 	}
 
 	// Update is called once per frame
 	protected override void Update() {
-		base.Update ();
-		resourceOutTick -= Time.deltaTime;
-		if (resourceOutTick <= 0) {
-			SpawnResourceDeliveryNode ("Stone", stoneGathererStats.efficiency);
-			resourceOutTick = 5.0f;
+		if (isHoverMode == false) {
+			base.Update ();
+			resourceOutTick -= Time.deltaTime;
+			if (resourceOutTick <= 0) {
+				SpawnResourceDeliveryNode ("Stone", stoneGathererStats.efficiency);
+				readResourceEfficency ();
+				resourceOutTick = 5.0f;
+			}
 		}
 	}
 
 	protected override void OnMouseDown() {
-		base.OnMouseDown ();
-		//tileDescription = "Brings wood into your resources!" + "\nProviding: " + woodReturn + " wood per turn.";
-		base.setInfoPanelText (tileTitle, tileDescription);
+		if (isHoverMode == false) {
+			base.OnMouseDown ();
+			//tileDescription = "Brings wood into your resources!" + "\nProviding: " + woodReturn + " wood per turn.";
+			base.setInfoPanelText (tileTitle, tileDescription);
+		}
+	}
+
+	void readResourceEfficency() {
+		if (isHoverMode == false) {
+			this.GetComponent<baseGridPosition> ().setAdjArrayVals ();
+
+			setTileDescription ();
+
+			float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (stoneGathererStats, this.GetComponent<baseGridPosition> ().adjacentTiles);
+
+			stoneReturn = defaultStoneReturn + tempEfficency;
+
+			stoneGathererStats.efficiency = stoneReturn;
+		}
 	}
 }

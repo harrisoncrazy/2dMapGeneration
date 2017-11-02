@@ -92,7 +92,7 @@ public class resourceBuildingClass : MonoBehaviour {
 			}
 		}
 
-		Debug.Log("Bonus: " + tempBonusTotal + ", Penalty: " + tempPenaltyTotal);
+		//Debug.Log("Bonus: " + tempBonusTotal + ", Penalty: " + tempPenaltyTotal);
 
 		float totalBonus = tempBonusTotal + tempPenaltyTotal;
 
