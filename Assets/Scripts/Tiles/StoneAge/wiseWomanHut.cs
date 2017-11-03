@@ -41,24 +41,14 @@ public class wiseWomanHut : defaultBuilding {
 
 
 		resourceBuildingClass.adjBonus houseBonus = new resourceBuildingClass.adjBonus ("House", 0.1f);
-		//resourceBuildingClass.adjBonus baseBonus = new resourceBuildingClass.adjBonus ("Base", 0.5f);
-
-
 		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { houseBonus };
 
-		/*
-		resourceBuildingClass.adjPenalty stonePenalty = new resourceBuildingClass.adjPenalty ("Rock", 0.1f);
-		resourceBuildingClass.adjPenalty buildingPenalty = new resourceBuildingClass.adjPenalty ("Building", 0.2f);
-		resourceBuildingClass.adjPenalty mountainPenalty = new resourceBuildingClass.adjPenalty ("Mountain", 0.3f);
-		*/
-
+		resourceBuildingClass.adjPenalty stonePenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);
 		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {
-			/*stonePenalty,
-			buildingPenalty,
-			mountainPenalty*/
+			stonePenalty
 		};
 
-		wiseWomanHutStats = new resourceBuildingClass.resourceBuildingStats ("Research", defaultResearchReturn, tempCosts, tempBonus, tempPenalty); 
+		wiseWomanHutStats = new resourceBuildingClass.resourceBuildingStats ("Research", 0f, tempCosts, tempBonus, tempPenalty); 
 
 		readResourceEfficency ();
 	}
@@ -72,6 +62,10 @@ public class wiseWomanHut : defaultBuilding {
 				readResourceEfficency ();
 				//SpawnResourceDeliveryNode ("Wood", woodGathererStats.efficiency);
 				resourceOutTick = 5.0f;
+			}
+		} else if (isHoverMode == true) {
+			if (wiseWomanHutStats.adjBonusTiles != null) {
+				this.GetComponent<baseGridPosition> ().enableArrows (GameManager.Instance.currentHoveredTile.GetComponent<baseGridPosition> ().adjacentTiles, wiseWomanHutStats.adjBonusTiles, wiseWomanHutStats.adjPenaltyTiles);
 			}
 		}
 	}
@@ -94,9 +88,16 @@ public class wiseWomanHut : defaultBuilding {
 
 			researchReturn = defaultResearchReturn + tempEfficency;
 
-			Debug.Log ("Total research return: " + researchReturn);
+			float oldEfficiency = wiseWomanHutStats.efficiency;
+			Debug.Log ("Old efficiency: " + oldEfficiency);
 
 			wiseWomanHutStats.efficiency = researchReturn;
+			Debug.Log ("researchReturn: " + researchReturn);
+
+			float newEfficiency = researchReturn - oldEfficiency;
+			Debug.Log ("temp effic: " + tempEfficency);
+
+			resourceManager.Instance.addResearchResource ( newEfficiency );
 		}
 	}
 }

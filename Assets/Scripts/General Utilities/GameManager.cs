@@ -84,8 +84,6 @@ public class GameManager : MonoBehaviour {
 
 		GrabBuildingInfoPanel ();
 		addBuildingBools ();
-
-		currentHoveredTile = generationManager.Instance.map [0] [0];
 	}
 
 	// Update is called once per frame
@@ -108,6 +106,7 @@ public class GameManager : MonoBehaviour {
 		manpowerTickDown--;
 		if (manpowerTickDown <= 0) {
 			resourceManager.Instance.manpowerResourceTick ();
+			resourceManager.Instance.researchResourceTick ();
 			manpowerTickDown = 5;
 		}
 	}
@@ -373,8 +372,7 @@ public class GameManager : MonoBehaviour {
 
 					building.GetComponent<defaultBuilding> ().readPlaceTiles ();
 					building.GetComponent<defaultBuilding> ().isHoverMode = true;
-					building.GetComponent<baseGridPosition> ().findHexOutline ();
-					building.GetComponent<baseGridPosition> ().enabled = false;
+					building.GetComponent<baseGridPosition> ().isHoverMode = true;
 
 					spawnedBuildingPrefab = building.gameObject;
 

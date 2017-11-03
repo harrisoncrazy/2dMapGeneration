@@ -56,18 +56,20 @@ public class resourceBuildingClass : MonoBehaviour {
 		float tempBonusTotal = 0;
 
 		for (int i = 0; stats.adjBonusTiles.Length > i; i++) { //going through each value in the bonus array
-			string tempTileType = stats.adjBonusTiles [i].tileType;
-			float tempBonusAdd = stats.adjBonusTiles [i].bonus;
+			if (adjTiles [i].gameObject != null) {
+				string tempTileType = stats.adjBonusTiles [i].tileType;
+				float tempBonusAdd = stats.adjBonusTiles [i].bonus;
 
 
-			for (int j = 0; adjTiles.Length > j; j++) {//going through each adjacent tile
-				if (adjTiles [j].GetComponent<tileHandler> () != null) { //if a default tile with no building
-					if (adjTiles [j].GetComponent<tileHandler> ().tileType.Contains (tempTileType)) {
-						tempBonusTotal += tempBonusAdd;
-					}
-				} else { //if a tile with a building
-					if (adjTiles [j].name.Contains (tempTileType)) {
-						tempBonusTotal += tempBonusAdd;
+				for (int j = 0; adjTiles.Length > j; j++) {//going through each adjacent tile
+					if (adjTiles [j].GetComponent<tileHandler> () != null) { //if a default tile with no building
+						if (adjTiles [j].GetComponent<tileHandler> ().tileType.Contains (tempTileType)) {
+							tempBonusTotal += tempBonusAdd;
+						}
+					} else { //if a tile with a building
+						if (adjTiles [j].name.Contains (tempTileType)) {
+							tempBonusTotal += tempBonusAdd;
+						}
 					}
 				}
 			}
@@ -80,13 +82,15 @@ public class resourceBuildingClass : MonoBehaviour {
 			float tempBonusSub = stats.adjPenaltyTiles [i].penalty;
 
 			for (int j = 0; adjTiles.Length > j; j++) {//going through each adjacent tile
-				if (adjTiles [j].GetComponent<tileHandler> () != null) { //if a default tile with no building
-					if (adjTiles [j].GetComponent<tileHandler> ().tileType.Contains (tempTileType)) {
-						tempPenaltyTotal -= tempBonusSub;
-					}
-				} else { //if a tile with a building
-					if (adjTiles [j].name.Contains (tempTileType)) {
-						tempPenaltyTotal -= tempBonusSub;
+				if (adjTiles [j].gameObject != null) {
+					if (adjTiles [j].GetComponent<tileHandler> () != null) { //if a default tile with no building
+						if (adjTiles [j].GetComponent<tileHandler> ().tileType.Contains (tempTileType)) {
+							tempPenaltyTotal -= tempBonusSub;
+						}
+					} else { //if a tile with a building
+						if (adjTiles [j].name.Contains (tempTileType)) {
+							tempPenaltyTotal -= tempBonusSub;
+						}
 					}
 				}
 			}

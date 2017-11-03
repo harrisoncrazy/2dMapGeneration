@@ -500,6 +500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PathFrom: {fileID: 0}
   selectOutline: {fileID: 1611967562613378}
+  hexOutline: {fileID: 0}
   tileInfoText: {fileID: 102141428562218792}
   topLeft: {fileID: 0}
   topRight: {fileID: 0}
@@ -514,6 +515,20 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  topLeftArrow: {fileID: 0}
+  topRightArrow: {fileID: 0}
+  RightArrow: {fileID: 0}
+  bottomRightArrow: {fileID: 0}
+  bottomLeftArrow: {fileID: 0}
+  LeftArrow: {fileID: 0}
+  arrowList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  isHoverMode: 0
 --- !u!114 &114702827919614616
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -527,7 +542,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileOutlineSprite: {fileID: 1611967562613378}
   worldPosition: {x: 0, y: 0, z: 0}
-  isHoverMode: 0
   tileTitle: Lean To
   tileDescription: 'A basic house for your citizens
 
@@ -536,6 +550,8 @@ MonoBehaviour:
   resourceDeliveryNodePrefab: {fileID: 1483597897741358, guid: cb8d2b4a7f7ec6942af42e54d79a6f58,
     type: 2}
   pathToBase: []
+  isHoverMode: 0
+  placeableTiles: []
   manpowerReturn: 0
 --- !u!210 &210824246539759364
 SortingGroup:

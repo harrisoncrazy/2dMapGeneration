@@ -45,6 +45,7 @@ public class baseGridPosition : MonoBehaviour {
 
 	public TextMesh tileInfoText;
 
+	//tile adjacency
 	public GameObject topLeft;
 	public GameObject topRight;
 	public GameObject Right;
@@ -52,6 +53,17 @@ public class baseGridPosition : MonoBehaviour {
 	public GameObject bottomLeft;
 	public GameObject Left;
 	public GameObject[] adjacentTiles = new GameObject[6];
+
+	//Arrows
+	public GameObject topLeftArrow;
+	public GameObject topRightArrow;
+	public GameObject RightArrow;
+	public GameObject bottomRightArrow;
+	public GameObject bottomLeftArrow;
+	public GameObject LeftArrow;
+	public GameObject[] arrowList = new GameObject[6];
+
+	public bool isHoverMode = false;
 
 	public struct gridPosition {
 		public int X, Y;
@@ -71,8 +83,12 @@ public class baseGridPosition : MonoBehaviour {
 		//tileInfoText.text = "[" + mapPosition.X + "] [" + mapPosition.Y + "]";
 		tileInfoText.text = "";
 
-
 		setAdjArrayVals ();
+
+		if (this.GetComponent<tileHandler> () == null) {
+			setArrowsVals ();
+			disableArrows ();
+		}
 	}
 
 	public void findHexOutline() {
@@ -88,17 +104,19 @@ public class baseGridPosition : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
-		if (Input.GetKey (KeyCode.LeftShift)) {//if left shift is pressed, sets cell to search from
-			if (GameManager.Instance.searchFromCell = this) {
-				selectOutline.SetActive (false);//deslecting
+		if (isHoverMode == false) {
+			if (Input.GetKey (KeyCode.LeftShift)) {//if left shift is pressed, sets cell to search from
+				if (GameManager.Instance.searchFromCell = this) {
+					selectOutline.SetActive (false);//deslecting
+				}
+
+				GameManager.Instance.searchFromCell = this;//setting this tile as start point
+				this.selectOutline.SetActive (true);
+
+			} else if (GameManager.Instance.searchFromCell && GameManager.Instance.searchFromCell != this) {
+				this.selectOutline.SetActive (true);
+				pathfindingManager.Instance.FindPath (GameManager.Instance.searchFromCell, GameManager.Instance.selectedTile.gameObject.GetComponent<baseGridPosition> ());
 			}
-
-			GameManager.Instance.searchFromCell = this;//setting this tile as start point
-			this.selectOutline.SetActive (true);
-
-		} else if (GameManager.Instance.searchFromCell && GameManager.Instance.searchFromCell != this) {
-			this.selectOutline.SetActive (true);
-			pathfindingManager.Instance.FindPath (GameManager.Instance.searchFromCell, GameManager.Instance.selectedTile.gameObject.GetComponent<baseGridPosition>());
 		}
 	}
 
@@ -156,16 +174,112 @@ public class baseGridPosition : MonoBehaviour {
 	}
 
 	public void fixAdjacentTilesAdjacency() { //when placing a new building, add it to the adjacent tiles' adjacency
-		topLeft.GetComponent<baseGridPosition>().bottomRight = this.gameObject;
+		if (topLeft != null)
+			topLeft.GetComponent<baseGridPosition>().bottomRight = this.gameObject;
 
-		topRight.GetComponent<baseGridPosition> ().bottomLeft = this.gameObject;
+		if (topRight != null)
+			topRight.GetComponent<baseGridPosition> ().bottomLeft = this.gameObject;
 
-		Right.GetComponent<baseGridPosition> ().Left = this.gameObject;
+		if (Right != null)
+			Right.GetComponent<baseGridPosition> ().Left = this.gameObject;
 
-		bottomRight.GetComponent<baseGridPosition> ().topLeft = this.gameObject;
+		if (bottomRight != null)
+			bottomRight.GetComponent<baseGridPosition> ().topLeft = this.gameObject;
 
-		bottomLeft.GetComponent<baseGridPosition> ().topRight = this.gameObject;
+		if (bottomLeft != null)
+			bottomLeft.GetComponent<baseGridPosition> ().topRight = this.gameObject;
 
-		Left.GetComponent<baseGridPosition> ().Right = this.gameObject;
+		if (Left != null)
+			Left.GetComponent<baseGridPosition> ().Right = this.gameObject;
+	}
+
+
+	public void setArrowsVals() {
+		if (topLeftArrow != null)
+			arrowList [0] = topLeftArrow;
+
+		if (topRightArrow != null)
+			arrowList [1] = topRightArrow;
+
+		if (RightArrow != null)
+			arrowList [2] = RightArrow;
+
+		if (bottomRightArrow != null)
+			arrowList [3] = bottomRightArrow;
+
+		if (bottomLeftArrow != null)
+			arrowList [4] = bottomLeftArrow;
+
+		if (LeftArrow != null)
+			arrowList [5] = LeftArrow;
+	}
+
+	public void enableArrows(GameObject[] adjTiles, resourceBuildingClass.adjBonus[] bonus, resourceBuildingClass.adjPenalty[] penalty) {//reads and activates arrows based on adjacent tiles and bonuses
+		for (int i = 0; i < bonus.Length; i++) {//only reads off of the length of bonus[], so both arrays must be the same length (make dummy values, look at basic lumberer for example)
+			string tempTileTypeBonus = bonus [i].tileType;
+			string tempTileTypePenalty = penalty [i].tileType;
+
+			for (int j = 0; j < adjTiles.Length; j++) {
+				if (adjTiles [j] != null) {
+					if (adjTiles [j].GetComponent<tileHandler> () != null) { //if a default tile with no building
+						if (adjTiles [j].GetComponent<tileHandler> ().tileType.Contains (tempTileTypeBonus)) {//if the tiletype matches the current bonus read
+							arrowList [j].SetActive (true);
+							arrowList [j].GetComponent<Renderer> ().material.color = Color.green;
+						} else if (adjTiles [j].GetComponent<tileHandler> ().tileType.Contains (tempTileTypePenalty)) {//if the tiletype matches the current penalty read
+							arrowList [j].SetActive (true);
+							arrowList [j].GetComponent<Renderer> ().material.color = Color.red;
+						} else {
+							arrowList [j].SetActive (false);
+						}
+					} else { //if a tile with a building
+						Debug.Log("here");
+						if (adjTiles [j].name.Contains (adjTiles [j].name)) {//if the tiletype matches the current bonus read
+							Debug.Log ("there");
+							arrowList [j].SetActive (true);
+							arrowList [j].GetComponent<Renderer> ().material.color = Color.green;
+						} else if (adjTiles [j].name.Contains (tempTileTypePenalty)) {//if the tiletype matches the current penalty read
+							arrowList [j].SetActive (true);
+							arrowList [j].GetComponent<Renderer> ().material.color = Color.red;
+						} else {
+							arrowList [j].SetActive (false);
+						}
+					}
+				} else if (adjTiles [j] == null) {
+					arrowList [j].SetActive (false);
+				}
+			}
+		}
+		/*
+		for (int i = 0; i < penalty.Length; i++) {
+			string tempTileType = penalty [i].tileType;
+
+			for (int j = 0; j < adjacentTiles.Length; j++) {
+				if (adjTiles [i].gameObject != null) {
+					if (adjTiles [j].GetComponent<tileHandler> () != null) { //if a default tile with no building
+						if (adjTiles [j].GetComponent<tileHandler> ().tileType.Contains (tempTileType)) {
+							arrowList [j].SetActive (true);
+							arrowList [j].GetComponent<Renderer> ().material.color = Color.red;
+						}else {
+							arrowList [j].SetActive (false);
+						}
+					} else { //if a tile with a building
+						if (adjTiles [j].name.Contains (tempTileType)) {
+							arrowList [j].SetActive (true);
+							arrowList [j].GetComponent<Renderer> ().material.color = Color.red;
+						}else {
+							arrowList [j].SetActive (false);
+						}
+					}
+				}
+			}
+		}*/
+	}
+
+	public void disableArrows() {
+		for (int i = 0; i < arrowList.Length; i++) {
+			if (arrowList [i] != null) {
+				arrowList [i].SetActive (false);
+			}
+		}
 	}
 }

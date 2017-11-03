@@ -11,7 +11,7 @@ public class leanToHouse : defaultBuilding {
 	public float manpowerReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public leanToHouse() {
-		tileTitle = "Lean To";
+		tileTitle = "Lean To House";
 		tileDescription = "A basic house for your citizens" + "\nProviding: " + manpowerReturn + " manpower per turn. \nAdding: " + valToAddMaxManpower + " to manpower cache.";
 	}
 

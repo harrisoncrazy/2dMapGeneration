@@ -37,11 +37,11 @@ public class basicLumberer : defaultBuilding {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
 		resourceBuildingClass.adjBonus forestBonus = new resourceBuildingClass.adjBonus ("Forest", 0.1f);
-
 		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { forestBonus };
 
+		resourceBuildingClass.adjPenalty stonePenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);
 		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {
-			/*stonePenalty,
+			stonePenalty /*
 			buildingPenalty,
 			mountainPenalty*/
 		};
@@ -60,6 +60,10 @@ public class basicLumberer : defaultBuilding {
 				SpawnResourceDeliveryNode ("Wood", basicLumbererStats.efficiency);
 				readResourceEfficency ();
 				resourceOutTick = 5.0f;
+			}
+		} else if (isHoverMode == true) {
+			if (basicLumbererStats.adjBonusTiles != null) {
+				this.GetComponent<baseGridPosition> ().enableArrows (GameManager.Instance.currentHoveredTile.GetComponent<baseGridPosition> ().adjacentTiles, basicLumbererStats.adjBonusTiles, basicLumbererStats.adjPenaltyTiles);
 			}
 		}
 	}
@@ -82,7 +86,7 @@ public class basicLumberer : defaultBuilding {
 
 			woodReturn = defaultWoodReturn + tempEfficency;
 
-			Debug.Log ("Total Wood return: " + woodReturn);
+			//Debug.Log ("Total Wood return: " + woodReturn);
 
 			basicLumbererStats.efficiency = woodReturn;
 		}
