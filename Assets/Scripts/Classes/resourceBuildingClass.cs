@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class resourceBuildingClass : MonoBehaviour {
+public class resourceBuildingClass {
 
 	public struct resourceTypeCost {
 		public string resourceType;

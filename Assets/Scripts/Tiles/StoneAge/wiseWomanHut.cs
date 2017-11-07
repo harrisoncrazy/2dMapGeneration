@@ -22,6 +22,9 @@ public class wiseWomanHut : defaultBuilding {
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
+
+		researchHandler.Instance.isResearchEnabled = true;
+
 		StartCoroutine ("delay");
 	}
 

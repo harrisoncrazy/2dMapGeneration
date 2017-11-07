@@ -394,7 +394,6 @@ public class generationManager : MonoBehaviour {
 		//tile.sr.sprite = HeavyRockTile;
 		tile.name = "Tile X:" + xPosOri + " Y:" + yPosOri;
 
-
 		Destroy (originalTile);
 	}
 }
