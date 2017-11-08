@@ -8,6 +8,9 @@ public class researchHandler : MonoBehaviour {
 
 	public bool isResearchEnabled = false;
 
+	public GameObject researchUIParent;
+	public GameObject researchStartPanel;
+
 	// Use this for initialization
 	void Start () {
 		Instance = this;
@@ -17,4 +20,15 @@ public class researchHandler : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	public void startResearch() {
+		isResearchEnabled = true;
+
+		Instantiate ((GameObject)researchStartPanel, researchUIParent.transform.position, Quaternion.Euler (new Vector3 ()), researchUIParent.transform);
+
+		inputHandler.Instance.buildingPanel.SetActive (false);
+		GameManager.Instance.isBuildingPanelActive = false;
+	}
+
+
 }

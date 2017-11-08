@@ -9,13 +9,16 @@ public class researchBuildingClass {
 		public int techCost;
 		public string techDisplayName;
 		public string techDescription;
-		public bool hasBeenPurchased = false;
+		public bool isAvailbile;
+		public bool hasBeenPurchased;
 
-		public technologyInfo(string name, int cost, string displayName, string description) {
+		public technologyInfo(string name, int cost, string displayName, string description, bool isOn) {
 			techName = name;
 			techCost = cost;
 			techDisplayName = displayName;
 			techDescription = description;
+			isAvailbile = isOn;
+			hasBeenPurchased = false;
 		}
 	}
 }

@@ -10,6 +10,7 @@ public class inputHandler : MonoBehaviour {
 
 	//public bool isBuildingPanelActive = false;
 	public GameObject buildingPanel;
+	public GameObject researchPanel;
 
 
 	void Start() {
@@ -21,6 +22,11 @@ public class inputHandler : MonoBehaviour {
 		if (GameManager.Instance.isBuildingSelected == false) {
 			if (Input.GetKeyDown (KeyCode.B)) {
 				toggleBuildingPanel ();
+			}
+			if (researchHandler.Instance.isResearchEnabled == true) {
+				if (Input.GetKeyDown (KeyCode.R)) {
+					toggleResearchPanel ();
+				}
 			}
 		}
 
@@ -75,6 +81,17 @@ public class inputHandler : MonoBehaviour {
 			buildingPanel.SetActive (true);
 			GameManager.Instance.isBuildingPanelActive = true;
 			scrollMenuControl.Instance.ReadActiveBuildings();
+		}
+	}
+
+	void toggleResearchPanel() {
+		if (GameManager.Instance.isResearchPanelActive == true) {
+			researchPanel.SetActive (false);
+			GameManager.Instance.isResearchPanelActive = false;
+		} else { 
+			researchPanel.SetActive (true);
+			GameManager.Instance.isResearchPanelActive = true;
+			researchScrollMenuControl.Instance.ReadActiveResearchs ();
 		}
 	}
 

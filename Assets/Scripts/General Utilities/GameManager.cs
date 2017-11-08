@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
 	public bool isBuildingSelected = false;
 
 	public bool isBuildingPanelActive = false;
+	public bool isResearchPanelActive = false;
 
 	public GameObject currentHoveredTile;
 	public GameObject spawnedBuildingPrefab;

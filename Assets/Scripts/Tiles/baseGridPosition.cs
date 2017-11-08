@@ -232,9 +232,7 @@ public class baseGridPosition : MonoBehaviour {
 							arrowList [j].SetActive (false);
 						}
 					} else { //if a tile with a building
-						Debug.Log("here");
 						if (adjTiles [j].name.Contains (adjTiles [j].name)) {//if the tiletype matches the current bonus read
-							Debug.Log ("there");
 							arrowList [j].SetActive (true);
 							arrowList [j].GetComponent<Renderer> ().material.color = Color.green;
 						} else if (adjTiles [j].name.Contains (tempTileTypePenalty)) {//if the tiletype matches the current penalty read

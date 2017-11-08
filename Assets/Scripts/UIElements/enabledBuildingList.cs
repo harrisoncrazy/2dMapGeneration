@@ -59,7 +59,7 @@ public class enabledBuildingList : MonoBehaviour {
 		wiseWomanHut = new buildingData (true, "Wise Woman's Hut", buildingCosts.Instance.wiseWomanHut, "wiseWomanHut", tempPlaceTiles);
 
 		//Bronze Era
-		basicLumberer = new buildingData(true, "Basic Lumberer", buildingCosts.Instance.basicLumberer, "basicLumberer", tempPlaceTiles);
+		basicLumberer = new buildingData(false, "Basic Lumberer", buildingCosts.Instance.basicLumberer, "basicLumberer", tempPlaceTiles);
 
 		availableBuildings [0] = woodGather;
 		availableBuildings [1] = stoneGather;

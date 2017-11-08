@@ -23,7 +23,9 @@ public class wiseWomanHut : defaultBuilding {
 	protected override void Start () {
 		base.Start ();
 
-		researchHandler.Instance.isResearchEnabled = true;
+		if (isHoverMode == false && researchHandler.Instance.isResearchEnabled == false) {
+			researchHandler.Instance.startResearch ();
+		}
 
 		StartCoroutine ("delay");
 	}
@@ -92,13 +94,13 @@ public class wiseWomanHut : defaultBuilding {
 			researchReturn = defaultResearchReturn + tempEfficency;
 
 			float oldEfficiency = wiseWomanHutStats.efficiency;
-			Debug.Log ("Old efficiency: " + oldEfficiency);
+			//Debug.Log ("Old efficiency: " + oldEfficiency);
 
 			wiseWomanHutStats.efficiency = researchReturn;
-			Debug.Log ("researchReturn: " + researchReturn);
+			//Debug.Log ("researchReturn: " + researchReturn);
 
 			float newEfficiency = researchReturn - oldEfficiency;
-			Debug.Log ("temp effic: " + tempEfficency);
+			//Debug.Log ("temp effic: " + tempEfficency);
 
 			resourceManager.Instance.addResearchResource ( newEfficiency );
 		}
