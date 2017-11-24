@@ -135,7 +135,12 @@ public class resourceManager : MonoBehaviour {
 		manpowerTotal -= total;
 	}
 
-	public void removeResearch(float total) {
-		researchTotal -= total;
+	public bool purchaseResearch(float cost) {
+		if (cost <= researchTotal) {
+			researchTotal -= cost;
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

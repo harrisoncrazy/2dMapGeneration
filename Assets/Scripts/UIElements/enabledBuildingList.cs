@@ -61,13 +61,17 @@ public class enabledBuildingList : MonoBehaviour {
 		//Bronze Era
 		basicLumberer = new buildingData(false, "Basic Lumberer", buildingCosts.Instance.basicLumberer, "basicLumberer", tempPlaceTiles);
 
+		setArray ();
+
+		//scrollMenuControl.Instance.ReadActiveBuildings ();
+	}
+
+	public void setArray() {
 		availableBuildings [0] = woodGather;
 		availableBuildings [1] = stoneGather;
 		availableBuildings [2] = foodGather;
 		availableBuildings [3] = leanToHouse;
 		availableBuildings [4] = wiseWomanHut;
 		availableBuildings [5] = basicLumberer;
-
-		//scrollMenuControl.Instance.ReadActiveBuildings ();
 	}
 }

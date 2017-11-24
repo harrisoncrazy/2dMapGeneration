@@ -31,7 +31,7 @@ public class researchScrollMenuControl : MonoBehaviour {
 
 		for (int i = 0; i < researchCosts.Instance.enabledResearch.Length; i++) {
 			if (researchCosts.Instance.enabledResearch [i].techName != null) {
-				if (researchCosts.Instance.enabledResearch [i].isAvailbile == true) {
+				if (researchCosts.Instance.enabledResearch [i].isAvailbile == true && researchCosts.Instance.enabledResearch[i].hasBeenPurchased == false) {
 					GenButton (researchCosts.Instance.enabledResearch [i].techDisplayName, researchCosts.Instance.enabledResearch [i].techDescription, researchCosts.Instance.enabledResearch [i].techCost, researchCosts.Instance.enabledResearch [i].techName);
 				}
 			}

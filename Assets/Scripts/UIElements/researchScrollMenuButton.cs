@@ -29,20 +29,6 @@ public class researchScrollMenuButton : MonoBehaviour {
 	}
 
 	public void OnClick() {
-
-		/*
-		GameManager.Instance.deleteSpawnedBuildingPrefab ();
-
-		if (GameManager.Instance.isPlacementModeActive == true) {
-			inputHandler.Instance.disablePlacementMode ();
-		} else {
-			if (resourceBuildingClass.readResourcesForPlacingBuilding (buildingCosts)) {
-				GameManager.Instance.isPlacementModeActive = true;
-				GameManager.Instance.enablePlacementMode (buildingType);
-			} else {
-				Debug.Log ("Insufficent Resources");
-			}
-		}*/
+		researchCosts.Instance.tryResearch (researchName, techCost);
 	}
-
 }

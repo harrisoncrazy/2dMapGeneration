@@ -26,7 +26,28 @@ public class researchCosts : MonoBehaviour {
 			"\nUnlocks the Basic Quarry, which gains additional stone gathering capabilities when placed adjacent to rocks.";
 		tierOneStone = new researchBuildingClass.technologyInfo ("tierOneStone", 50, "Mining", description, true);
 
+		setArray ();
+	}
 
+	public void tryResearch(string researchName, float cost) {
+		switch (researchName) {
+		case "tierOneLumber":
+			if (resourceManager.Instance.purchaseResearch (tierOneLumber.techCost)) {
+				researchHandler.Instance.tierOneLumber ();
+				tierOneLumber.hasBeenPurchased = true;
+				inputHandler.Instance.toggleResearchPanel ();
+				researchHandler.Instance.researchUnlockPopup (tierOneLumber.techDescription);
+
+				setArray ();
+			}
+			break;
+		case "tierOneStone":
+
+			break;
+		}
+	}
+
+	public void setArray() {
 		enabledResearch[0] = tierOneLumber;
 		enabledResearch [1] = tierOneStone;
 	}

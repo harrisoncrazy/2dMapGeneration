@@ -20,12 +20,16 @@ public class inputHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (GameManager.Instance.isBuildingSelected == false) {
-			if (Input.GetKeyDown (KeyCode.B)) {
-				toggleBuildingPanel ();
+			if (GameManager.Instance.isResearchPanelActive == false) {
+				if (Input.GetKeyDown (KeyCode.B)) {
+					toggleBuildingPanel ();
+				}
 			}
 			if (researchHandler.Instance.isResearchEnabled == true) {
-				if (Input.GetKeyDown (KeyCode.R)) {
-					toggleResearchPanel ();
+				if (GameManager.Instance.isBuildingPanelActive == false) {
+					if (Input.GetKeyDown (KeyCode.R)) {
+						toggleResearchPanel ();
+					}
 				}
 			}
 		}
@@ -84,7 +88,7 @@ public class inputHandler : MonoBehaviour {
 		}
 	}
 
-	void toggleResearchPanel() {
+	public void toggleResearchPanel() {
 		if (GameManager.Instance.isResearchPanelActive == true) {
 			researchPanel.SetActive (false);
 			GameManager.Instance.isResearchPanelActive = false;
