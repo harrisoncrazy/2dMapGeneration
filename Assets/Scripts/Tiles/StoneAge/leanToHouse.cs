@@ -18,7 +18,9 @@ public class leanToHouse : defaultBuilding {
 	// Use this for initialization
 	protected override void Start () {
 		base.Start ();
-		StartCoroutine ("delay");
+		if (isHoverMode == false) {
+			StartCoroutine ("delay");
+		}
 	}
 
 	IEnumerator delay() {

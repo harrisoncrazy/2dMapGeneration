@@ -43,6 +43,11 @@ public class researchHandler : MonoBehaviour {
 		enabledBuildingList.Instance.basicLumberer.isEnabled = true;
 		enabledBuildingList.Instance.woodGather.isEnabled = false;
 		enabledBuildingList.Instance.setArray ();
+
+		//finds all active wood gatherer's, and allows them to be upgraded
+		foreach (woodGatherer gameObj in GameObject.FindObjectsOfType<woodGatherer>()) {
+			gameObj.isUpgradeable = true;
+		}
 	}
 
 	public void tierOneStone() {//enables an upgraded stone gatherer, allows for the clearing of stone tiles

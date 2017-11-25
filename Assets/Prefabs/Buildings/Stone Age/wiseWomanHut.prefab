@@ -1390,6 +1390,11 @@ MonoBehaviour:
   pathToBase: []
   isHoverMode: 0
   placeableTiles: []
+  isUpgradeable: 0
+  upgradeTile: {fileID: 0}
+  upgradeButton: {fileID: 0}
+  canBeUpgraded: 0
+  ThreeDObjects: {fileID: 1795275833334638}
   researchReturn: 0
 --- !u!198 &198812344403163232
 ParticleSystem:

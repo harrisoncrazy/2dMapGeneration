@@ -844,6 +844,11 @@ MonoBehaviour:
   - 
   - 
   - 
+  isUpgradeable: 0
+  upgradeTile: {fileID: 0}
+  upgradeButton: {fileID: 0}
+  canBeUpgraded: 0
+  ThreeDObjects: {fileID: 1663310921558364}
 --- !u!114 &114664410779201592
 MonoBehaviour:
   m_ObjectHideFlags: 1

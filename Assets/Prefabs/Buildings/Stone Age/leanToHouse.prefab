@@ -552,6 +552,11 @@ MonoBehaviour:
   pathToBase: []
   isHoverMode: 0
   placeableTiles: []
+  isUpgradeable: 0
+  upgradeTile: {fileID: 0}
+  upgradeButton: {fileID: 0}
+  canBeUpgraded: 0
+  ThreeDObjects: {fileID: 1665429388028696}
   manpowerReturn: 0
 --- !u!210 &210824246539759364
 SortingGroup:

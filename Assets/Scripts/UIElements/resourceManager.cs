@@ -7,15 +7,15 @@ public class resourceManager : MonoBehaviour {
 
 	public static resourceManager Instance;
 
-	private float woodTotal = 999;
+	private float woodTotal = 999;//start of 15
 	private float woodPerTick;
 	public Text woodOutText;
 
-	private float foodTotal = 999;
+	private float foodTotal = 999;//start of 5?
 	private float foodPerTick;
 	public Text foodOutText;
 
-	private float stoneTotal = 999;
+	private float stoneTotal = 999;//start of 15
 	private float stonePerTick;
 	public Text stoneOutText;
 

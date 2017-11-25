@@ -36,6 +36,15 @@ public class defaultBuilding : MonoBehaviour {
 
 	public string[] placeableTiles = new string[5];
 
+	//upgrade variables
+	public bool isUpgradeable = false;
+	public GameObject upgradeTile;
+	public Button upgradeButton;
+	public bool canBeUpgraded;
+
+	private bool isDisabled = false;
+	public GameObject ThreeDObjects;
+
 	public defaultBuilding() {
 		tileTitle = "default";
 		tileDescription = "default description here";
@@ -46,6 +55,8 @@ public class defaultBuilding : MonoBehaviour {
 		findTileInfoPanelThings ();
 
 		worldPosition = gameObject.transform.position;
+
+		upgradeButton = GameManager.Instance.upgradeButton;
 
 		if (isHoverMode == false)
 			this.GetComponent<baseGridPosition> ().fixAdjacentTilesAdjacency ();
@@ -80,17 +91,19 @@ public class defaultBuilding : MonoBehaviour {
 	}
 
 	protected virtual void SpawnResourceDeliveryNode(string type, float amount) {
-		resourceDelivery resourceNode = ((GameObject)Instantiate (resourceDeliveryNodePrefab, transform.position, Quaternion.Euler (new Vector3 ()))).GetComponent<resourceDelivery> ();
-		resourceNode.sourceBuilding = this.gameObject.GetComponent<baseGridPosition> ();
-		resourceNode.toLocation = GameObject.Find ("homeBase").GetComponent<baseGridPosition> ();
+		if (isDisabled == false) {
+			resourceDelivery resourceNode = ((GameObject)Instantiate (resourceDeliveryNodePrefab, transform.position, Quaternion.Euler (new Vector3 ()))).GetComponent<resourceDelivery> ();
+			resourceNode.sourceBuilding = this.gameObject.GetComponent<baseGridPosition> ();
+			resourceNode.toLocation = GameObject.Find ("homeBase").GetComponent<baseGridPosition> ();
 
-		resourceBuildingClass.resourceTypeCost temp = new resourceBuildingClass.resourceTypeCost();
-		temp.resourceType = type;
-		temp.cost = amount;
+			resourceBuildingClass.resourceTypeCost temp = new resourceBuildingClass.resourceTypeCost ();
+			temp.resourceType = type;
+			temp.cost = amount;
 
-		resourceNode.nodeDelivery.Add (temp);
+			resourceNode.nodeDelivery.Add (temp);
 
-		resourceNode.pathToFollow = pathToBase;
+			resourceNode.pathToFollow = pathToBase;
+		}
 	}
 
 	protected virtual void OnMouseDown() {
@@ -120,12 +133,22 @@ public class defaultBuilding : MonoBehaviour {
 			tileInfoPanel.SetActive (false);
 			CameraController.Instance.setCameraPos (worldPosition.x, worldPosition.y);
 			isInfoPanelActive = false;
+
+			//reseting button
+			upgradeButton.onClick.RemoveListener (upgradeBuilding);
+			upgradeButton.interactable = false;
 		} else {
 			tileInfoPanel.SetActive (true);
 			CameraController.Instance.setCameraPos (worldPosition.x, worldPosition.y);
 			isInfoPanelActive = true;
 			inputHandler.Instance.buildingPanel.SetActive (false);
 			GameManager.Instance.isBuildingPanelActive = false;
+
+			if (isUpgradeable) {
+				upgradeButton.interactable = true;
+				//setting the onClick of the upgrade button
+				upgradeButton.onClick.AddListener (upgradeBuilding);
+			}
 		}
 	}
 
@@ -146,5 +169,59 @@ public class defaultBuilding : MonoBehaviour {
 				placeableTiles = enabledBuildingList.Instance.availableBuildings [i].placeableTileTypes;
 			}
 		}
+	}
+
+	void disableTile() {
+		this.gameObject.GetComponent<SpriteRenderer> ().sprite = null;
+		if (ThreeDObjects != null) {
+			ThreeDObjects.SetActive (false);
+		}
+		transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z - 0.1f);
+		this.gameObject.GetComponent<CircleCollider2D>().enabled = false;
+
+		this.gameObject.GetComponent<baseGridPosition> ().hexOutline.SetActive (false);
+		this.gameObject.GetComponent<baseGridPosition> ().enabled = false;
+
+		//disabling highlight on disabled tile
+		selected = false;
+		trSelect = null;
+		tileOutlineSprite.SetActive (false);
+		GameManager.Instance.isBuildingSelected = false;
+
+		isDisabled = true;
+	}
+
+	public void upgradeBuilding() {
+		defaultBuilding newBuilding = ((GameObject)Instantiate (upgradeTile, this.transform.position, Quaternion.Euler (new Vector3 ()))).GetComponent<defaultBuilding> ();
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [this.GetComponent<baseGridPosition> ().mapPosition.X] [this.GetComponent<baseGridPosition> ().mapPosition.Y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());
+		newBuilding.pathToBase = pathfindingManager.Instance.GetPath ();
+		newBuilding.pathToBase [0] = newBuilding.GetComponent<baseGridPosition> ();
+		newBuilding.pathToBase [1].PathFrom = newBuilding.gameObject;
+
+		newBuilding.name = tileTitle;
+		newBuilding.GetComponent<baseGridPosition> ().mapPosition = this.GetComponent<baseGridPosition> ().mapPosition;
+
+		newBuilding.GetComponent<baseGridPosition> ().topLeft = this.GetComponent<baseGridPosition> ().topLeft;
+		newBuilding.GetComponent<baseGridPosition> ().topRight = this.GetComponent<baseGridPosition> ().topRight;
+		newBuilding.GetComponent<baseGridPosition> ().Right = this.GetComponent<baseGridPosition> ().Right;
+		newBuilding.GetComponent<baseGridPosition> ().bottomRight = this.GetComponent<baseGridPosition> ().bottomRight;
+		newBuilding.GetComponent<baseGridPosition> ().bottomLeft = this.GetComponent<baseGridPosition> ().bottomLeft;
+		newBuilding.GetComponent<baseGridPosition> ().Left = this.GetComponent<baseGridPosition> ().Left;
+
+		generationManager.Instance.map [this.GetComponent<baseGridPosition> ().mapPosition.X] [this.GetComponent<baseGridPosition> ().mapPosition.Y] = newBuilding.gameObject;
+
+		//TODO make a way to give discounted upgrades
+		//resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.basicLumberer.buildingCosts);
+
+		//DISABLING INFO PANEL
+		tileInfoPanel.SetActive (false);
+		CameraController.Instance.setCameraPos (worldPosition.x, worldPosition.y);
+		isInfoPanelActive = false;
+		//reseting button
+		upgradeButton.onClick.RemoveListener (upgradeBuilding);
+		upgradeButton.interactable = false;
+
+		disableTile ();
 	}
 }

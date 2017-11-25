@@ -58,7 +58,12 @@ public class resourceDelivery : MonoBehaviour {
 		for (int i = 1; i < pathToFollow.Count; i++) {
 			a = c;
 			b = pathToFollow [i - 1].transform.position;
+			try {
 			c = (b + pathToFollow [i].transform.position) * 0.5f;
+			}
+			catch {
+				Destroy (this.gameObject);
+			}
 
 			for (; t < 1f; t += Time.deltaTime * travelSpeed) {
 				transform.localPosition = Bezier.GetPoint (a, b, c, t);

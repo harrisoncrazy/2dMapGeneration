@@ -69,6 +69,8 @@ public class GameManager : MonoBehaviour {
 
 	private int manpowerTickDown = 5;//delaying manpower add
 
+	public Button upgradeButton;
+
 	// Use this for initialization
 	void Start () {
 		Instance = this;
@@ -319,7 +321,7 @@ public class GameManager : MonoBehaviour {
 
 		generationManager.Instance.map [x] [y] = lumberer.gameObject;
 
-		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.wiseWomanHut.buildingCosts);
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.basicLumberer.buildingCosts);
 
 		return true;
 	}

@@ -1902,6 +1902,20 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  topLeftArrow: {fileID: 0}
+  topRightArrow: {fileID: 0}
+  RightArrow: {fileID: 0}
+  bottomRightArrow: {fileID: 0}
+  bottomLeftArrow: {fileID: 0}
+  LeftArrow: {fileID: 0}
+  arrowList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  isHoverMode: 0
 --- !u!114 &114850249671395272
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1930,6 +1944,11 @@ MonoBehaviour:
   - 
   - 
   - 
+  isUpgradeable: 0
+  upgradeTile: {fileID: 0}
+  upgradeButton: {fileID: 0}
+  canBeUpgraded: 0
+  ThreeDObjects: {fileID: 1648093048211060}
   stoneReturn: 0
 --- !u!210 &210603342422177162
 SortingGroup:
