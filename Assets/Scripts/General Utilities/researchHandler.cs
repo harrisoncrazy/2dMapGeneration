@@ -54,4 +54,9 @@ public class researchHandler : MonoBehaviour {
 		//TODO make way to clear stone tiles
 		//TODO make basic quarry tile
 	}
+
+	public void tierOneGatherNode() {
+		enabledBuildingList.Instance.gatherNode.isEnabled = true;
+		Debug.Log ("Gather node unlocked");
+	}
 }

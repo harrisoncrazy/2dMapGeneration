@@ -11,6 +11,8 @@ public class researchCosts : MonoBehaviour {
 	public researchBuildingClass.technologyInfo tierOneStone;
 	public researchBuildingClass.technologyInfo tierOneFood;
 
+	public researchBuildingClass.technologyInfo tierOneGatherNode;
+
 
 	public researchBuildingClass.technologyInfo[] enabledResearch = new researchBuildingClass.technologyInfo[125];
 	// Use this for initialization
@@ -25,6 +27,10 @@ public class researchCosts : MonoBehaviour {
 		description = "Advanced strategies in mining will allow you to break and collect larger stones. This technology will allow you to clear smaller rock tiles to place down buildings. " +
 			"\nUnlocks the Basic Quarry, which gains additional stone gathering capabilities when placed adjacent to rocks.";
 		tierOneStone = new researchBuildingClass.technologyInfo ("tierOneStone", 50, "Mining", description, true);
+
+
+		description = "SAMPLE PLACEMENT, Gather node unlocked.";
+		tierOneGatherNode = new researchBuildingClass.technologyInfo ("tierOneGatherNode", 75, "Gather Point", description, true);
 
 		setArray ();
 	}
@@ -44,11 +50,22 @@ public class researchCosts : MonoBehaviour {
 		case "tierOneStone":
 
 			break;
+		case "tierOneGatherNode":
+			if (resourceManager.Instance.purchaseResearch (tierOneGatherNode.techCost)) {
+				researchHandler.Instance.tierOneGatherNode ();
+				tierOneGatherNode.hasBeenPurchased = true;
+				inputHandler.Instance.toggleResearchPanel ();
+				researchHandler.Instance.researchUnlockPopup (tierOneGatherNode.techDescription);
+
+				setArray ();
+			}
+			break;
 		}
 	}
 
 	public void setArray() {
 		enabledResearch[0] = tierOneLumber;
 		enabledResearch [1] = tierOneStone;
+		enabledResearch [2] = tierOneGatherNode;
 	}
 }
