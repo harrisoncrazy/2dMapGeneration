@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour {
 
 	//BRONZE AGE
 	public GameObject basicLumbererPrefab;
+	public GameObject gatherNode;
 
 	//building bools
 	public struct buildingPlaceMode
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour {
 
 	//BRONZE AGE
 	public buildingPlaceMode basicLumberer;
+	public buildingPlaceMode gatherNodeBasic;
 
 	public buildingPlaceMode[] buildingBools;
 
@@ -84,6 +86,7 @@ public class GameManager : MonoBehaviour {
 
 		//BRONZE AGE
 		basicLumberer = new buildingPlaceMode ("basicLumberer", basicLumbererPrefab);
+		gatherNodeBasic = new buildingPlaceMode ("gatherNode", gatherNode);
 
 		GrabBuildingInfoPanel ();
 		addBuildingBools ();
@@ -117,7 +120,9 @@ public class GameManager : MonoBehaviour {
 	public bool placingWoodGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		woodGatherer woodGather = ((GameObject)Instantiate (woodGatherPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<woodGatherer> ();
 
-		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), GameObject.Find("homeBase").GetComponent<baseGridPosition>())) {
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", woodGather.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
 			Destroy (woodGather.gameObject);
 			Debug.Log ("No path to home base");
 			return false;
@@ -131,7 +136,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
 		woodGather.pathToBase = pathfindingManager.Instance.GetPath ();
 		woodGather.pathToBase [0] = woodGather.GetComponent<baseGridPosition> ();
 		woodGather.pathToBase [1].PathFrom = woodGather.gameObject;
@@ -157,7 +162,9 @@ public class GameManager : MonoBehaviour {
 	public bool placingStoneGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		stoneGatherer stoneGather = ((GameObject)Instantiate (stoneGatherPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<stoneGatherer> ();
 
-		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), GameObject.Find("homeBase").GetComponent<baseGridPosition>())) {
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", stoneGather.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
 			Destroy (stoneGather.gameObject);
 			Debug.Log ("No path to home base");
 			return false;
@@ -171,7 +178,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
 		stoneGather.pathToBase = pathfindingManager.Instance.GetPath ();
 		stoneGather.pathToBase [0] = stoneGather.GetComponent<baseGridPosition> ();
 		stoneGather.pathToBase [1].PathFrom = stoneGather.gameObject;
@@ -197,7 +204,9 @@ public class GameManager : MonoBehaviour {
 	public bool placingFoodGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		foodGatherer foodGather = ((GameObject)Instantiate (foodGatherPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<foodGatherer> ();
 
-		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), GameObject.Find("homeBase").GetComponent<baseGridPosition>())) {
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", foodGather.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
 			Destroy (foodGather.gameObject);
 			Debug.Log ("No path to home base");
 			return false;
@@ -211,7 +220,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
 		foodGather.pathToBase = pathfindingManager.Instance.GetPath ();
 		foodGather.pathToBase [0] = foodGather.GetComponent<baseGridPosition> ();
 		foodGather.pathToBase [1].PathFrom = foodGather.gameObject;
@@ -295,6 +304,14 @@ public class GameManager : MonoBehaviour {
 	public bool placingBasicLumbererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		basicLumberer lumberer = ((GameObject)Instantiate (basicLumbererPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<basicLumberer> ();
 
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", lumberer.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (lumberer.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
 		for (int i = 0; i < enabledBuildingList.Instance.basicLumberer.placeableTileTypes.Length; i++) {
 			if (enabledBuildingList.Instance.basicLumberer.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
 				Destroy (lumberer.gameObject);
@@ -303,7 +320,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
 		lumberer.pathToBase = pathfindingManager.Instance.GetPath ();
 		lumberer.pathToBase [0] = lumberer.GetComponent<baseGridPosition> ();
 		lumberer.pathToBase [1].PathFrom = lumberer.gameObject;
@@ -326,6 +343,47 @@ public class GameManager : MonoBehaviour {
 		return true;
 	}
 
+	public bool placingGatherNodeBasicTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		gatherNode node = ((GameObject)Instantiate (gatherNode, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<gatherNode> ();
+
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", node.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (node.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		for (int i = 0; i < enabledBuildingList.Instance.basicLumberer.placeableTileTypes.Length; i++) {
+			if (enabledBuildingList.Instance.basicLumberer.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+				Destroy (node.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
+		node.pathToBase = pathfindingManager.Instance.GetPath ();
+		node.pathToBase [0] = node.GetComponent<baseGridPosition> ();
+		node.pathToBase [1].PathFrom = node.gameObject;
+
+		node.name = "gatherNode";
+		node.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		node.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		node.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		node.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		node.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		node.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		node.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		node.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = node.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.basicLumberer.buildingCosts);
+
+		return true;
+	}
 
 	private void GrabBuildingInfoPanel() {
 		tileInfoPanel = GameObject.Find ("buildingInfoPanel");
@@ -345,6 +403,7 @@ public class GameManager : MonoBehaviour {
 		buildingBools [4] = wiseWomanHut;
 
 		buildingBools [5] = basicLumberer;
+		buildingBools [6] = gatherNodeBasic;
 
 		disablePlacementModes ();
 	}

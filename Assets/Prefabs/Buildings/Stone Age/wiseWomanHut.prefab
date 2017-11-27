@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 114037342518090408}
   m_Layer: 0
   m_Name: wiseWomanHut
-  m_TagString: HomeTile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1368,6 +1368,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   isHoverMode: 0
+  isGatherPoint: 0
 --- !u!114 &114203481727117800
 MonoBehaviour:
   m_ObjectHideFlags: 1

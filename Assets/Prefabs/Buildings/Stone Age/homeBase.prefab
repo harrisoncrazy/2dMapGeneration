@@ -891,6 +891,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   isHoverMode: 0
+  isGatherPoint: 1
 --- !u!198 &198705256775015512
 ParticleSystem:
   m_ObjectHideFlags: 1

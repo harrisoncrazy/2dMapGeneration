@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 114766600730241962}
   m_Layer: 0
   m_Name: foodGatherer
-  m_TagString: HomeTile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1921,6 +1921,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   isHoverMode: 0
+  isGatherPoint: 0
 --- !u!210 &210736694355900824
 SortingGroup:
   m_ObjectHideFlags: 1

@@ -409,7 +409,7 @@ GameObject:
   - component: {fileID: 114369188521216896}
   m_Layer: 0
   m_Name: stoneGatherer
-  m_TagString: HomeTile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1916,6 +1916,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   isHoverMode: 0
+  isGatherPoint: 0
 --- !u!114 &114850249671395272
 MonoBehaviour:
   m_ObjectHideFlags: 1
