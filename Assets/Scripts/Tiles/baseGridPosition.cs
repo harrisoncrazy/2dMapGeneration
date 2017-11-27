@@ -75,6 +75,8 @@ public class baseGridPosition : MonoBehaviour {
 	}
 	public gridPosition mapPosition = new gridPosition();
 
+	public bool isGatherPoint = false;
+
 	// Use this for initialization
 	void Start () {
 		findHexOutline ();
