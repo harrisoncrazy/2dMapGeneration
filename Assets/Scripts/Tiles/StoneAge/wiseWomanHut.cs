@@ -7,7 +7,6 @@ public class wiseWomanHut : defaultBuilding {
 	public resourceBuildingClass.resourceBuildingStats wiseWomanHutStats;
 
 	private float defaultResearchReturn = 1.0f;
-	private int valToSubtractMaxManpower = -1;
 	public float researchReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public wiseWomanHut() {
@@ -23,11 +22,13 @@ public class wiseWomanHut : defaultBuilding {
 	protected override void Start () {
 		base.Start ();
 
-		if (isHoverMode == false && researchHandler.Instance.isResearchEnabled == false) {
-			researchHandler.Instance.startResearch ();
-		}
+		if (isHoverMode == false) {
+			if (researchHandler.Instance.isResearchEnabled == false) {
+				researchHandler.Instance.startResearch ();
+			}
 
-		StartCoroutine ("delay");
+			StartCoroutine ("delay");
+		}
 	}
 
 	IEnumerator delay() {
@@ -36,9 +37,6 @@ public class wiseWomanHut : defaultBuilding {
 		//resourceManager.Instance.addWoodResource (woodGathererStats.efficiency);
 
 		setTileDescription ();
-
-		resourceManager.Instance.addManpowerResource (wiseWomanHutStats.efficiency);
-		resourceManager.Instance.addToManpowerTotal (valToSubtractMaxManpower);
 	}
 
 	void constructResourceStats() {
@@ -65,7 +63,7 @@ public class wiseWomanHut : defaultBuilding {
 			resourceOutTick -= Time.deltaTime;
 			if (resourceOutTick <= 0) {
 				readResourceEfficency ();
-				//SpawnResourceDeliveryNode ("Wood", woodGathererStats.efficiency);
+				setTileDescription ();
 				resourceOutTick = 5.0f;
 			}
 		} else if (isHoverMode == true) {

@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour {
 
 	//BRONZE AGE
 	public GameObject basicLumbererPrefab;
+	public GameObject basicQuarryPrefab;
+	public GameObject basicFarmPrefab;
 	public GameObject gatherNode;
 
 	//building bools
@@ -58,6 +60,8 @@ public class GameManager : MonoBehaviour {
 
 	//BRONZE AGE
 	public buildingPlaceMode basicLumberer;
+	public buildingPlaceMode basicQuarry;
+	public buildingPlaceMode basicFarm;
 	public buildingPlaceMode gatherNodeBasic;
 
 	public buildingPlaceMode[] buildingBools;
@@ -86,6 +90,8 @@ public class GameManager : MonoBehaviour {
 
 		//BRONZE AGE
 		basicLumberer = new buildingPlaceMode ("basicLumberer", basicLumbererPrefab);
+		basicQuarry = new buildingPlaceMode ("basicQuarry", basicQuarryPrefab);
+		basicFarm = new buildingPlaceMode ("basicFarm", basicFarmPrefab);
 		gatherNodeBasic = new buildingPlaceMode ("gatherNode", gatherNode);
 
 		GrabBuildingInfoPanel ();
@@ -343,6 +349,90 @@ public class GameManager : MonoBehaviour {
 		return true;
 	}
 
+	public bool placingBasicQuarryTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		basicQuarry quarry = ((GameObject)Instantiate (basicQuarryPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<basicQuarry> ();
+
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", quarry.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (quarry.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		for (int i = 0; i < enabledBuildingList.Instance.basicLumberer.placeableTileTypes.Length; i++) {
+			if (enabledBuildingList.Instance.basicLumberer.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+				Destroy (quarry.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
+		quarry.pathToBase = pathfindingManager.Instance.GetPath ();
+		quarry.pathToBase [0] = quarry.GetComponent<baseGridPosition> ();
+		quarry.pathToBase [1].PathFrom = quarry.gameObject;
+
+		quarry.name = "basicLumberer";
+		quarry.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		quarry.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		quarry.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		quarry.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		quarry.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		quarry.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		quarry.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		quarry.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = quarry.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.basicQuarry.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingBasicFarmTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		basicFarm farm = ((GameObject)Instantiate (basicFarmPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<basicFarm> ();
+
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", farm.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (farm.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		for (int i = 0; i < enabledBuildingList.Instance.basicLumberer.placeableTileTypes.Length; i++) {
+			if (enabledBuildingList.Instance.basicLumberer.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+				Destroy (farm.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
+		farm.pathToBase = pathfindingManager.Instance.GetPath ();
+		farm.pathToBase [0] = farm.GetComponent<baseGridPosition> ();
+		farm.pathToBase [1].PathFrom = farm.gameObject;
+
+		farm.name = "basicLumberer";
+		farm.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		farm.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		farm.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		farm.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		farm.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		farm.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		farm.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		farm.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = farm.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.basicFarm.buildingCosts);
+
+		return true;
+	}
+
 	public bool placingGatherNodeBasicTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		gatherNode node = ((GameObject)Instantiate (gatherNode, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<gatherNode> ();
 
@@ -380,7 +470,7 @@ public class GameManager : MonoBehaviour {
 
 		generationManager.Instance.map [x] [y] = node.gameObject;
 
-		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.basicLumberer.buildingCosts);
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.basicGatherNode.buildingCosts);
 
 		return true;
 	}
@@ -403,7 +493,9 @@ public class GameManager : MonoBehaviour {
 		buildingBools [4] = wiseWomanHut;
 
 		buildingBools [5] = basicLumberer;
-		buildingBools [6] = gatherNodeBasic;
+		buildingBools [6] = basicQuarry;
+		buildingBools [7] = basicFarm;
+		buildingBools [8] = gatherNodeBasic;
 
 		disablePlacementModes ();
 	}

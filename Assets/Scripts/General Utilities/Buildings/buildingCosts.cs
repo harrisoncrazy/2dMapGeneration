@@ -25,11 +25,15 @@ public class buildingCosts : MonoBehaviour {
 
 	//Bronze Era
 	public buildingInfo basicLumberer;
+	public buildingInfo basicQuarry;
+	public buildingInfo basicFarm;
+	public buildingInfo basicGatherNode;
 
 	void Start () {
 		Instance = this;
 
 		//STONE ERA
+		//Wood Gatherer
 		resourceBuildingClass.resourceTypeCost woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 5);
 		resourceBuildingClass.resourceTypeCost stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 5);
 		resourceBuildingClass.resourceTypeCost manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 1);
@@ -40,7 +44,7 @@ public class buildingCosts : MonoBehaviour {
 		}; 
 		woodGather = new buildingInfo (woodGatherBuidlingCost, "Gathers fallen wood and sticks for building material.");
 
-
+		//Stone Gatherer
 		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 5);
 		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 5);
 		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 1);
@@ -51,7 +55,7 @@ public class buildingCosts : MonoBehaviour {
 		};
 		stoneGather = new buildingInfo (stoneGatherBuildingCost, "Gathers easy to manage rocks to fashion into tools to build buildings.");
 
-
+		//Food Gatherer
 		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 5);
 		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 5);
 		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 1);
@@ -62,7 +66,7 @@ public class buildingCosts : MonoBehaviour {
 		};
 		foodGather = new buildingInfo (foodGatherBuildingCost, "Gathers berries and easy to hunt animals.");
 
-
+		//LeanTo House
 		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 15);
 		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 10);
 		resourceBuildingClass.resourceTypeCost foodCost = new resourceBuildingClass.resourceTypeCost ("Food", 20);
@@ -73,6 +77,7 @@ public class buildingCosts : MonoBehaviour {
 		};
 		leanToHouse = new buildingInfo (leanToHouseBuildingCost, "A basic house for your citizens.");
 
+		//Wise Woman Hut
 		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 20);
 		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 15);
 		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 5);
@@ -87,6 +92,7 @@ public class buildingCosts : MonoBehaviour {
 
 
 		//BRONZE ERA
+		//Basic Lumberer
 		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 10);
 		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 15);
 		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 2);
@@ -96,6 +102,39 @@ public class buildingCosts : MonoBehaviour {
 			manpowerCost
 		}; 
 		basicLumberer = new buildingInfo (basicLumbererBuildCost, "Chops down adjacent trees for building material.");
+
+		//Basic Quarry
+		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 15);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 10);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 2);
+		resourceBuildingClass.resourceTypeCost[] basicQuarryBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost
+		}; 
+		basicQuarry = new buildingInfo (basicQuarryBuildCost, "Digs into the ground for stone material.");
+
+		//Basic Farm
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 15);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 15);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 5);
+		resourceBuildingClass.resourceTypeCost[] basicFarmBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost, 
+			stoneCost, 
+			manpowerCost
+		};
+		basicFarm = new buildingInfo (basicFarmBuildCost, "Organized planting of crops.");
+
+		//Basic GatherNode
+		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 30);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 30);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 20);
+		resourceBuildingClass.resourceTypeCost[] basicGatherNodeBuildCost = new resourceBuildingClass.resourceTypeCost[] { 
+			woodCost, 
+			stoneCost, 
+			manpowerCost
+		};
+		basicGatherNode = new buildingInfo (basicGatherNodeBuildCost, "Localized Gathering Point for resources.");
 	} 
 
 	public string ReadResourceTotals(resourceBuildingClass.resourceTypeCost[] costs) {

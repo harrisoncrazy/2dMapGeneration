@@ -6,7 +6,7 @@ public class leanToHouse : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats leanToHouseStats;
 
-	private float defaultManpowerReturn = 1.0f;
+	private float defaultManpowerReturn = 0.5f;
 	private int valToAddMaxManpower = 2;
 	public float manpowerReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 

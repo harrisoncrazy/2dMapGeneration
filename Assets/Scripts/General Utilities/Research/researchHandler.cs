@@ -52,11 +52,29 @@ public class researchHandler : MonoBehaviour {
 
 	public void tierOneStone() {//enables an upgraded stone gatherer, allows for the clearing of stone tiles
 		//TODO make way to clear stone tiles
-		//TODO make basic quarry tile
+		enabledBuildingList.Instance.basicQuarry.isEnabled = true;
+		enabledBuildingList.Instance.stoneGather.isEnabled = false;
+		enabledBuildingList.Instance.setArray ();
+
+		//finds all active stone gatherer's, and allows them to be upgraded
+		foreach (stoneGatherer gameObj in GameObject.FindObjectsOfType<stoneGatherer>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+	public void tierOneFood() {//enables an upgraded food gatherer, brings in lots of food slower than usual
+		enabledBuildingList.Instance.basicFarm.isEnabled = true;
+		enabledBuildingList.Instance.foodGather.isEnabled = false;
+		enabledBuildingList.Instance.setArray ();
+
+		//finds all active food gatherer's, and allows them to be upgraded
+		foreach (foodGatherer gameObj in GameObject.FindObjectsOfType<foodGatherer>()) {
+			gameObj.isUpgradeable = true;
+		}
 	}
 
 	public void tierOneGatherNode() {
 		enabledBuildingList.Instance.gatherNode.isEnabled = true;
-		Debug.Log ("Gather node unlocked");
+		enabledBuildingList.Instance.setArray ();
 	}
 }

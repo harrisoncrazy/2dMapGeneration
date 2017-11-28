@@ -37,6 +37,8 @@ public class enabledBuildingList : MonoBehaviour {
 
 	//Bronze Era
 	public buildingData basicLumberer;
+	public buildingData basicQuarry;
+	public buildingData basicFarm;
 	public buildingData gatherNode;
 
 	public buildingData[] availableBuildings = new buildingData[125];
@@ -61,7 +63,9 @@ public class enabledBuildingList : MonoBehaviour {
 
 		//Bronze Era
 		basicLumberer = new buildingData(false, "Basic Lumberer", buildingCosts.Instance.basicLumberer, "basicLumberer", tempPlaceTiles);
-		gatherNode = new buildingData (false, "Basic Gather Point", buildingCosts.Instance.basicLumberer, "gatherNode", tempPlaceTiles); //TODO fix cost (custom cost)
+		basicQuarry = new buildingData (false, "Basic Quarry", buildingCosts.Instance.basicQuarry, "basicQuarry", tempPlaceTiles);
+		basicFarm = new buildingData (false, "Basic Farm", buildingCosts.Instance.basicFarm, "basicFarm", tempPlaceTiles);
+		gatherNode = new buildingData (false, "Basic Gather Point", buildingCosts.Instance.basicGatherNode, "gatherNode", tempPlaceTiles);
 
 		setArray ();
 
@@ -75,6 +79,8 @@ public class enabledBuildingList : MonoBehaviour {
 		availableBuildings [3] = leanToHouse;
 		availableBuildings [4] = wiseWomanHut;
 		availableBuildings [5] = basicLumberer;
-		availableBuildings [6] = gatherNode;
+		availableBuildings [6] = basicQuarry;
+		availableBuildings [7] = basicFarm;
+		availableBuildings [8] = gatherNode;
 	}
 }
