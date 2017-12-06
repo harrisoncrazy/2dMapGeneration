@@ -73,6 +73,33 @@ public class researchHandler : MonoBehaviour {
 		}
 	}
 
+	public void tierOneHousing() {//enables wooden houses, adds more to total manpower, brings in more manpower per tick
+		enabledBuildingList.Instance.woodHouse.isEnabled = true;
+		enabledBuildingList.Instance.leanToHouse.isEnabled = false;
+		enabledBuildingList.Instance.setArray ();
+
+		//finds all active lean tos and allows them to be upgraded
+		foreach (leanToHouse gameObj in GameObject.FindObjectsOfType<leanToHouse>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+	public void tierOneResearch() {//enables chiefs hut
+		enabledBuildingList.Instance.chiefsHut.isEnabled = true;
+		enabledBuildingList.Instance.wiseWomanHut.isEnabled = false;
+		enabledBuildingList.Instance.setArray ();
+
+		//finds all active wise women huts and allows them to be upgraded
+		foreach (wiseWomanHut gameObj in GameObject.FindObjectsOfType<wiseWomanHut>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+	public void tierOneOre() {//enables ore miner
+		enabledBuildingList.Instance.basicMine.isEnabled = true;
+		enabledBuildingList.Instance.setArray ();
+	}
+
 	public void tierOneGatherNode() {
 		enabledBuildingList.Instance.gatherNode.isEnabled = true;
 		enabledBuildingList.Instance.setArray ();

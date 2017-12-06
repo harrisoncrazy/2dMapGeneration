@@ -34,6 +34,11 @@ public class GameManager : MonoBehaviour {
 	public GameObject basicLumbererPrefab;
 	public GameObject basicQuarryPrefab;
 	public GameObject basicFarmPrefab;
+	public GameObject woodHousePrefab;
+	public GameObject chiefsHutPrefab;
+	public GameObject basicMinePrefab;
+
+
 	public GameObject gatherNode;
 
 	//building bools
@@ -62,6 +67,11 @@ public class GameManager : MonoBehaviour {
 	public buildingPlaceMode basicLumberer;
 	public buildingPlaceMode basicQuarry;
 	public buildingPlaceMode basicFarm;
+	public buildingPlaceMode woodHouse;
+	public buildingPlaceMode chiefsHut;
+	public buildingPlaceMode basicMine;
+
+
 	public buildingPlaceMode gatherNodeBasic;
 
 	public buildingPlaceMode[] buildingBools;
@@ -92,6 +102,10 @@ public class GameManager : MonoBehaviour {
 		basicLumberer = new buildingPlaceMode ("basicLumberer", basicLumbererPrefab);
 		basicQuarry = new buildingPlaceMode ("basicQuarry", basicQuarryPrefab);
 		basicFarm = new buildingPlaceMode ("basicFarm", basicFarmPrefab);
+		woodHouse = new buildingPlaceMode ("woodHouse", woodHousePrefab);
+		chiefsHut = new buildingPlaceMode ("chiefsHut", chiefsHutPrefab);
+		basicMine = new buildingPlaceMode ("basicMine", basicMinePrefab);
+
 		gatherNodeBasic = new buildingPlaceMode ("gatherNode", gatherNode);
 
 		GrabBuildingInfoPanel ();
@@ -433,6 +447,106 @@ public class GameManager : MonoBehaviour {
 		return true;
 	}
 
+	public bool placingWoodHouseTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		woodHouse house = ((GameObject)Instantiate (woodHousePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<woodHouse> ();
+
+		for (int i = 0; i < enabledBuildingList.Instance.woodHouse.placeableTileTypes.Length; i++) {
+			if (enabledBuildingList.Instance.woodHouse.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+				Destroy (house.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		house.name = "woodHouse";
+		house.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		house.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		house.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		house.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		house.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		house.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		house.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		house.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = house.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.woodHouse.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingChiefsHutTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		chiefsHut house = ((GameObject)Instantiate (chiefsHutPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<chiefsHut> ();
+
+		for (int i = 0; i < enabledBuildingList.Instance.woodHouse.placeableTileTypes.Length; i++) {
+			if (enabledBuildingList.Instance.woodHouse.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+				Destroy (house.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		house.name = "chiefsHut";
+		house.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		house.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		house.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		house.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		house.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		house.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		house.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		house.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = house.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.chiefsHut.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingBasicMineTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		basicMine mine = ((GameObject)Instantiate (basicMinePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<basicMine> ();
+
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", mine.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (mine.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		for (int i = 0; i < enabledBuildingList.Instance.woodHouse.placeableTileTypes.Length; i++) {
+			if (enabledBuildingList.Instance.basicMine.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+				Destroy (mine.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
+		mine.pathToBase = pathfindingManager.Instance.GetPath ();
+		mine.pathToBase [0] = mine.GetComponent<baseGridPosition> ();
+		mine.pathToBase [1].PathFrom = mine.gameObject;
+
+		mine.name = "basicMine";
+		mine.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		mine.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		mine.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		mine.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		mine.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		mine.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		mine.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		mine.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = mine.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.basicMine.buildingCosts);
+
+		return true;
+	}
+
 	public bool placingGatherNodeBasicTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		gatherNode node = ((GameObject)Instantiate (gatherNode, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<gatherNode> ();
 
@@ -495,7 +609,12 @@ public class GameManager : MonoBehaviour {
 		buildingBools [5] = basicLumberer;
 		buildingBools [6] = basicQuarry;
 		buildingBools [7] = basicFarm;
-		buildingBools [8] = gatherNodeBasic;
+		buildingBools [8] = woodHouse;
+		buildingBools [9] = chiefsHut;
+		buildingBools [10] = basicMine;
+
+
+		//buildingBools [8] = gatherNodeBasic;
 
 		disablePlacementModes ();
 	}

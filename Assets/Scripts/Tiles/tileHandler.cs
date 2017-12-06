@@ -209,6 +209,24 @@ public class tileHandler : MonoBehaviour {
 								disableTile ();
 								GameManager.Instance.deleteSpawnedBuildingPrefab ();
 							}
+						} else if (GameManager.Instance.checkPlacementAt ("woodHouse")) {
+							if (GameManager.Instance.placingWoodHouseTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+								inputHandler.Instance.disablePlacementMode ();
+								disableTile ();
+								GameManager.Instance.deleteSpawnedBuildingPrefab ();
+							}
+						} else if (GameManager.Instance.checkPlacementAt ("chiefsHut")) {
+							if (GameManager.Instance.placingChiefsHutTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+								inputHandler.Instance.disablePlacementMode ();
+								disableTile ();
+								GameManager.Instance.deleteSpawnedBuildingPrefab ();
+							}
+						} else if (GameManager.Instance.checkPlacementAt ("basicMine")) {
+							if (GameManager.Instance.placingBasicMineTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+								inputHandler.Instance.disablePlacementMode ();
+								disableTile ();
+								GameManager.Instance.deleteSpawnedBuildingPrefab ();
+							}
 						} else if (GameManager.Instance.checkPlacementAt ("gatherNode")) {
 							if (GameManager.Instance.placingGatherNodeBasicTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
 								inputHandler.Instance.disablePlacementMode ();

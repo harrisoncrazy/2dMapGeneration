@@ -19,6 +19,10 @@ public class resourceManager : MonoBehaviour {
 	private float stonePerTick;
 	public Text stoneOutText;
 
+	private float oreTotal = 999;
+	private float orePerTick;
+	public Text oreOutText;
+
 	private float manpowerTotal = 999;
 	private float manpowerPerTick;
 	public Text manpowerOutText;
@@ -40,6 +44,7 @@ public class resourceManager : MonoBehaviour {
 		woodOutText.text = woodTotal.ToString("F1");
 		foodOutText.text = foodTotal.ToString("F1");
 		stoneOutText.text = stoneTotal.ToString("F1");
+		oreOutText.text = oreTotal.ToString ("F1");
 		manpowerOutText.text = "" + manpowerTotal.ToString("F0") + "/" + maxManpower.ToString("F0");
 		researchOutText.text = "" + researchTotal.ToString("F1");
 
@@ -58,6 +63,10 @@ public class resourceManager : MonoBehaviour {
 
 	public void addStoneResource(float addAmount) {
 		stoneTotal += addAmount;
+	}
+
+	public void addOreResource(float addAmount) {
+		oreTotal += addAmount;
 	}
 
 	public void addManpowerResource(float addTick) {
@@ -109,6 +118,10 @@ public class resourceManager : MonoBehaviour {
 		return foodTotal;
 	}
 
+	public float returnTotalOre() {
+		return oreTotal;
+	}
+
 	public float returnTotalManpower() {
 		return manpowerTotal;
 	}
@@ -129,6 +142,10 @@ public class resourceManager : MonoBehaviour {
 
 	public void removeStone(float total) {
 		stoneTotal -= total;
+	}
+
+	public void removeOre(float total) {
+		oreTotal -= total;
 	}
 
 	public void removeManpower(float total) {

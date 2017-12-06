@@ -27,6 +27,10 @@ public class buildingCosts : MonoBehaviour {
 	public buildingInfo basicLumberer;
 	public buildingInfo basicQuarry;
 	public buildingInfo basicFarm;
+	public buildingInfo woodHouse;
+	public buildingInfo chiefsHut;
+	public buildingInfo basicMine;
+
 	public buildingInfo basicGatherNode;
 
 	void Start () {
@@ -124,6 +128,41 @@ public class buildingCosts : MonoBehaviour {
 			manpowerCost
 		};
 		basicFarm = new buildingInfo (basicFarmBuildCost, "Organized planting of crops.");
+
+		//Wood House
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 30);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 15);
+		foodCost = new resourceBuildingClass.resourceTypeCost ("Food", 30);
+		resourceBuildingClass.resourceTypeCost[] woodHouseBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			foodCost
+		};
+		woodHouse = new buildingInfo (woodHouseBuildCost, "Better housing.");
+
+		//Chief's Hut
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 30);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 25);
+		foodCost = new resourceBuildingClass.resourceTypeCost ("Food", 40);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 15);
+		resourceBuildingClass.resourceTypeCost[] chiefsHutBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			foodCost,
+			manpowerCost
+		};
+		chiefsHut = new buildingInfo (chiefsHutBuildCost, "Better research");
+
+		//Basic Mine
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 25);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 25);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 10);
+		resourceBuildingClass.resourceTypeCost[] basicMineBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost
+		};
+		basicMine = new buildingInfo (basicMineBuildCost, "First Gathering of Minerals");
 
 		//Basic GatherNode
 		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 30);

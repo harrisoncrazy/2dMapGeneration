@@ -100,6 +100,9 @@ public class resourceDelivery : MonoBehaviour {
 			case "Food":
 				resourceManager.Instance.addFoodResource (nodeDelivery[i].cost);
 				break;
+			case "Ore":
+				resourceManager.Instance.addOreResource (nodeDelivery [i].cost);
+				break;
 			}
 		}
 	}

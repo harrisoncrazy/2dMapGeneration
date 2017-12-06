@@ -39,6 +39,11 @@ public class enabledBuildingList : MonoBehaviour {
 	public buildingData basicLumberer;
 	public buildingData basicQuarry;
 	public buildingData basicFarm;
+	public buildingData woodHouse;
+	public buildingData chiefsHut;
+	public buildingData basicMine;
+
+
 	public buildingData gatherNode;
 
 	public buildingData[] availableBuildings = new buildingData[125];
@@ -65,6 +70,10 @@ public class enabledBuildingList : MonoBehaviour {
 		basicLumberer = new buildingData(false, "Basic Lumberer", buildingCosts.Instance.basicLumberer, "basicLumberer", tempPlaceTiles);
 		basicQuarry = new buildingData (false, "Basic Quarry", buildingCosts.Instance.basicQuarry, "basicQuarry", tempPlaceTiles);
 		basicFarm = new buildingData (false, "Basic Farm", buildingCosts.Instance.basicFarm, "basicFarm", tempPlaceTiles);
+		woodHouse = new buildingData (false, "Wooden House", buildingCosts.Instance.woodHouse, "woodHouse", tempPlaceTiles);
+		chiefsHut = new buildingData (false, "Chief's Hut", buildingCosts.Instance.chiefsHut, "chiefsHut", tempPlaceTiles);
+		basicMine = new buildingData (false, "Basic Mine", buildingCosts.Instance.basicMine, "basicMine", tempPlaceTiles);
+
 		gatherNode = new buildingData (false, "Basic Gather Point", buildingCosts.Instance.basicGatherNode, "gatherNode", tempPlaceTiles);
 
 		setArray ();
@@ -81,6 +90,10 @@ public class enabledBuildingList : MonoBehaviour {
 		availableBuildings [5] = basicLumberer;
 		availableBuildings [6] = basicQuarry;
 		availableBuildings [7] = basicFarm;
-		availableBuildings [8] = gatherNode;
+		availableBuildings [8] = woodHouse;
+		availableBuildings [9] = chiefsHut;
+		availableBuildings [10] = basicMine;
+
+		//availableBuildings [8] = gatherNode;
 	}
 }
