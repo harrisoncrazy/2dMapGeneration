@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class researchHandler : MonoBehaviour {
 
-	//TODO fix research upgrade bug (upgrade available when research not purchased, also upgrading adjacent tiles??)
-
 	public static researchHandler Instance;
 
 	public bool isResearchEnabled = false;

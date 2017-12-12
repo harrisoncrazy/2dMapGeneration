@@ -5,6 +5,11 @@ using UnityEngine;
 public class enabledBuildingList : MonoBehaviour {
 
 	//TODO comment extensive list of what to do to add a building
+	//Make Building cost: buildingCosts.cs
+	//Add reference here: add building data varable, make constructor, and add it to availableBuildings array
+	//Make building specific script
+	//Make placement function in gamemanager
+	//Make placement call in tile handler onMouseDown
 
 	public static enabledBuildingList Instance;
 
@@ -49,6 +54,9 @@ public class enabledBuildingList : MonoBehaviour {
 	public buildingData chiefsHut;
 	public buildingData basicMine;
 
+	//Medieval Era
+	public buildingData basicBlacksmith;
+
 
 	public buildingData gatherNode;
 
@@ -87,6 +95,9 @@ public class enabledBuildingList : MonoBehaviour {
 		chiefsHut = new buildingData (false, "Chief's Hut", buildingCosts.Instance.chiefsHut, "chiefsHut", tempPlaceTiles);
 		basicMine = new buildingData (false, "Basic Mine", buildingCosts.Instance.basicMine, "basicMine", tempPlaceTiles);
 
+		//Medieval Era
+		basicBlacksmith = new buildingData (true, "Basic Blacksmith", buildingCosts.Instance.basicBlacksmith, "basicBlacksmith", tempPlaceTiles);
+
 		gatherNode = new buildingData (false, "Basic Gather Point", buildingCosts.Instance.basicGatherNode, "gatherNode", tempPlaceTiles);
 
 		setArray ();
@@ -109,6 +120,7 @@ public class enabledBuildingList : MonoBehaviour {
 		availableBuildings [10] = woodHouse;
 		availableBuildings [11] = chiefsHut;
 		availableBuildings [12] = basicMine;
+		availableBuildings [13] = basicBlacksmith;
 
 		//availableBuildings [8] = gatherNode;
 	}

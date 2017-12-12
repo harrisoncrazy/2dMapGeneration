@@ -241,6 +241,12 @@ public class tileHandler : MonoBehaviour {
 								disableTile ();
 								GameManager.Instance.deleteSpawnedBuildingPrefab ();
 							}
+						} else if (GameManager.Instance.checkPlacementAt ("basicBlacksmith")) {
+							if (GameManager.Instance.placingBasicBlacksmithTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+								inputHandler.Instance.disablePlacementMode ();
+								disableTile ();
+								GameManager.Instance.deleteSpawnedBuildingPrefab ();
+							}
 						} else if (GameManager.Instance.checkPlacementAt ("gatherNode")) {
 							if (GameManager.Instance.placingGatherNodeBasicTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
 								inputHandler.Instance.disablePlacementMode ();

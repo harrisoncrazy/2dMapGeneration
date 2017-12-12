@@ -66,7 +66,7 @@ public class resourceBuildingClass {
 							tempBonusTotal += tempBonusAdd;
 						}
 					} else { //if a tile with a building
-						if (adjTiles [j].name.Contains (tempTileType)) {
+						if (adjTiles [j].GetComponent<defaultBuilding>().tileTitle.Contains (tempTileType)) {
 							tempBonusTotal += tempBonusAdd;
 						}
 					}
@@ -87,7 +87,7 @@ public class resourceBuildingClass {
 							tempPenaltyTotal -= tempBonusSub;
 						}
 					} else { //if a tile with a building
-						if (adjTiles [j].name.Contains (tempTileType)) {
+						if (adjTiles [j].GetComponent<defaultBuilding>().tileTitle.Contains (tempTileType)) {
 							tempPenaltyTotal -= tempBonusSub;
 						}
 					}
@@ -101,6 +101,13 @@ public class resourceBuildingClass {
 	}
 
 	public static bool readResourcesForPlacingBuilding (resourceTypeCost[] costs) {
+		int arrayRealLength = 0;//for finding number of non null elements
+		for (int i = 0; costs.Length > i; i++) {
+			if (costs [i].resourceType != null) {
+				arrayRealLength++;
+			}
+		}
+
 		int totalOkay = 0;//total for adding up if all resource types are good
 
 		for (int i = 0; costs.Length > i; i++) { //going through all the resource type requirements
@@ -131,7 +138,7 @@ public class resourceBuildingClass {
 			};
 		}
 
-		if (totalOkay >= costs.Length) {
+		if (totalOkay >= arrayRealLength) {
 			return true;
 		} else {
 			return false;
@@ -153,5 +160,23 @@ public class resourceBuildingClass {
 				resourceManager.Instance.removeManpower (tempCost);
 			}
 		}
+	}
+
+	public static resourceTypeCost[] compareUpgradeCost(resourceTypeCost[] originalCost, resourceTypeCost[] newCost) {
+		resourceTypeCost[] revisedCost = new resourceTypeCost[16];
+
+		for (int i = 0; originalCost.Length > i; i++) {
+			resourceTypeCost tempAdder;
+
+			tempAdder.resourceType = originalCost [i].resourceType;
+
+			float tempCostDiff = newCost [i].cost - originalCost [i].cost;
+			Debug.Log (tempAdder.resourceType + ": " + tempCostDiff);
+			tempAdder.cost = tempCostDiff;
+
+			revisedCost [i] = tempAdder;
+		}
+
+		return revisedCost;
 	}
 }

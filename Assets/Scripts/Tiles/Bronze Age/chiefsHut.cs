@@ -6,7 +6,7 @@ public class chiefsHut : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats chiefsHutStats;
 
-	private float defaultResearchReturn = 1.0f;//TODO make adjacency bonus and better research income
+	private float defaultResearchReturn = 2.0f;
 	public float researchReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public chiefsHut() {
@@ -22,8 +22,10 @@ public class chiefsHut : defaultBuilding {
 	protected override void Start () {
 		base.Start ();
 
+		StartCoroutine ("delay");
+
 		if (isHoverMode == false) {
-			StartCoroutine ("delay");
+			
 		}
 	}
 
@@ -39,7 +41,7 @@ public class chiefsHut : defaultBuilding {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.leanToHouse.buildingCosts;
 
 
-		resourceBuildingClass.adjBonus houseBonus = new resourceBuildingClass.adjBonus ("House", 0.1f);//bonus from adjacent houses
+		resourceBuildingClass.adjBonus houseBonus = new resourceBuildingClass.adjBonus ("House", 0.5f);//bonus from adjacent houses
 		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { houseBonus };
 
 		resourceBuildingClass.adjPenalty stonePenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);//no penalty at this tier, blank penalty
@@ -65,7 +67,6 @@ public class chiefsHut : defaultBuilding {
 		} else if (isHoverMode == true) {
 			if (chiefsHutStats.adjBonusTiles != null) {
 				this.GetComponent<baseGridPosition> ().enableArrows (GameManager.Instance.currentHoveredTile.GetComponent<baseGridPosition> ().adjacentTiles, chiefsHutStats.adjBonusTiles, chiefsHutStats.adjPenaltyTiles);
-				//TODO fix arrows not showing up when relevant adjacent tiles are present
 			}
 		}
 	}

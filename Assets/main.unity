@@ -1401,6 +1401,8 @@ MonoBehaviour:
     type: 2}
   basicMinePrefab: {fileID: 1861807010605102, guid: 9e76a6fb4f386274e91ab2fa21351b90,
     type: 2}
+  basicBlacksmithPrefab: {fileID: 1770288559011520, guid: 13474353161c8ef46820d6ed66c85823,
+    type: 2}
   gatherNode: {fileID: 1041886273582156, guid: 47ed723060ca0d84b98f46ae39f6e07c, type: 2}
   tileInfoPanel: {fileID: 0}
   tileText: {fileID: 0}

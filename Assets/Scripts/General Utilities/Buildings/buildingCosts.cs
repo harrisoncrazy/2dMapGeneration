@@ -37,6 +37,9 @@ public class buildingCosts : MonoBehaviour {
 	public buildingInfo chiefsHut;
 	public buildingInfo basicMine;
 
+	//Medieval Era
+	public buildingInfo basicBlacksmith;
+
 	public buildingInfo basicGatherNode;
 
 	void Start () {
@@ -115,8 +118,8 @@ public class buildingCosts : MonoBehaviour {
 		resourceBuildingClass.resourceTypeCost[] wiseWomanHutBuildingCost = new resourceBuildingClass.resourceTypeCost[] {
 			woodCost,
 			stoneCost,
-			manpowerCost,
-			foodCost
+			foodCost,
+			manpowerCost
 		};
 		wiseWomanHut = new buildingInfo (wiseWomanHutBuildingCost, "A place for the wisest of your population to live.");
 
@@ -188,7 +191,19 @@ public class buildingCosts : MonoBehaviour {
 			stoneCost,
 			manpowerCost
 		};
-		basicMine = new buildingInfo (basicMineBuildCost, "First Gathering of Minerals");
+		basicMine = new buildingInfo (basicMineBuildCost, "First Gatherer of Ore");
+
+		//Medieval Era
+		//Basic Blacksmith
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 25);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 25);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 5);
+		resourceBuildingClass.resourceTypeCost[] basicBlacksmithBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost
+		};
+		basicBlacksmith = new buildingInfo (basicBlacksmithBuildCost, "Refinement of Ore");
 
 		//Basic GatherNode
 		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 30);

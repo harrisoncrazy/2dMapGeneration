@@ -28,14 +28,14 @@ public class GameManager : MonoBehaviour {
 	public GameObject defaultClearedStone;
 
 	//building stuff
-	//STONE AGE
+	//STONE ERA
 	public GameObject woodGatherPrefab;
 	public GameObject stoneGatherPrefab;
 	public GameObject foodGatherPrefab;
 	public GameObject leanToHousePrefab;
 	public GameObject wiseWomanHutPrefab;
 
-	//BRONZE AGE
+	//BRONZE ERA
 	public GameObject basicLumbererPrefab;
 	public GameObject basicQuarryPrefab;
 	public GameObject basicFarmPrefab;
@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject chiefsHutPrefab;
 	public GameObject basicMinePrefab;
 
+	//Medieval Era
+	public GameObject basicBlacksmithPrefab;
 
 	public GameObject gatherNode;
 
@@ -65,14 +67,14 @@ public class GameManager : MonoBehaviour {
 	public buildingPlaceMode forestClear;
 	public buildingPlaceMode stoneClear;
 
-	//STONE AGE
+	//Stone Era
 	public buildingPlaceMode woodGather;
 	public buildingPlaceMode stoneGather;
 	public buildingPlaceMode foodGather;
 	public buildingPlaceMode leanToHouse;
 	public buildingPlaceMode wiseWomanHut;
 
-	//BRONZE AGE
+	//Bronze Era
 	public buildingPlaceMode basicLumberer;
 	public buildingPlaceMode basicQuarry;
 	public buildingPlaceMode basicFarm;
@@ -80,6 +82,8 @@ public class GameManager : MonoBehaviour {
 	public buildingPlaceMode chiefsHut;
 	public buildingPlaceMode basicMine;
 
+	//Medieval Era
+	public buildingPlaceMode basicBlacksmith;
 
 	public buildingPlaceMode gatherNodeBasic;
 
@@ -104,20 +108,23 @@ public class GameManager : MonoBehaviour {
 		forestClear = new buildingPlaceMode("forestClear", defaultClearedForest);
 		stoneClear = new buildingPlaceMode("stoneClear", defaultClearedStone);
 
-		//STONE AGE
+		//Stone Era
 		woodGather = new buildingPlaceMode ("woodGather", woodGatherPrefab);
 		stoneGather = new buildingPlaceMode ("stoneGather", stoneGatherPrefab);
 		foodGather = new buildingPlaceMode ("foodGather", foodGatherPrefab);
 		leanToHouse = new buildingPlaceMode ("leanToHouse", leanToHousePrefab);
 		wiseWomanHut = new buildingPlaceMode ("wiseWomanHut", wiseWomanHutPrefab);
 
-		//BRONZE AGE
+		//Bronze Era
 		basicLumberer = new buildingPlaceMode ("basicLumberer", basicLumbererPrefab);
 		basicQuarry = new buildingPlaceMode ("basicQuarry", basicQuarryPrefab);
 		basicFarm = new buildingPlaceMode ("basicFarm", basicFarmPrefab);
 		woodHouse = new buildingPlaceMode ("woodHouse", woodHousePrefab);
 		chiefsHut = new buildingPlaceMode ("chiefsHut", chiefsHutPrefab);
 		basicMine = new buildingPlaceMode ("basicMine", basicMinePrefab);
+
+		//Medieval Era
+		basicBlacksmith = new buildingPlaceMode("basicBlacksmtih", basicBlacksmithPrefab);
 
 		gatherNodeBasic = new buildingPlaceMode ("gatherNode", gatherNode);
 
@@ -139,9 +146,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void updateResourceTotals() {
-		//resourceManager.Instance.woodResourceTick ();
-		//resourceManager.Instance.stoneResourceTick ();
-		//resourceManager.Instance.foodResourceTick ();
 		manpowerTickDown--;
 		if (manpowerTickDown <= 0) {
 			resourceManager.Instance.manpowerResourceTick ();
@@ -665,6 +669,51 @@ public class GameManager : MonoBehaviour {
 		return true;
 	}
 
+	public bool placingBasicBlacksmithTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		basicBlacksmith blacksmith = ((GameObject)Instantiate (basicBlacksmithPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<basicBlacksmith> ();
+
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", blacksmith.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (blacksmith.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		for (int i = 0; i < enabledBuildingList.Instance.basicBlacksmith.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.basicBlacksmith.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.basicBlacksmith.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (blacksmith.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
+		blacksmith.pathToBase = pathfindingManager.Instance.GetPath ();
+		blacksmith.pathToBase [0] = blacksmith.GetComponent<baseGridPosition> ();
+		blacksmith.pathToBase [1].PathFrom = blacksmith.gameObject;
+
+		blacksmith.name = "basicBlacksmith";
+		blacksmith.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		blacksmith.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		blacksmith.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		blacksmith.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		blacksmith.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		blacksmith.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		blacksmith.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		blacksmith.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = blacksmith.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.basicBlacksmith.buildingCosts);
+
+		return true;
+	}
+
 	public bool placingGatherNodeBasicTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		gatherNode node = ((GameObject)Instantiate (gatherNode, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<gatherNode> ();
 
@@ -737,6 +786,7 @@ public class GameManager : MonoBehaviour {
 		buildingBools [11] = chiefsHut;
 		buildingBools [12] = basicMine;
 
+		buildingBools [13] = basicBlacksmith;
 
 		//buildingBools [8] = gatherNodeBasic;
 

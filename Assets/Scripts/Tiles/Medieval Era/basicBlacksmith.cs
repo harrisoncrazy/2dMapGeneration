@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class basicMine : defaultBuilding {
+public class basicBlacksmith : defaultBuilding {
 
-	public resourceBuildingClass.resourceBuildingStats basicMineStats = new resourceBuildingClass.resourceBuildingStats();
+	//TODO make way to refine ore input
+
+	public resourceBuildingClass.resourceBuildingStats basicBlacksmithStats = new resourceBuildingClass.resourceBuildingStats();
 
 	private float defaultOreReturn = 0.5f;
 	public float oreReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
-	public basicMine() {
-		tileTitle = "Basic Mine";
-		tileDescription = "Digs into the ground for ore." + "\nProviding: " + oreReturn + " ore per turn.";
+	public basicBlacksmith() {
+		tileTitle = "Basic Blacksmith";
+		tileDescription = "Refines Metal from ore.";
 	}
 
 	// Use this for initialization
@@ -21,7 +23,7 @@ public class basicMine : defaultBuilding {
 	}
 
 	void setTileDescription() {
-		tileDescription = "Digs into the ground for ore." + "\nProviding: " + oreReturn + " ore per turn.";
+		tileDescription = "Refines Metal from ore.";
 	}
 
 	IEnumerator delay() {
@@ -32,18 +34,18 @@ public class basicMine : defaultBuilding {
 		setTileDescription ();
 	}
 
-	void constructResourceStats() {
+	void constructResourceStats() {//making this not a return per tick, but an efficency in speed for smelting ore. Tier one blacksmith will be a default of 1 but next tiers will have adjacency which will raise/lower making it faster or slower
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
-		resourceBuildingClass.adjBonus mountainBonus = new resourceBuildingClass.adjBonus ("Mountain", 0.3f);
+		resourceBuildingClass.adjBonus mountainBonus = new resourceBuildingClass.adjBonus ("None", 0.3f);
 		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { mountainBonus };
 
-		resourceBuildingClass.adjPenalty testPenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);
+		resourceBuildingClass.adjPenalty testPenalty = new resourceBuildingClass.adjPenalty ("None", 0.1f);
 		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {
 			testPenalty
 		};
 
-		basicMineStats = new resourceBuildingClass.resourceBuildingStats ("Ore", defaultOreReturn, tempCosts, tempBonus, tempPenalty); 
+		basicBlacksmithStats = new resourceBuildingClass.resourceBuildingStats ("Ore", defaultOreReturn, tempCosts, tempBonus, tempPenalty); 
 
 		readResourceEfficency ();
 	}
@@ -54,13 +56,13 @@ public class basicMine : defaultBuilding {
 			base.Update ();
 			resourceOutTick -= Time.deltaTime;
 			if (resourceOutTick <= 0) {
-				SpawnResourceDeliveryNode ("Ore", basicMineStats.efficiency);
+				//SpawnResourceDeliveryNode ("Metal", basicBlacksmithStats);
 				readResourceEfficency ();
 				resourceOutTick = 5.0f;
 			}
 		} else if (isHoverMode == true) {
-			if (basicMineStats.adjBonusTiles != null) {
-				this.GetComponent<baseGridPosition> ().enableArrows (GameManager.Instance.currentHoveredTile.GetComponent<baseGridPosition> ().adjacentTiles, basicMineStats.adjBonusTiles, basicMineStats.adjPenaltyTiles);
+			if (basicBlacksmithStats.adjBonusTiles != null) {
+				this.GetComponent<baseGridPosition> ().enableArrows (GameManager.Instance.currentHoveredTile.GetComponent<baseGridPosition> ().adjacentTiles, basicBlacksmithStats.adjBonusTiles, basicBlacksmithStats.adjPenaltyTiles);
 			}
 		}
 	}
@@ -68,7 +70,6 @@ public class basicMine : defaultBuilding {
 	protected override void OnMouseDown() {
 		if (isHoverMode == false) {
 			base.OnMouseDown ();
-			//tileDescription = "Brings wood into your resources!" + "\nProviding: " + woodReturn + " wood per turn.";
 			base.setInfoPanelText (tileTitle, tileDescription);
 		}
 	}
@@ -79,13 +80,11 @@ public class basicMine : defaultBuilding {
 
 			setTileDescription ();
 
-			float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (basicMineStats, this.GetComponent<baseGridPosition> ().adjacentTiles);
+			float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (basicBlacksmithStats, this.GetComponent<baseGridPosition> ().adjacentTiles);
 
 			oreReturn = defaultOreReturn + tempEfficency;
 
-			//Debug.Log ("Total Wood return: " + woodReturn);
-
-			basicMineStats.efficiency = oreReturn;
+			basicBlacksmithStats.efficiency = oreReturn;
 		}
 	}
 }

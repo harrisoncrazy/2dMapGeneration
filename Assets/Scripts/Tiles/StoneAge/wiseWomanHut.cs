@@ -22,12 +22,12 @@ public class wiseWomanHut : defaultBuilding {
 	protected override void Start () {
 		base.Start ();
 
+		StartCoroutine ("delay");
+
 		if (isHoverMode == false) {
 			if (researchHandler.Instance.isResearchEnabled == false) {
 				researchHandler.Instance.startResearch ();
 			}
-
-			StartCoroutine ("delay");
 		}
 	}
 
@@ -43,7 +43,7 @@ public class wiseWomanHut : defaultBuilding {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.leanToHouse.buildingCosts;
 
 
-		resourceBuildingClass.adjBonus houseBonus = new resourceBuildingClass.adjBonus ("House", 0.1f);
+		resourceBuildingClass.adjBonus houseBonus = new resourceBuildingClass.adjBonus ("Lean", 0.3f);
 		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { houseBonus };
 
 		resourceBuildingClass.adjPenalty stonePenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);

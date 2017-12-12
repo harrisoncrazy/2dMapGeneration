@@ -1391,7 +1391,7 @@ MonoBehaviour:
   pathToBase: []
   isHoverMode: 0
   placeableTiles: []
-  isUpgradeable: 1
+  isUpgradeable: 0
   upgradeTile: {fileID: 1847234663186882, guid: e5b612861177c4a458e3ac375e8115d1,
     type: 2}
   upgradeButton: {fileID: 0}

@@ -136,6 +136,9 @@ public class defaultBuilding : MonoBehaviour {
 	}
 
 	protected virtual void toggleInfoPanel () {//toggling on or off the info panel, locking or unlocking the camera to the building
+		upgradeButton.onClick.RemoveAllListeners();
+		upgradeButton.interactable = false;
+
 		if (isInfoPanelActive == true && GameManager.Instance.isBuildingSelected == false) {
 			tileInfoPanel.SetActive (false);
 			CameraController.Instance.setCameraPos (worldPosition.x, worldPosition.y);
@@ -201,6 +204,31 @@ public class defaultBuilding : MonoBehaviour {
 	public void upgradeBuilding() {
 		defaultBuilding newBuilding = ((GameObject)Instantiate (upgradeTile, this.transform.position, Quaternion.Euler (new Vector3 ()))).GetComponent<defaultBuilding> ();
 
+		resourceBuildingClass.resourceTypeCost[] origCost = new resourceBuildingClass.resourceTypeCost[16];
+		resourceBuildingClass.resourceTypeCost[] newCost = new resourceBuildingClass.resourceTypeCost[16];
+		for (int i = 0; enabledBuildingList.Instance.availableBuildings.Length > i; i++) {//searching thru the list of buildings in order to grab the cost for the current building and the new building
+			if (enabledBuildingList.Instance.availableBuildings [i].buildingName == tileTitle) {//finding original building cost
+				origCost = enabledBuildingList.Instance.availableBuildings [i].costTotals;
+			}
+
+			if (enabledBuildingList.Instance.availableBuildings [i].buildingName == newBuilding.tileTitle) {//finding upgrade building cost
+				newCost = enabledBuildingList.Instance.availableBuildings [i].costTotals;
+			}
+		}
+
+		resourceBuildingClass.resourceTypeCost[] tempUpgradeCost = resourceBuildingClass.compareUpgradeCost (origCost, newCost); 
+
+		if (resourceBuildingClass.readResourcesForPlacingBuilding (tempUpgradeCost)) {//checking upgrade cost, and seeing if there is enough resources to pay for it
+			//if enough resources
+			resourceBuildingClass.removeResourcesFromPlacement (tempUpgradeCost);
+		} else { //if not enough resources
+			Destroy(newBuilding.gameObject);
+			Debug.Log ("not enough resources");
+			return;
+		}
+
+
+
 		pathfindingManager.Instance.FindPath (generationManager.Instance.map [this.GetComponent<baseGridPosition> ().mapPosition.X] [this.GetComponent<baseGridPosition> ().mapPosition.Y].GetComponent<baseGridPosition> (), GameObject.Find ("homeBase").GetComponent<baseGridPosition> ());
 		newBuilding.pathToBase = pathfindingManager.Instance.GetPath ();
 		newBuilding.pathToBase [0] = newBuilding.GetComponent<baseGridPosition> ();
@@ -217,9 +245,6 @@ public class defaultBuilding : MonoBehaviour {
 		newBuilding.GetComponent<baseGridPosition> ().Left = this.GetComponent<baseGridPosition> ().Left;
 
 		generationManager.Instance.map [this.GetComponent<baseGridPosition> ().mapPosition.X] [this.GetComponent<baseGridPosition> ().mapPosition.Y] = newBuilding.gameObject;
-
-		//TODO make a way to give discounted upgrades
-		//resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.basicLumberer.buildingCosts);
 
 		//DISABLING INFO PANEL
 		tileInfoPanel.SetActive (false);
