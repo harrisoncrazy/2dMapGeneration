@@ -33,12 +33,13 @@ public class researchScrollMenuControl : MonoBehaviour {
 			if (researchCosts.Instance.enabledResearch [i].techName != null) {
 				if (researchCosts.Instance.enabledResearch [i].isAvailbile == true && researchCosts.Instance.enabledResearch[i].hasBeenPurchased == false) {
 					GenButton (researchCosts.Instance.enabledResearch [i].techDisplayName, researchCosts.Instance.enabledResearch [i].techDescription, researchCosts.Instance.enabledResearch [i].techCost, researchCosts.Instance.enabledResearch [i].techName);
+					//Generates buttons based on availale info, doesnt gen button if tech isnt avaiable or it has been purchased
 				}
 			}
 		}
 	}
 
-	public void clearOldButtons() {
+	public void clearOldButtons() {//deleting all old buttons
 		for (int i = scrollContent.transform.childCount - 1; i >= 0; i--) {
 			GameObject childButton = scrollContent.transform.GetChild (i).gameObject;
 			if (childButton.name != "ButtonTemplate") {

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class clearForest : defaultBuilding {
 
+	//empty shell for clearing forest
+
 	public clearForest() {
 		tileTitle = "Clear Forest";
 		tileDescription = "";

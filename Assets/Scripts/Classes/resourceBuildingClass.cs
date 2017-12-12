@@ -46,7 +46,6 @@ public class resourceBuildingClass {
 			resourceType = rType;
 			efficiency = e;
 			costs = c;
-			//placeableTileTypes = pTT;
 			adjBonusTiles = aBT;
 			adjPenaltyTiles = aPT;
 		}
@@ -96,8 +95,6 @@ public class resourceBuildingClass {
 			}
 		}
 
-		//Debug.Log("Bonus: " + tempBonusTotal + ", Penalty: " + tempPenaltyTotal);
-
 		float totalBonus = tempBonusTotal + tempPenaltyTotal;
 
 		return totalBonus;
@@ -105,7 +102,6 @@ public class resourceBuildingClass {
 
 	public static bool readResourcesForPlacingBuilding (resourceTypeCost[] costs) {
 		int totalOkay = 0;//total for adding up if all resource types are good
-		//Debug.Log (costs.Length);
 
 		for (int i = 0; costs.Length > i; i++) { //going through all the resource type requirements
 			string tempCostType = costs [i].resourceType;
@@ -135,8 +131,6 @@ public class resourceBuildingClass {
 			};
 		}
 
-		//Debug.Log (totalOkay);
-
 		if (totalOkay >= costs.Length) {
 			return true;
 		} else {
@@ -160,13 +154,4 @@ public class resourceBuildingClass {
 			}
 		}
 	}
-	/*
-	public static bool checkPlacementType (resourceBuildingStats stats, string tileType) {
-		for (int i = 0; stats.placeableTileTypes.Length > i; i++) {
-			if (stats.placeableTileTypes [i].Contains (tileType)) {
-				return true;
-			}
-		}
-		return false;
-	}*/
 }

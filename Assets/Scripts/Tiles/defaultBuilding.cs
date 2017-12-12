@@ -6,6 +6,8 @@ using System;
 
 public class defaultBuilding : MonoBehaviour {
 
+	//default buildign script
+
 	public GameObject tileOutlineSprite;
 
 	public Vector3 worldPosition;
@@ -23,14 +25,18 @@ public class defaultBuilding : MonoBehaviour {
 	private Transform trSelect = null;
 	private bool selected = false;
 
+
 	private bool isInfoPanelActive = false;
+
 
 	private float timer = 2.0f;
 	private bool fixedTiles = false;
 
+	//Resource deliver node values
 	public float resourceOutTick = 5.0f;
 	public GameObject resourceDeliveryNodePrefab;
 	public List<baseGridPosition> pathToBase;
+
 
 	public bool isHoverMode = false;
 
@@ -45,6 +51,7 @@ public class defaultBuilding : MonoBehaviour {
 	private bool isDisabled = false;
 	public GameObject ThreeDObjects;
 
+	//default constructor
 	public defaultBuilding() {
 		tileTitle = "default";
 		tileDescription = "default description here";
@@ -93,8 +100,8 @@ public class defaultBuilding : MonoBehaviour {
 	protected virtual void SpawnResourceDeliveryNode(string type, float amount) {
 		if (isDisabled == false) {
 			resourceDelivery resourceNode = ((GameObject)Instantiate (resourceDeliveryNodePrefab, transform.position, Quaternion.Euler (new Vector3 ()))).GetComponent<resourceDelivery> ();
-			resourceNode.sourceBuilding = this.gameObject.GetComponent<baseGridPosition> ();
-			resourceNode.toLocation = GameObject.Find ("homeBase").GetComponent<baseGridPosition> ();
+			resourceNode.sourceBuilding = this.gameObject.GetComponent<baseGridPosition> ();//spawning the delivery node, and inputing its route location
+			resourceNode.toLocation = GameObject.Find ("homeBase").GetComponent<baseGridPosition> ();//TODO add way to change homing location
 
 			resourceBuildingClass.resourceTypeCost temp = new resourceBuildingClass.resourceTypeCost ();
 			temp.resourceType = type;
@@ -163,7 +170,7 @@ public class defaultBuilding : MonoBehaviour {
 		descriptionText.text = tileDescription;
 	}
 
-	public void readPlaceTiles() {
+	public void readPlaceTiles() {//reading the building's placement tiles from the building construction script
 		for (int i = 0; i < enabledBuildingList.Instance.availableBuildings.Length; i++) {
 			if (enabledBuildingList.Instance.availableBuildings [i].buildingName == tileTitle) {
 				placeableTiles = enabledBuildingList.Instance.availableBuildings [i].placeableTileTypes;
@@ -171,7 +178,7 @@ public class defaultBuilding : MonoBehaviour {
 		}
 	}
 
-	void disableTile() {
+	void disableTile() {//disabling the building so its invisible, but doesnt dissapear from the world for pathfinding purposes
 		this.gameObject.GetComponent<SpriteRenderer> ().sprite = null;
 		if (ThreeDObjects != null) {
 			ThreeDObjects.SetActive (false);

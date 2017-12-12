@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class baseGridPosition : MonoBehaviour {
+	//TODO comment and format
 
 	//Pathfinding values
 	public GameObject PathFrom;// { get; set; }
@@ -249,30 +250,6 @@ public class baseGridPosition : MonoBehaviour {
 				}
 			}
 		}
-		/*
-		for (int i = 0; i < penalty.Length; i++) {
-			string tempTileType = penalty [i].tileType;
-
-			for (int j = 0; j < adjacentTiles.Length; j++) {
-				if (adjTiles [i].gameObject != null) {
-					if (adjTiles [j].GetComponent<tileHandler> () != null) { //if a default tile with no building
-						if (adjTiles [j].GetComponent<tileHandler> ().tileType.Contains (tempTileType)) {
-							arrowList [j].SetActive (true);
-							arrowList [j].GetComponent<Renderer> ().material.color = Color.red;
-						}else {
-							arrowList [j].SetActive (false);
-						}
-					} else { //if a tile with a building
-						if (adjTiles [j].name.Contains (tempTileType)) {
-							arrowList [j].SetActive (true);
-							arrowList [j].GetComponent<Renderer> ().material.color = Color.red;
-						}else {
-							arrowList [j].SetActive (false);
-						}
-					}
-				}
-			}
-		}*/
 	}
 
 	public void disableArrows() {

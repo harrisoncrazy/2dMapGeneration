@@ -37,6 +37,7 @@ public class stoneGatherer : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.stoneGather.buildingCosts;
 
+		//EXAMPLE ADJACENCY BONUS CONSTRUCTOR
 		/*
 		resourceBuildingClass.adjBonus heavyRockBonus = new resourceBuildingClass.adjBonus ("Heavy Rock", 0.2f);
 		resourceBuildingClass.adjBonus lightRockBonus = new resourceBuildingClass.adjBonus ("Light Rock", 0.1f);

@@ -35,25 +35,11 @@ public class woodHouse : defaultBuilding {
 	}
 
 	void constructResourceStats() {
-		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodHouse.buildingCosts;
+		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodHouse.buildingCosts;//houses gain no bonuses
 
-		/*
-		resourceBuildingClass.adjBonus forestBonus = new resourceBuildingClass.adjBonus ("Forest", 0.1f);
-		resourceBuildingClass.adjBonus baseBonus = new resourceBuildingClass.adjBonus ("Base", 0.5f);
-*/
-
-		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { /*forestBonus, baseBonus*/ };
-
-		/*
-		resourceBuildingClass.adjPenalty stonePenalty = new resourceBuildingClass.adjPenalty ("Rock", 0.1f);
-		resourceBuildingClass.adjPenalty buildingPenalty = new resourceBuildingClass.adjPenalty ("Building", 0.2f);
-		resourceBuildingClass.adjPenalty mountainPenalty = new resourceBuildingClass.adjPenalty ("Mountain", 0.3f);
-		*/
+		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] {  };
 
 		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {
-			/*stonePenalty,
-			buildingPenalty,
-			mountainPenalty*/
 		};
 
 		woodHouseStats = new resourceBuildingClass.resourceBuildingStats ("Manpower", defaultManpowerReturn, tempCosts, tempBonus, tempPenalty); 

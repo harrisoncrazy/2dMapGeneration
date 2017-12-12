@@ -106,25 +106,4 @@ public class resourceDelivery : MonoBehaviour {
 			}
 		}
 	}
-
-	/*
-	void OnTriggerEnter(Collider other) {
-		Debug.Log (nodeDelivery.Count);
-		Debug.Log (nodeDelivery [0].cost);
-		if (this.isDestroyed) {
-			for (int i = 0; i <= other.GetComponent<resourceDelivery> ().nodeDelivery.Count - 1; i++) {
-				resourceBuildingClass.resourceTypeCost temp = new resourceBuildingClass.resourceTypeCost ();
-				temp.resourceType = nodeDelivery [i].resourceType;
-				temp.cost = nodeDelivery [i].cost;
-
-				other.GetComponent<resourceDelivery> ().nodeDelivery.Add (temp);
-			}
-
-			Destroy (this.gameObject);
-		} else {
-			resourceDelivery otherDeliverer = other.gameObject.GetComponent<resourceDelivery> ();
-			if (otherDeliverer)
-				otherDeliverer.isDestroyed = true;
-		}
-	}*/
 }

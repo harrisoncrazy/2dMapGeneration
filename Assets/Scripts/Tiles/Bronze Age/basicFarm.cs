@@ -6,7 +6,7 @@ public class basicFarm : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats basicFarmStats = new resourceBuildingClass.resourceBuildingStats();
 
-	private float defaultFoodReturn = 3.0f;
+	private float defaultFoodReturn = 3.0f;//TODO edit wait value for food returns
 	public float foodReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public basicFarm() {
@@ -36,7 +36,7 @@ public class basicFarm : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
-		resourceBuildingClass.adjBonus noBonus = new resourceBuildingClass.adjBonus ("None", 0.1f);
+		resourceBuildingClass.adjBonus noBonus = new resourceBuildingClass.adjBonus ("None", 0.1f);//no bonus or penalties at this tier
 		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { noBonus };
 
 		resourceBuildingClass.adjPenalty noPenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);

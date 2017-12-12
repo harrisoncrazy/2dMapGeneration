@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class clearStone : defaultBuilding {
 
+	//Basic empty building script for clearing stone tiles
+
 	public clearStone() {
 		tileTitle = "Clear Rocks";
 		tileDescription = "";

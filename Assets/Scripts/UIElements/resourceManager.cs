@@ -19,7 +19,7 @@ public class resourceManager : MonoBehaviour {
 	private float stonePerTick;
 	public Text stoneOutText;
 
-	private float oreTotal = 999;
+	private float oreTotal = 999;//TODO add way to hide before miner is unlocked
 	private float orePerTick;
 	public Text oreOutText;
 
@@ -28,7 +28,7 @@ public class resourceManager : MonoBehaviour {
 	public Text manpowerOutText;
 	public int maxManpower = 999;
 
-	private float researchTotal = 999;
+	private float researchTotal = 999;//TODO add way to hide before research unlocked
 	private float researchTick;
 	public Text researchOutText;
 
@@ -41,7 +41,7 @@ public class resourceManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		woodOutText.text = woodTotal.ToString("F1");
+		woodOutText.text = woodTotal.ToString("F1");//restricting the decimal value of output numbers
 		foodOutText.text = foodTotal.ToString("F1");
 		stoneOutText.text = stoneTotal.ToString("F1");
 		oreOutText.text = oreTotal.ToString ("F1");
@@ -83,19 +83,6 @@ public class resourceManager : MonoBehaviour {
 		
 
 	//TICKS
-	/*
-	public void woodResourceTick() {
-		woodTotal += woodPerTick;
-	}
-
-	public void foodResourceTick() {
-		foodTotal += foodPerTick;
-	}
-
-	public void stoneResourceTick() {
-		stoneTotal += stonePerTick;
-	}*/
-
 	public void manpowerResourceTick() {
 		manpowerTotal += manpowerPerTick;
 	}

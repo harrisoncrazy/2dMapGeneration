@@ -35,29 +35,9 @@ public class foodGatherer : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.foodGather.buildingCosts;
 
-		/*
-		resourceBuildingClass.adjBonus waterBonus = new resourceBuildingClass.adjBonus ("Ocean", 0.2f);
-		resourceBuildingClass.adjBonus plainGrassBonus = new resourceBuildingClass.adjBonus ("Grassland", 0.1f);
-		resourceBuildingClass.adjBonus baseBonus = new resourceBuildingClass.adjBonus ("Base", 0.5f);
-		*/
+		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] {};
 
-		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] {
-			/*waterBonus,
-			plainGrassBonus,
-			baseBonus*/
-		};
-			
-		/*
-		resourceBuildingClass.adjPenalty buildingPenalty = new resourceBuildingClass.adjPenalty ("Building", 0.2f);
-		resourceBuildingClass.adjPenalty sandPenalty = new resourceBuildingClass.adjPenalty ("Sand", 0.1f);
-		resourceBuildingClass.adjPenalty snowPenalty = new resourceBuildingClass.adjPenalty ("Snow", 0.1f);
-		*/
-
-		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {
-			/*sandPenalty,
-			snowPenalty,
-			buildingPenalty*/
-		};
+		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {};
 
 		foodGathererStats = new resourceBuildingClass.resourceBuildingStats ("Food", defaultFoodReturn, tempCosts, tempBonus, tempPenalty); 
 

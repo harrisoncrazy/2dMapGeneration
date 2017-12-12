@@ -6,6 +6,8 @@ public class baseHandler : defaultBuilding {
 
 	public static baseHandler Instance;
 
+	//TODO add upgrade path to home base (based on current tier of houses)
+
 	public baseHandler() {
 		tileTitle = "Home Base";
 		tileDescription = "The main center of your city! Everything starts here!";
