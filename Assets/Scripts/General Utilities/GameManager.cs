@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-
+	//TODO maybe move building construction functions to seperate script?
+	//TODO Comment script
 	public static GameManager Instance;
 
 	//pathfinding values
@@ -21,6 +22,10 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject currentHoveredTile;
 	public GameObject spawnedBuildingPrefab;
+
+	//Default grassland prefab for clearing
+	public GameObject defaultClearedForest;
+	public GameObject defaultClearedStone;
 
 	//building stuff
 	//STONE AGE
@@ -56,6 +61,10 @@ public class GameManager : MonoBehaviour {
 	}
 
 	//placement bools
+	//TILE CLEARING
+	public buildingPlaceMode forestClear;
+	public buildingPlaceMode stoneClear;
+
 	//STONE AGE
 	public buildingPlaceMode woodGather;
 	public buildingPlaceMode stoneGather;
@@ -91,9 +100,13 @@ public class GameManager : MonoBehaviour {
 	void Start () {
 		Instance = this;
 
+		//TILE CLEARING
+		forestClear = new buildingPlaceMode("forestClear", defaultClearedForest);
+		stoneClear = new buildingPlaceMode("stoneClear", defaultClearedStone);
+
 		//STONE AGE
 		woodGather = new buildingPlaceMode ("woodGather", woodGatherPrefab);
-		stoneGather= new buildingPlaceMode ("stoneGather", stoneGatherPrefab);
+		stoneGather = new buildingPlaceMode ("stoneGather", stoneGatherPrefab);
 		foodGather = new buildingPlaceMode ("foodGather", foodGatherPrefab);
 		leanToHouse = new buildingPlaceMode ("leanToHouse", leanToHousePrefab);
 		wiseWomanHut = new buildingPlaceMode ("wiseWomanHut", wiseWomanHutPrefab);
@@ -137,6 +150,76 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public bool clearingForestTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		defaultBuilding forestClear = ((GameObject)Instantiate (defaultClearedForest, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<defaultBuilding> ();//TODO add way of changing to different element default tiles
+
+		for (int i = 0; i < enabledBuildingList.Instance.forestClear.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.forestClear.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.forestClear.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (forestClear.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+			
+		forestClear.GetComponent<tileHandler> ().tileType = "Grassland";
+
+		forestClear.name = "Tile X:" + x + " Y:" + y;
+
+		forestClear.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		forestClear.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		forestClear.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		forestClear.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		forestClear.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		forestClear.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		forestClear.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		forestClear.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = forestClear.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.forestClear.buildingCosts);
+
+		return true;
+	}
+
+	public bool clearingStoneTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		defaultBuilding stoneClear = ((GameObject)Instantiate (defaultClearedStone, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<defaultBuilding> ();//TODO add way of changing to different element default tiles
+
+		for (int i = 0; i < enabledBuildingList.Instance.stoneClear.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.stoneClear.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.stoneClear.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (stoneClear.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		stoneClear.GetComponent<tileHandler> ().tileType = "Grassland";
+
+		stoneClear.name = "Tile X:" + x + " Y:" + y;
+
+		stoneClear.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		stoneClear.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		stoneClear.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		stoneClear.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		stoneClear.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		stoneClear.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		stoneClear.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		stoneClear.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = stoneClear.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.stoneClear.buildingCosts);
+
+		return true;
+	}
+
 	public bool placingWoodGathererTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		woodGatherer woodGather = ((GameObject)Instantiate (woodGatherPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<woodGatherer> ();
 
@@ -149,12 +232,16 @@ public class GameManager : MonoBehaviour {
 		}
 			
 		for (int i = 0; i < enabledBuildingList.Instance.woodGather.placeableTileTypes.Length; i++) {
-			if (enabledBuildingList.Instance.woodGather.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.woodGather.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.woodGather.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
 				Destroy (woodGather.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
 			}
 		}
+
 
 		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
 		woodGather.pathToBase = pathfindingManager.Instance.GetPath ();
@@ -191,7 +278,10 @@ public class GameManager : MonoBehaviour {
 		}
 
 		for (int i = 0; i < enabledBuildingList.Instance.stoneGather.placeableTileTypes.Length; i++) {
-			if (enabledBuildingList.Instance.stoneGather.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.stoneGather.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.stoneGather.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
 				Destroy (stoneGather.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
@@ -233,12 +323,16 @@ public class GameManager : MonoBehaviour {
 		}
 
 		for (int i = 0; i < enabledBuildingList.Instance.foodGather.placeableTileTypes.Length; i++) {
-			if (enabledBuildingList.Instance.foodGather.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.foodGather.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.foodGather.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
 				Destroy (foodGather.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
 			}
 		}
+
 
 		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
 		foodGather.pathToBase = pathfindingManager.Instance.GetPath ();
@@ -267,7 +361,10 @@ public class GameManager : MonoBehaviour {
 		leanToHouse house = ((GameObject)Instantiate (leanToHousePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<leanToHouse> ();
 
 		for (int i = 0; i < enabledBuildingList.Instance.leanToHouse.placeableTileTypes.Length; i++) {
-			if (enabledBuildingList.Instance.leanToHouse.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.leanToHouse.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.leanToHouse.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
 				Destroy (house.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
@@ -296,7 +393,10 @@ public class GameManager : MonoBehaviour {
 		wiseWomanHut hut = ((GameObject)Instantiate (wiseWomanHutPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<wiseWomanHut> ();
 
 		for (int i = 0; i < enabledBuildingList.Instance.wiseWomanHut.placeableTileTypes.Length; i++) {
-			if (enabledBuildingList.Instance.wiseWomanHut.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.wiseWomanHut.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.wiseWomanHut.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
 				Destroy (hut.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
@@ -333,7 +433,10 @@ public class GameManager : MonoBehaviour {
 		}
 
 		for (int i = 0; i < enabledBuildingList.Instance.basicLumberer.placeableTileTypes.Length; i++) {
-			if (enabledBuildingList.Instance.basicLumberer.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.basicLumberer.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.basicLumberer.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
 				Destroy (lumberer.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
@@ -374,8 +477,11 @@ public class GameManager : MonoBehaviour {
 			return false;
 		}
 
-		for (int i = 0; i < enabledBuildingList.Instance.basicLumberer.placeableTileTypes.Length; i++) {
-			if (enabledBuildingList.Instance.basicLumberer.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+		for (int i = 0; i < enabledBuildingList.Instance.basicQuarry.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.basicQuarry.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.basicQuarry.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
 				Destroy (quarry.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
@@ -416,8 +522,11 @@ public class GameManager : MonoBehaviour {
 			return false;
 		}
 
-		for (int i = 0; i < enabledBuildingList.Instance.basicLumberer.placeableTileTypes.Length; i++) {
-			if (enabledBuildingList.Instance.basicLumberer.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+		for (int i = 0; i < enabledBuildingList.Instance.basicFarm.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.basicFarm.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.basicFarm.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
 				Destroy (farm.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
@@ -451,7 +560,10 @@ public class GameManager : MonoBehaviour {
 		woodHouse house = ((GameObject)Instantiate (woodHousePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<woodHouse> ();
 
 		for (int i = 0; i < enabledBuildingList.Instance.woodHouse.placeableTileTypes.Length; i++) {
-			if (enabledBuildingList.Instance.woodHouse.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.woodHouse.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.woodHouse.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
 				Destroy (house.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
@@ -479,8 +591,11 @@ public class GameManager : MonoBehaviour {
 	public bool placingChiefsHutTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		chiefsHut house = ((GameObject)Instantiate (chiefsHutPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<chiefsHut> ();
 
-		for (int i = 0; i < enabledBuildingList.Instance.woodHouse.placeableTileTypes.Length; i++) {
-			if (enabledBuildingList.Instance.woodHouse.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+		for (int i = 0; i < enabledBuildingList.Instance.chiefsHut.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.chiefsHut.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.chiefsHut.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
 				Destroy (house.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
@@ -516,8 +631,11 @@ public class GameManager : MonoBehaviour {
 			return false;
 		}
 
-		for (int i = 0; i < enabledBuildingList.Instance.woodHouse.placeableTileTypes.Length; i++) {
-			if (enabledBuildingList.Instance.basicMine.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
+		for (int i = 0; i < enabledBuildingList.Instance.basicMine.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.basicMine.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.basicMine.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
 				Destroy (mine.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
@@ -558,9 +676,12 @@ public class GameManager : MonoBehaviour {
 			return false;
 		}
 
-		for (int i = 0; i < enabledBuildingList.Instance.basicLumberer.placeableTileTypes.Length; i++) {
-			if (enabledBuildingList.Instance.basicLumberer.placeableTileTypes [i] != generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType) {
-				Destroy (node.gameObject);
+		for (int i = 0; i < enabledBuildingList.Instance.gatherNode.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.gatherNode.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.gatherNode.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (gatherNode.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
 			}
@@ -600,18 +721,21 @@ public class GameManager : MonoBehaviour {
 	private void addBuildingBools() {
 		buildingBools = new buildingPlaceMode[125];
 
-		buildingBools[0] = woodGather;
-		buildingBools[1] = stoneGather;
-		buildingBools[2] = foodGather;
-		buildingBools[3] = leanToHouse;
-		buildingBools [4] = wiseWomanHut;
+		buildingBools [0] = forestClear;
+		buildingBools [1] = stoneClear;
 
-		buildingBools [5] = basicLumberer;
-		buildingBools [6] = basicQuarry;
-		buildingBools [7] = basicFarm;
-		buildingBools [8] = woodHouse;
-		buildingBools [9] = chiefsHut;
-		buildingBools [10] = basicMine;
+		buildingBools[2] = woodGather;
+		buildingBools[3] = stoneGather;
+		buildingBools[4] = foodGather;
+		buildingBools[5] = leanToHouse;
+		buildingBools [6] = wiseWomanHut;
+
+		buildingBools [7] = basicLumberer;
+		buildingBools [8] = basicQuarry;
+		buildingBools [9] = basicFarm;
+		buildingBools [10] = woodHouse;
+		buildingBools [11] = chiefsHut;
+		buildingBools [12] = basicMine;
 
 
 		//buildingBools [8] = gatherNodeBasic;
@@ -643,8 +767,8 @@ public class GameManager : MonoBehaviour {
 
 					defaultBuilding building = ((GameObject)Instantiate (buildingBools[i].buildingPrefab, new Vector3 (), Quaternion.Euler (new Vector3 ()))).GetComponent<defaultBuilding> ();
 
-					building.GetComponent<defaultBuilding> ().readPlaceTiles ();
-					building.GetComponent<defaultBuilding> ().isHoverMode = true;
+					building.readPlaceTiles ();
+					building.isHoverMode = true;
 					building.GetComponent<baseGridPosition> ().isHoverMode = true;
 
 					spawnedBuildingPrefab = building.gameObject;

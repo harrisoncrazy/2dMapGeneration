@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class buildingCosts : MonoBehaviour {
 
+	//TODO FORMATTING
+
 	public static buildingCosts Instance;
 
 	public struct buildingInfo {
@@ -15,6 +17,10 @@ public class buildingCosts : MonoBehaviour {
 			buildingDescription = description;
 		}
 	}
+
+	//Tile Clearing
+	public buildingInfo forestClear;
+	public buildingInfo stoneClear;
 
 	//Stone Era
 	public buildingInfo woodGather;
@@ -36,11 +42,31 @@ public class buildingCosts : MonoBehaviour {
 	void Start () {
 		Instance = this;
 
+		//TILE CLEARING
+		//Forest Clearing
+		resourceBuildingClass.resourceTypeCost manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 5);
+		resourceBuildingClass.resourceTypeCost foodCost = new resourceBuildingClass.resourceTypeCost ("Food", 10);
+		resourceBuildingClass.resourceTypeCost[] forestClearUseCost = new resourceBuildingClass.resourceTypeCost[] {
+			manpowerCost,
+			foodCost
+		};
+		forestClear = new buildingInfo (forestClearUseCost, "Clears out the forest on a tile.");
+
+		//Stone Clearing
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 10);
+		foodCost = new resourceBuildingClass.resourceTypeCost ("Food", 15);
+		resourceBuildingClass.resourceTypeCost[] stoneClearUseCost = new resourceBuildingClass.resourceTypeCost[] {
+			manpowerCost,
+			foodCost
+		};
+		stoneClear = new buildingInfo (stoneClearUseCost, "Clears out the rocks on a tile.");
+
+
 		//STONE ERA
 		//Wood Gatherer
 		resourceBuildingClass.resourceTypeCost woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 5);
 		resourceBuildingClass.resourceTypeCost stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 5);
-		resourceBuildingClass.resourceTypeCost manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 1);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 1);
 		resourceBuildingClass.resourceTypeCost[] woodGatherBuidlingCost = new resourceBuildingClass.resourceTypeCost[] {
 			woodCost,
 			stoneCost,
@@ -73,7 +99,7 @@ public class buildingCosts : MonoBehaviour {
 		//LeanTo House
 		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 15);
 		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 10);
-		resourceBuildingClass.resourceTypeCost foodCost = new resourceBuildingClass.resourceTypeCost ("Food", 20);
+		foodCost = new resourceBuildingClass.resourceTypeCost ("Food", 20);
 		resourceBuildingClass.resourceTypeCost[] leanToHouseBuildingCost = new resourceBuildingClass.resourceTypeCost[] {
 			woodCost,
 			stoneCost,

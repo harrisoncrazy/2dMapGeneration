@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class enabledBuildingList : MonoBehaviour {
 
+	//TODO comment extensive list of what to do to add a building
+
 	public static enabledBuildingList Instance;
 
 	public struct buildingData {
@@ -27,6 +29,10 @@ public class enabledBuildingList : MonoBehaviour {
 			return buildingCosts.Instance.ReadResourceTotals (costTotals);
 		}
 	}
+
+	//Tile Clearing
+	public buildingData forestClear;
+	public buildingData stoneClear;
 
 	//Stone Era
 	public buildingData woodGather;
@@ -58,8 +64,15 @@ public class enabledBuildingList : MonoBehaviour {
 	IEnumerator delayStart() {
 		yield return new WaitForSeconds (1.0f);
 
+		//Tile Clearing
+		string[] tempPlaceTiles = new string[] { "Forest" };
+		forestClear = new buildingData(false, "Clear Forest", buildingCosts.Instance.forestClear, "forestClear", tempPlaceTiles);
+
+		tempPlaceTiles = new string[] { "Rocks" };
+		stoneClear = new buildingData(false, "Clear Rocks", buildingCosts.Instance.stoneClear, "stoneClear", tempPlaceTiles);
+
 		//Stone Era
-		string[] tempPlaceTiles = new string[] { "Grassland" };
+		tempPlaceTiles = new string[] { "Grassland", "Default" };
 		woodGather = new buildingData (true, "Wood Gatherer", buildingCosts.Instance.woodGather, "woodGather", tempPlaceTiles);
 		stoneGather = new buildingData (true, "Stone Gatherer", buildingCosts.Instance.stoneGather, "stoneGather", tempPlaceTiles);
 		foodGather = new buildingData (true, "Food Gatherer", buildingCosts.Instance.foodGather, "foodGather", tempPlaceTiles);
@@ -82,17 +95,20 @@ public class enabledBuildingList : MonoBehaviour {
 	}
 
 	public void setArray() {
-		availableBuildings [0] = woodGather;
-		availableBuildings [1] = stoneGather;
-		availableBuildings [2] = foodGather;
-		availableBuildings [3] = leanToHouse;
-		availableBuildings [4] = wiseWomanHut;
-		availableBuildings [5] = basicLumberer;
-		availableBuildings [6] = basicQuarry;
-		availableBuildings [7] = basicFarm;
-		availableBuildings [8] = woodHouse;
-		availableBuildings [9] = chiefsHut;
-		availableBuildings [10] = basicMine;
+		availableBuildings [0] = forestClear;
+		availableBuildings [1] = stoneClear;
+
+		availableBuildings [2] = woodGather;
+		availableBuildings [3] = stoneGather;
+		availableBuildings [4] = foodGather;
+		availableBuildings [5] = leanToHouse;
+		availableBuildings [6] = wiseWomanHut;
+		availableBuildings [7] = basicLumberer;
+		availableBuildings [8] = basicQuarry;
+		availableBuildings [9] = basicFarm;
+		availableBuildings [10] = woodHouse;
+		availableBuildings [11] = chiefsHut;
+		availableBuildings [12] = basicMine;
 
 		//availableBuildings [8] = gatherNode;
 	}

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class researchHandler : MonoBehaviour {
 
+	//TODO fix research upgrade bug (upgrade available when research not purchased, also upgrading adjacent tiles??)
+
 	public static researchHandler Instance;
 
 	public bool isResearchEnabled = false;
@@ -39,7 +41,7 @@ public class researchHandler : MonoBehaviour {
 	}
 
 	public void tierOneLumber() { //enables an upgraded lumber gatherer, allows for the clearing of forest tiles
-		//TODO make way to clear tree tiles
+		enabledBuildingList.Instance.forestClear.isEnabled = true;
 		enabledBuildingList.Instance.basicLumberer.isEnabled = true;
 		enabledBuildingList.Instance.woodGather.isEnabled = false;
 		enabledBuildingList.Instance.setArray ();
@@ -51,7 +53,7 @@ public class researchHandler : MonoBehaviour {
 	}
 
 	public void tierOneStone() {//enables an upgraded stone gatherer, allows for the clearing of stone tiles
-		//TODO make way to clear stone tiles
+		enabledBuildingList.Instance.stoneClear.isEnabled = true;
 		enabledBuildingList.Instance.basicQuarry.isEnabled = true;
 		enabledBuildingList.Instance.stoneGather.isEnabled = false;
 		enabledBuildingList.Instance.setArray ();

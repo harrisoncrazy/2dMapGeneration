@@ -55,7 +55,7 @@ public class generationManager : MonoBehaviour {
 
 	public GameObject mountainTile;
 
-	private float generationTimerOne = 1.0f;
+	private float generationTimerOne = 2.0f;
 	private float generationTimerTwo = 2.0f;
 	//private float generationTimerThree = 1.0f;
 	public bool genStepOneDone = false;
@@ -194,11 +194,11 @@ public class generationManager : MonoBehaviour {
 								}
 							}
 						}
-						if (map [i] [j].GetComponent<tileHandler> () != null && map [i] [j].GetComponent<tileHandler> ().tileType == "Dirt") {//finding the dirt tiles and randomizing
+						if (map [i] [j].GetComponent<tileHandler> () != null && map [i] [j].GetComponent<tileHandler> ().tileType == "Default Dirt") {//finding the dirt tiles and randomizing
 							if (map [i] [j].GetComponent<tileHandler> ().newSpriteSet == false) {
 								int rand = Random.Range (1, 101);
 								if (rand <= 35) {
-									swapTiles (map [i] [j], defaultDirt, "DirtGrassland");
+									swapTiles (map [i] [j], defaultDirt, "Default Dirt");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 								} else if (rand >= 35 && rand <= 70) {
 									int rand2 = Random.Range (1, 2);
@@ -226,7 +226,7 @@ public class generationManager : MonoBehaviour {
 							if (map [i] [j].GetComponent<tileHandler> ().newSpriteSet == false) {
 								int rand = Random.Range (1, 101);
 								if (rand <= 35) {
-									swapTiles (map [i] [j], GrassSnowTile, "SnowGrassland");
+									swapTiles (map [i] [j], GrassSnowTile, "Default Snow");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 								} else if (rand >= 35 && rand <= 60) {
 									swapTiles (map [i] [j], LightForestSnowTile, "Light Forest Snow");
@@ -245,11 +245,11 @@ public class generationManager : MonoBehaviour {
 							}
 						}
 
-						if (map [i] [j].GetComponent<tileHandler> () != null && map [i] [j].GetComponent<tileHandler> ().tileType == "Stone") {//finding the stone tiles and randomizing
+						if (map [i] [j].GetComponent<tileHandler> () != null && map [i] [j].GetComponent<tileHandler> ().tileType == "Default Stone") {//finding the stone tiles and randomizing
 							if (map [i] [j].GetComponent<tileHandler> ().newSpriteSet == false) {
 								int rand = Random.Range (1, 101);
 								if (rand <= 45) {
-									swapTiles (map [i] [j], defaultStone, "StoneGrassland");
+									swapTiles (map [i] [j], defaultStone, "Default Stone");
 									map [i] [j].GetComponent<tileHandler> ().newSpriteSet = true;
 								} else if (rand >= 45 && rand <= 75) {
 									swapTiles (map [i] [j], LightForestStone, "Light Forest Stone");
@@ -391,6 +391,9 @@ public class generationManager : MonoBehaviour {
 		tile.GetComponent<baseGridPosition>().mapPosition.X = xPosOri;
 		tile.GetComponent<baseGridPosition>().mapPosition.Y = yPosOri;
 		tile.tileType = newTileType;
+
+		tile.foundAdjacent = true;
+
 		//tile.sr.sprite = HeavyRockTile;
 		tile.name = "Tile X:" + xPosOri + " Y:" + yPosOri;
 

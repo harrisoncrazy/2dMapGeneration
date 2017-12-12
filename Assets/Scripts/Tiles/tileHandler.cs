@@ -3,10 +3,10 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class tileHandler : MonoBehaviour {
-
+	//TODO Comment Script
 
 	//tile adjacentcy
-	bool foundAdjacent = false;
+	public bool foundAdjacent = false;
 
 	public GameObject tileOutlineSprite; //gameobject of highlight Sprite
 	public GameObject tileBlacked;
@@ -125,12 +125,14 @@ public class tileHandler : MonoBehaviour {
 
 		string[] tempStringList = GameManager.Instance.spawnedBuildingPrefab.GetComponent<defaultBuilding> ().placeableTiles;
 
+		//setting all tiles grey by default
 		this.GetComponent<baseGridPosition> ().hexOutline.SetActive (true);
 		this.GetComponent<baseGridPosition> ().hexOutline.GetComponent<Renderer> ().material.color = Color.grey;
 		this.GetComponent<baseGridPosition> ().hexOutline.GetComponent<Renderer> ().material.color = new Color(.5f, .5f, .5f, 0.35f);
 
+		//checking placeable tiles and making them green
 		for (int i = 0; i < tempStringList.Length; i++) {
-			if (tileType == tempStringList [i]) {
+			if (tileType.Contains(tempStringList [i])) {
 				this.GetComponent<baseGridPosition> ().hexOutline.GetComponent<Renderer> ().material.color = Color.green;
 				this.GetComponent<baseGridPosition> ().hexOutline.GetComponent<Renderer> ().material.color = new Color(0f, 1f, 0f, 0.35f);
 				currentBuildingPlaceable = true;
@@ -161,7 +163,19 @@ public class tileHandler : MonoBehaviour {
 							}
 						}
 					} else { //if placing a building
-						if (GameManager.Instance.checkPlacementAt ("woodGather")) {
+						if (GameManager.Instance.checkPlacementAt ("forestClear")) {
+							if (GameManager.Instance.clearingForestTile(this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+								inputHandler.Instance.disablePlacementMode ();
+								disableTile ();
+								GameManager.Instance.deleteSpawnedBuildingPrefab ();
+							}
+						} else if (GameManager.Instance.checkPlacementAt ("stoneClear")) {
+							if (GameManager.Instance.clearingStoneTile(this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
+								inputHandler.Instance.disablePlacementMode ();
+								disableTile ();
+								GameManager.Instance.deleteSpawnedBuildingPrefab ();
+							}
+						} else if (GameManager.Instance.checkPlacementAt ("woodGather")) {
 							if (GameManager.Instance.placingWoodGathererTile (this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
 								inputHandler.Instance.disablePlacementMode ();
 								disableTile ();
@@ -338,28 +352,33 @@ public class tileHandler : MonoBehaviour {
 	}
 
 	void checkAdjacentTilesStartup() {
+		//checking and setting tiletypes of adjacent tiles to biomes so generation manager can change/randomize them
+		//changes the tile tag, which generation manager then reads to randomize all default tiles
+
 		int numAdjOcean = 0;
 
-		for (int i = 0; i < this.GetComponent<baseGridPosition>().adjacentTiles.Length; i++) {
-			if (this.GetComponent<baseGridPosition>().adjacentTiles [i] != null && this.GetComponent<baseGridPosition>().adjacentTiles[i].GetComponent<tileHandler>() != null) {
-				string adjTileType = this.GetComponent<baseGridPosition>().adjacentTiles [i].GetComponent<tileHandler> ().tileType;
+		for (int i = 0; i < this.GetComponent<baseGridPosition>().adjacentTiles.Length; i++) {//iterating through adjacent tiles
+			if (this.GetComponent<baseGridPosition>().adjacentTiles [i] != null && this.GetComponent<baseGridPosition>().adjacentTiles[i].GetComponent<tileHandler>() != null) { //null check
+				
+				string adjTileType = this.GetComponent<baseGridPosition>().adjacentTiles [i].GetComponent<tileHandler> ().tileType;//setting temp string equal to current adjacent tile's tile type
+
 				switch (adjTileType) {
 				case "Sand":
 					if (!tileType.Contains("Sand")) {
 						//sr.sprite = generationManager.Instance.defaultDirt;
-						tileType = "Dirt";
+						tileType = "Default Dirt";
 					}
 					break;
 				case "Snow":
 					if (!tileType.Contains("Snow")) {
 						//sr.sprite = generationManager.Instance.defaultStone;
-						tileType = "Stone";
+						tileType = "Default Stone";
 					}
 					break;
 				case "Mountain":
 					if (!tileType.Contains("Mountain")) {
 						//sr.sprite = generationManager.Instance.defaultStone;
-						tileType = "Stone";
+						tileType = "Default Stone";
 					}
 					break;
 				case "Ocean":
@@ -369,7 +388,7 @@ public class tileHandler : MonoBehaviour {
 				}
 			}
 		}
-		if (numAdjOcean == 6) {
+		if (numAdjOcean == 6) {//if all six adjacent tiles are ocean, make this one ocean aswell. Stops 1 tile sized islands
 			//sr.sprite = generationManager.Instance.oceanTile;
 			tileType = "Ocean";
 		}
