@@ -31,7 +31,7 @@ public class resourceManager : MonoBehaviour {
 	public Text manpowerOutText;
 	public int maxManpower = 999;
 
-	private float researchTotal = 999;//TODO add way to hide before research unlocked
+	private float researchTotal = 99999;//TODO add way to hide before research unlocked
 	private float researchTick;
 	public Text researchOutText;
 

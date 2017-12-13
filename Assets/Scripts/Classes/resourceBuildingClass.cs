@@ -130,6 +130,11 @@ public class resourceBuildingClass {
 					totalOkay++;
 				}
 				break;
+			case "Metal":
+				if (tempCost <= resourceManager.Instance.returnTotalMetal ()) {
+					totalOkay++;
+				}
+				break;
 			case "Manpower":
 				if (tempCost <= resourceManager.Instance.returnTotalManpower ()) {
 					totalOkay++;

@@ -1403,6 +1403,18 @@ MonoBehaviour:
     type: 2}
   basicBlacksmithPrefab: {fileID: 1770288559011520, guid: 13474353161c8ef46820d6ed66c85823,
     type: 2}
+  sawmillPrefab: {fileID: 1539887025403238, guid: 6f9d76abd8b770b4794efd1c347043bf,
+    type: 2}
+  advancedQuarryPrefab: {fileID: 1980432259988188, guid: d96983ebb630e9e42a2726e29b9ec05b,
+    type: 2}
+  advancedFarmPrefab: {fileID: 1997636311125924, guid: 4f0d9046c55274648a4fd1b8315b309c,
+    type: 2}
+  stoneHousePrefab: {fileID: 1549630921077228, guid: ec6e32a2ab1f4a444aeffd119ee4610c,
+    type: 2}
+  castlePrefab: {fileID: 1651009402717928, guid: 693bda688fd895d428cf039f503bd441,
+    type: 2}
+  advancedMinePrefab: {fileID: 1550334673428944, guid: 2c478f0244821f646b8091fad39664a8,
+    type: 2}
   gatherNode: {fileID: 1041886273582156, guid: 47ed723060ca0d84b98f46ae39f6e07c, type: 2}
   tileInfoPanel: {fileID: 0}
   tileText: {fileID: 0}

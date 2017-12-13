@@ -53,10 +53,24 @@ public class enabledBuildingList : MonoBehaviour {
 	public buildingData woodHouse;
 	public buildingData chiefsHut;
 	public buildingData basicMine;
-
-	//Medieval Era
 	public buildingData basicBlacksmith;
 
+	//Medieval Era
+	public buildingData sawmill;
+	public buildingData advancedQuarry;
+	public buildingData advancedFarm;
+	public buildingData stoneHouse;
+	public buildingData castle;
+	public buildingData advancedMine;
+
+	//Renaissance Era
+	public buildingData shaftMine;
+	public buildingData smeltery;
+	public buildingData forestManager;//bonus wood building that provides large bonuses to adjacent wood cutting buildings
+	public buildingData explosiveQuarry;
+	public buildingData waterReservoir;//bonus food building that provides large bonuses to adjacent farms
+	public buildingData multiHouse;
+	public buildingData guildHouse;
 
 	public buildingData gatherNode;
 
@@ -94,9 +108,15 @@ public class enabledBuildingList : MonoBehaviour {
 		woodHouse = new buildingData (false, "Wooden House", buildingCosts.Instance.woodHouse, "woodHouse", tempPlaceTiles);
 		chiefsHut = new buildingData (false, "Chief's Hut", buildingCosts.Instance.chiefsHut, "chiefsHut", tempPlaceTiles);
 		basicMine = new buildingData (false, "Basic Mine", buildingCosts.Instance.basicMine, "basicMine", tempPlaceTiles);
+		basicBlacksmith = new buildingData (false, "Basic Blacksmith", buildingCosts.Instance.basicBlacksmith, "basicBlacksmith", tempPlaceTiles);
 
 		//Medieval Era
-		basicBlacksmith = new buildingData (false, "Basic Blacksmith", buildingCosts.Instance.basicBlacksmith, "basicBlacksmith", tempPlaceTiles);
+		sawmill = new buildingData(false, "Sawmill", buildingCosts.Instance.sawmill, "sawmill", tempPlaceTiles);
+		advancedQuarry = new buildingData (false, "Advanced Quarry", buildingCosts.Instance.advancedQuarry, "advancedQuarry", tempPlaceTiles);
+		advancedFarm = new buildingData (false, "Advanced Farm", buildingCosts.Instance.advancedFarm, "advancedFarm", tempPlaceTiles);
+		stoneHouse = new buildingData (false, "Stone House", buildingCosts.Instance.stoneHouse, "stoneHouse", tempPlaceTiles);
+		castle = new buildingData (false, "Castle", buildingCosts.Instance.castle, "castle", tempPlaceTiles);
+		advancedMine = new buildingData (false, "Advanced Mine", buildingCosts.Instance.advancedMine, "advancedMine", tempPlaceTiles);
 
 		gatherNode = new buildingData (false, "Basic Gather Point", buildingCosts.Instance.basicGatherNode, "gatherNode", tempPlaceTiles);
 
@@ -114,6 +134,7 @@ public class enabledBuildingList : MonoBehaviour {
 		availableBuildings [4] = foodGather;
 		availableBuildings [5] = leanToHouse;
 		availableBuildings [6] = wiseWomanHut;
+
 		availableBuildings [7] = basicLumberer;
 		availableBuildings [8] = basicQuarry;
 		availableBuildings [9] = basicFarm;
@@ -121,6 +142,13 @@ public class enabledBuildingList : MonoBehaviour {
 		availableBuildings [11] = chiefsHut;
 		availableBuildings [12] = basicMine;
 		availableBuildings [13] = basicBlacksmith;
+
+		availableBuildings [14] = sawmill;
+		availableBuildings [15] = advancedQuarry;
+		availableBuildings [16] = advancedFarm;
+		availableBuildings [17] = stoneHouse;
+		availableBuildings [18] = castle;
+		availableBuildings [19] = advancedMine;
 
 		//availableBuildings [8] = gatherNode;
 	}

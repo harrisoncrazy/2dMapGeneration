@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class basicMine : defaultBuilding {
+public class advancedMine : defaultBuilding {
 
-	public resourceBuildingClass.resourceBuildingStats basicMineStats = new resourceBuildingClass.resourceBuildingStats();
+	//TODO make adjacency bonuses and improve output
+
+	public resourceBuildingClass.resourceBuildingStats advancedMineStats = new resourceBuildingClass.resourceBuildingStats();
 
 	private float defaultOreReturn = 0.5f;
 	public float oreReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
-	public basicMine() {
-		tileTitle = "Basic Mine";
+	public advancedMine() {
+		tileTitle = "Advanced Mine";
 		tileDescription = "Digs into the ground for ore." + "\nProviding: " + oreReturn + " ore per turn.";
 	}
 
@@ -46,7 +48,7 @@ public class basicMine : defaultBuilding {
 			testPenaltyy
 		};
 
-		basicMineStats = new resourceBuildingClass.resourceBuildingStats ("Ore", defaultOreReturn, tempCosts, tempBonus, tempPenalty); 
+		advancedMineStats = new resourceBuildingClass.resourceBuildingStats ("Ore", defaultOreReturn, tempCosts, tempBonus, tempPenalty); 
 
 		readResourceEfficency ();
 	}
@@ -57,13 +59,13 @@ public class basicMine : defaultBuilding {
 			base.Update ();
 			resourceOutTick -= Time.deltaTime;
 			if (resourceOutTick <= 0) {
-				SpawnResourceDeliveryNode ("Ore", basicMineStats.efficiency);
+				SpawnResourceDeliveryNode ("Ore", advancedMineStats.efficiency);
 				readResourceEfficency ();
 				resourceOutTick = 5.0f;
 			}
 		} else if (isHoverMode == true) {
-			if (basicMineStats.adjBonusTiles != null) {
-				this.GetComponent<baseGridPosition> ().enableArrows (GameManager.Instance.currentHoveredTile.GetComponent<baseGridPosition> ().adjacentTiles, basicMineStats.adjBonusTiles, basicMineStats.adjPenaltyTiles);
+			if (advancedMineStats.adjBonusTiles != null) {
+				this.GetComponent<baseGridPosition> ().enableArrows (GameManager.Instance.currentHoveredTile.GetComponent<baseGridPosition> ().adjacentTiles, advancedMineStats.adjBonusTiles, advancedMineStats.adjPenaltyTiles);
 			}
 		}
 	}
@@ -82,13 +84,13 @@ public class basicMine : defaultBuilding {
 
 			setTileDescription ();
 
-			float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (basicMineStats, this.GetComponent<baseGridPosition> ().adjacentTiles);
+			float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (advancedMineStats, this.GetComponent<baseGridPosition> ().adjacentTiles);
 
 			oreReturn = defaultOreReturn + tempEfficency;
 
 			//Debug.Log ("Total Wood return: " + woodReturn);
 
-			basicMineStats.efficiency = oreReturn;
+			advancedMineStats.efficiency = oreReturn;
 		}
 	}
 }

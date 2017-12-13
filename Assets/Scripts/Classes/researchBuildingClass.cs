@@ -11,6 +11,7 @@ public class researchBuildingClass {
 		public string techDescription;
 		public bool isAvailbile;
 		public bool hasBeenPurchased;
+		public List<researchBuildingClass.technologyInfo> prerequisites;
 
 		public technologyInfo(string name, int cost, string displayName, string description, bool isOn) {
 			techName = name;
@@ -19,6 +20,7 @@ public class researchBuildingClass {
 			techDescription = description;
 			isAvailbile = isOn;
 			hasBeenPurchased = false;
+			prerequisites = new List<technologyInfo>();
 		}
 	}
 }

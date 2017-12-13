@@ -11,7 +11,7 @@ public class clearStone : defaultBuilding {
 		tileDescription = "";
 	}
 
-	void Start() {
+	new void Start() {
 		placeableTiles = enabledBuildingList.Instance.stoneClear.placeableTileTypes;
 
 		if (isHoverMode == false) {

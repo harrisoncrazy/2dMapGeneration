@@ -42,9 +42,15 @@ public class GameManager : MonoBehaviour {
 	public GameObject woodHousePrefab;
 	public GameObject chiefsHutPrefab;
 	public GameObject basicMinePrefab;
+	public GameObject basicBlacksmithPrefab;
 
 	//Medieval Era
-	public GameObject basicBlacksmithPrefab;
+	public GameObject sawmillPrefab;
+	public GameObject advancedQuarryPrefab;
+	public GameObject advancedFarmPrefab;
+	public GameObject stoneHousePrefab;
+	public GameObject castlePrefab;
+	public GameObject advancedMinePrefab;
 
 	public GameObject gatherNode;
 
@@ -81,9 +87,15 @@ public class GameManager : MonoBehaviour {
 	public buildingPlaceMode woodHouse;
 	public buildingPlaceMode chiefsHut;
 	public buildingPlaceMode basicMine;
+	public buildingPlaceMode basicBlacksmith;
 
 	//Medieval Era
-	public buildingPlaceMode basicBlacksmith;
+	public buildingPlaceMode sawmill;
+	public buildingPlaceMode advancedQuarry;
+	public buildingPlaceMode advancedFarm;
+	public buildingPlaceMode stoneHouse;
+	public buildingPlaceMode castle;
+	public buildingPlaceMode advancedMine;
 
 	public buildingPlaceMode gatherNodeBasic;
 
@@ -122,9 +134,15 @@ public class GameManager : MonoBehaviour {
 		woodHouse = new buildingPlaceMode ("woodHouse", woodHousePrefab);
 		chiefsHut = new buildingPlaceMode ("chiefsHut", chiefsHutPrefab);
 		basicMine = new buildingPlaceMode ("basicMine", basicMinePrefab);
+		basicBlacksmith = new buildingPlaceMode("basicBlacksmith", basicBlacksmithPrefab);
 
 		//Medieval Era
-		basicBlacksmith = new buildingPlaceMode("basicBlacksmith", basicBlacksmithPrefab);
+		sawmill = new buildingPlaceMode("sawmill", sawmillPrefab);
+		advancedQuarry = new buildingPlaceMode ("advancedQuarry", advancedQuarryPrefab);
+		advancedFarm = new buildingPlaceMode ("advancedFarm", advancedFarmPrefab);
+		stoneHouse = new buildingPlaceMode ("stoneHouse", stoneHousePrefab);
+		castle = new buildingPlaceMode ("castle", castlePrefab);
+		advancedMine = new buildingPlaceMode ("advancedMine", advancedMinePrefab);
 
 		gatherNodeBasic = new buildingPlaceMode ("gatherNode", gatherNode);
 
@@ -714,6 +732,250 @@ public class GameManager : MonoBehaviour {
 		return true;
 	}
 
+	public bool placingSawmillTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		sawmill sawmill = ((GameObject)Instantiate (sawmillPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<sawmill> ();
+
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", sawmill.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (sawmill.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		for (int i = 0; i < enabledBuildingList.Instance.sawmill.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.sawmill.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.sawmill.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (sawmill.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
+		sawmill.pathToBase = pathfindingManager.Instance.GetPath ();
+		sawmill.pathToBase [0] = sawmill.GetComponent<baseGridPosition> ();
+		sawmill.pathToBase [1].PathFrom = sawmill.gameObject;
+
+		sawmill.name = "sawmill";
+		sawmill.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		sawmill.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		sawmill.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		sawmill.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		sawmill.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		sawmill.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		sawmill.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		sawmill.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = sawmill.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.sawmill.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingAdvancedQuarryTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		advancedQuarry quarry = ((GameObject)Instantiate (advancedQuarryPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<advancedQuarry> ();
+
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", quarry.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (quarry.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		for (int i = 0; i < enabledBuildingList.Instance.advancedQuarry.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.advancedQuarry.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.advancedQuarry.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (quarry.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
+		quarry.pathToBase = pathfindingManager.Instance.GetPath ();
+		quarry.pathToBase [0] = quarry.GetComponent<baseGridPosition> ();
+		quarry.pathToBase [1].PathFrom = quarry.gameObject;
+
+		quarry.name = "advancedQuarry";
+		quarry.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		quarry.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		quarry.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		quarry.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		quarry.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		quarry.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		quarry.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		quarry.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = quarry.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.advancedQuarry.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingAdvancedFarmTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		advancedFarm farm = ((GameObject)Instantiate (advancedFarmPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<advancedFarm> ();
+
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", farm.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (farm.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		for (int i = 0; i < enabledBuildingList.Instance.advancedFarm.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.advancedFarm.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.advancedFarm.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (farm.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
+		farm.pathToBase = pathfindingManager.Instance.GetPath ();
+		farm.pathToBase [0] = farm.GetComponent<baseGridPosition> ();
+		farm.pathToBase [1].PathFrom = farm.gameObject;
+
+		farm.name = "advancedFarm";
+		farm.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		farm.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		farm.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		farm.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		farm.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		farm.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		farm.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		farm.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = farm.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.advancedFarm.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingStoneHouseTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		stoneHouse stoneHouse = ((GameObject)Instantiate (stoneHousePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<stoneHouse> ();
+
+		for (int i = 0; i < enabledBuildingList.Instance.stoneHouse.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.stoneHouse.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.stoneHouse.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (stoneHouse.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		stoneHouse.name = "stoneHouse";
+		stoneHouse.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		stoneHouse.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		stoneHouse.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		stoneHouse.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		stoneHouse.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		stoneHouse.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		stoneHouse.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		stoneHouse.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = stoneHouse.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.stoneHouse.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingCastleTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		castle castle = ((GameObject)Instantiate (castlePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<castle> ();
+
+		for (int i = 0; i < enabledBuildingList.Instance.castle.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.castle.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.castle.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (castle.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		castle.name = "castle";
+		castle.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		castle.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		castle.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		castle.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		castle.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		castle.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		castle.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		castle.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = castle.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.castle.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingAdvancedMineTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		advancedMine mine = ((GameObject)Instantiate (advancedMinePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<advancedMine> ();
+
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("Refinement", mine.gameObject.transform.position);
+		//finding nearest refinement point, breaking out if not found
+		if (pathObject == null || !pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (mine.gameObject);
+			Debug.Log ("No path to refinement");
+			return false;
+		}
+
+		for (int i = 0; i < enabledBuildingList.Instance.advancedMine.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.advancedMine.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.advancedMine.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (mine.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
+		mine.pathToBase = pathfindingManager.Instance.GetPath ();
+		mine.pathToBase [0] = mine.GetComponent<baseGridPosition> ();
+		mine.pathToBase [1].PathFrom = mine.gameObject;
+
+		mine.name = "advancedMine";
+		mine.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		mine.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		mine.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		mine.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		mine.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		mine.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		mine.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		mine.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = mine.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.advancedMine.buildingCosts);
+
+		return true;
+	}
+
 	public bool placingGatherNodeBasicTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		gatherNode node = ((GameObject)Instantiate (gatherNode, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<gatherNode> ();
 
@@ -785,8 +1047,14 @@ public class GameManager : MonoBehaviour {
 		buildingBools [10] = woodHouse;
 		buildingBools [11] = chiefsHut;
 		buildingBools [12] = basicMine;
-
 		buildingBools [13] = basicBlacksmith;
+
+		buildingBools [14] = sawmill;
+		buildingBools [15] = advancedQuarry;
+		buildingBools [16] = advancedFarm;
+		buildingBools [17] = stoneHouse;
+		buildingBools [18] = castle;
+		buildingBools [19] = advancedMine;
 
 		//buildingBools [8] = gatherNodeBasic;
 

@@ -36,9 +36,24 @@ public class buildingCosts : MonoBehaviour {
 	public buildingInfo woodHouse;
 	public buildingInfo chiefsHut;
 	public buildingInfo basicMine;
+	public buildingInfo basicBlacksmith;
 
 	//Medieval Era
-	public buildingInfo basicBlacksmith;
+	public buildingInfo sawmill;
+	public buildingInfo advancedQuarry;
+	public buildingInfo advancedFarm;
+	public buildingInfo stoneHouse;
+	public buildingInfo castle;
+	public buildingInfo advancedMine;
+
+	//Renaissance Era
+	public buildingInfo shaftMine;
+	public buildingInfo smeltery;
+	public buildingInfo forestManager;//bonus wood building that provides large bonuses to adjacent wood cutting buildings
+	public buildingInfo explosiveQuarry;
+	public buildingInfo waterReservoir;//bonus food building that provides large bonuses to adjacent farms
+	public buildingInfo multiHouse;
+	public buildingInfo guildHouse;
 
 	public buildingInfo basicGatherNode;
 
@@ -193,7 +208,6 @@ public class buildingCosts : MonoBehaviour {
 		};
 		basicMine = new buildingInfo (basicMineBuildCost, "First Gatherer of Ore");
 
-		//Medieval Era
 		//Basic Blacksmith
 		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 25);
 		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 25);
@@ -204,6 +218,101 @@ public class buildingCosts : MonoBehaviour {
 			manpowerCost
 		};
 		basicBlacksmith = new buildingInfo (basicBlacksmithBuildCost, "Refinement of Ore");
+
+		//Medieval Era
+		//Sawmill
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 25);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 25);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 10);
+		resourceBuildingClass.resourceTypeCost metalCost = new resourceBuildingClass.resourceTypeCost ("Metal", 20);
+		resourceBuildingClass.resourceTypeCost[] sawmillBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost,
+			metalCost
+		};
+		sawmill = new buildingInfo (sawmillBuildCost, "Fast handling of wood");
+
+		//AdvancedQuarry
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 30);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 20);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 10);
+		metalCost = new resourceBuildingClass.resourceTypeCost ("Metal", 15);
+		resourceBuildingClass.resourceTypeCost[] advancedQuarryBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost,
+			metalCost
+		};
+		advancedQuarry = new buildingInfo (advancedQuarryBuildCost, "Expanded Quarries");
+
+		//AdvancedFarm
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 20);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 20);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 15);
+		resourceBuildingClass.resourceTypeCost[] advancedFarmBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost
+		};
+		advancedFarm = new buildingInfo (advancedFarmBuildCost, "Better Farming techniques");
+
+		//StoneHouse
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 20);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 40);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 20);
+		resourceBuildingClass.resourceTypeCost[] stoneHouseBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost
+		};
+		stoneHouse = new buildingInfo (stoneHouseBuildCost, "Stone Houses");
+
+		//Castle
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 40);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 50);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 25);
+		resourceBuildingClass.resourceTypeCost[] castleBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost
+		};
+		castle = new buildingInfo (castleBuildCost, "Grand housing for leaders");
+
+		//AdvancedMine
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 30);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 35);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 15);
+		metalCost = new resourceBuildingClass.resourceTypeCost ("Metal", 15);
+		resourceBuildingClass.resourceTypeCost[] advancedMineBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost,
+			metalCost
+		};
+		advancedMine = new buildingInfo (advancedMineBuildCost, "Advanced Ores");
+
+		//Renaissance Era
+		//ShaftMine
+
+
+		//Smeltery
+
+
+		//ForestManager
+
+
+		//explosiveQuarry
+
+
+		//waterReservoir
+
+
+		//multiHouse
+
+
+		//guildHouse
+
 
 		//Basic GatherNode
 		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 30);

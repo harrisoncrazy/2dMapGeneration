@@ -11,7 +11,7 @@ public class clearForest : defaultBuilding {
 		tileDescription = "";
 	}
 
-	void Start() {
+	new void Start() {
 		placeableTiles = enabledBuildingList.Instance.forestClear.placeableTileTypes;
 
 		if (isHoverMode == false) {

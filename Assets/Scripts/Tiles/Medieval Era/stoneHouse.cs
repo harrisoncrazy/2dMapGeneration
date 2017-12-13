@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class woodHouse : defaultBuilding {
+public class stoneHouse : defaultBuilding {
 
-	private float manpowerReturn = 1.0f;
-	private int valToAddMaxManpower = 4;
+	private float manpowerReturn = 3.0f;
+	private int valToAddMaxManpower = 6;
 
-	public woodHouse() {
-		tileTitle = "Wooden House";
-		tileDescription = "A better, bigger home for your citizens." + "\nProviding: " + manpowerReturn + " manpower per turn. \nAdding: " + valToAddMaxManpower + " to manpower cache.";
+	public stoneHouse() {
+		tileTitle = "Stone House";
+		tileDescription = "A cozy stone house for your citizens." + "\nProviding: " + manpowerReturn + " manpower per turn. \nAdding: " + valToAddMaxManpower + " to manpower cache.";
 	}
 
 	// Use this for initialization
@@ -23,7 +23,7 @@ public class woodHouse : defaultBuilding {
 	IEnumerator delay() {
 		yield return new WaitForSeconds (0.15f);
 
-		tileDescription = "A better, bigger home for your citizens." + "\nProviding: " + manpowerReturn + " manpower per turn. \nAdding: " + valToAddMaxManpower + " to manpower cache.";
+		tileDescription = "A cozy stone house for your citizens." + "\nProviding: " + manpowerReturn + " manpower per turn. \nAdding: " + valToAddMaxManpower + " to manpower cache.";
 
 		resourceManager.Instance.addManpowerResource (manpowerReturn);
 		resourceManager.Instance.addToManpowerTotal (valToAddMaxManpower);

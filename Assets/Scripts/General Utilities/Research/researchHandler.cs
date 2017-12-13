@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class researchHandler : MonoBehaviour {
 
+	//TODO add way to make higher tier upgrades available if upgrading from an even lower tier
+
 	public static researchHandler Instance;
 
 	public bool isResearchEnabled = false;
@@ -38,6 +40,8 @@ public class researchHandler : MonoBehaviour {
 		popUp.setText ();
 	}
 
+
+	//BRONZE ERA
 	public void tierOneLumber() { //enables an upgraded lumber gatherer, allows for the clearing of forest tiles
 		enabledBuildingList.Instance.forestClear.isEnabled = true;
 		enabledBuildingList.Instance.basicLumberer.isEnabled = true;
@@ -95,11 +99,75 @@ public class researchHandler : MonoBehaviour {
 		}
 	}
 
-	public void tierOneOre() {//enables ore miner
+	public void tierOneOre() {//enables ore mining and refinement
 		enabledBuildingList.Instance.basicMine.isEnabled = true;
 		enabledBuildingList.Instance.basicBlacksmith.isEnabled = true;
 		enabledBuildingList.Instance.setArray ();
 	}
+
+
+	//MEDIEVAL ERA
+	public void tierTwoOre() {
+		enabledBuildingList.Instance.advancedMine.isEnabled = true;
+		enabledBuildingList.Instance.basicMine.isEnabled = false;
+		enabledBuildingList.Instance.setArray ();
+
+		foreach (basicMine gameObj in GameObject.FindObjectsOfType<basicMine>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+	public void tierTwoWood() {
+		enabledBuildingList.Instance.sawmill.isEnabled = true;
+		enabledBuildingList.Instance.basicLumberer.isEnabled = false;
+		enabledBuildingList.Instance.setArray ();
+
+		foreach (basicLumberer gameObj in GameObject.FindObjectsOfType<basicLumberer>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+	public void tierTwoStone() {
+		enabledBuildingList.Instance.advancedQuarry.isEnabled = true;
+		enabledBuildingList.Instance.basicQuarry.isEnabled = false;
+		enabledBuildingList.Instance.setArray ();
+
+		foreach (basicQuarry gameObj in GameObject.FindObjectsOfType<basicQuarry>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+	public void tierTwoFood() {
+		enabledBuildingList.Instance.advancedFarm.isEnabled = true;
+		enabledBuildingList.Instance.basicFarm.isEnabled = false;
+		enabledBuildingList.Instance.setArray ();
+
+		foreach (basicFarm gameObj in GameObject.FindObjectsOfType<basicFarm>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+	public void tierTwoHousing() {
+		enabledBuildingList.Instance.stoneHouse.isEnabled = true;
+		enabledBuildingList.Instance.woodHouse.isEnabled = false;
+		enabledBuildingList.Instance.setArray ();
+
+		foreach (woodHouse gameObj in GameObject.FindObjectsOfType<woodHouse>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+	public void tierTwoResearch() {
+		enabledBuildingList.Instance.castle.isEnabled = true;
+		enabledBuildingList.Instance.chiefsHut.isEnabled = false;
+		enabledBuildingList.Instance.setArray ();
+
+		foreach (chiefsHut gameObj in GameObject.FindObjectsOfType<chiefsHut>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+
 
 	public void tierOneGatherNode() {
 		enabledBuildingList.Instance.gatherNode.isEnabled = true;
