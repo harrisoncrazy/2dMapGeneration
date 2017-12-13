@@ -1293,10 +1293,11 @@ MonoBehaviour:
   - 
   - 
   isUpgradeable: 0
-  upgradeTile: {fileID: 0}
+  upgradeTile: {fileID: 1651009402717928, guid: 693bda688fd895d428cf039f503bd441,
+    type: 2}
   upgradeButton: {fileID: 0}
   canBeUpgraded: 0
-  ThreeDObjects: {fileID: 0}
+  ThreeDObjects: {fileID: 1183673539773404}
   researchReturn: 0
 --- !u!114 &114753232140294504
 MonoBehaviour:

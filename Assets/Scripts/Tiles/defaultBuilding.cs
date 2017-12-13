@@ -101,7 +101,7 @@ public class defaultBuilding : MonoBehaviour {
 		if (isDisabled == false) {
 			resourceDelivery resourceNode = ((GameObject)Instantiate (resourceDeliveryNodePrefab, transform.position, Quaternion.Euler (new Vector3 ()))).GetComponent<resourceDelivery> ();
 			resourceNode.sourceBuilding = this.gameObject.GetComponent<baseGridPosition> ();//spawning the delivery node, and inputing its route location
-			resourceNode.toLocation = GameObject.Find ("homeBase").GetComponent<baseGridPosition> ();//TODO add way to change homing location
+			resourceNode.toLocation = GameObject.Find ("homeBase").GetComponent<baseGridPosition> ();
 
 			resourceBuildingClass.resourceTypeCost temp = new resourceBuildingClass.resourceTypeCost ();
 			temp.resourceType = type;

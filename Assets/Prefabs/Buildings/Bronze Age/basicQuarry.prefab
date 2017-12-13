@@ -2550,10 +2550,11 @@ MonoBehaviour:
   - 
   - 
   isUpgradeable: 0
-  upgradeTile: {fileID: 0}
+  upgradeTile: {fileID: 1980432259988188, guid: d96983ebb630e9e42a2726e29b9ec05b,
+    type: 2}
   upgradeButton: {fileID: 0}
   canBeUpgraded: 0
-  ThreeDObjects: {fileID: 0}
+  ThreeDObjects: {fileID: 1449696726616712}
   stoneReturn: 0
 --- !u!210 &210141238138220436
 SortingGroup:

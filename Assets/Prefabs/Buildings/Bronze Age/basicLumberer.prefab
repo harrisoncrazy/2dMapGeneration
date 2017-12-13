@@ -1120,10 +1120,11 @@ MonoBehaviour:
   isHoverMode: 0
   placeableTiles: []
   isUpgradeable: 0
-  upgradeTile: {fileID: 0}
+  upgradeTile: {fileID: 1539887025403238, guid: 6f9d76abd8b770b4794efd1c347043bf,
+    type: 2}
   upgradeButton: {fileID: 0}
   canBeUpgraded: 0
-  ThreeDObjects: {fileID: 0}
+  ThreeDObjects: {fileID: 1724011584395702}
   woodReturn: 0
 --- !u!114 &114772185031656992
 MonoBehaviour:

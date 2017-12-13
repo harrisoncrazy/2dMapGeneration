@@ -853,11 +853,11 @@ MonoBehaviour:
   - 
   - 
   isUpgradeable: 0
-  upgradeTile: {fileID: 0}
+  upgradeTile: {fileID: 1549630921077228, guid: ec6e32a2ab1f4a444aeffd119ee4610c,
+    type: 2}
   upgradeButton: {fileID: 0}
   canBeUpgraded: 0
   ThreeDObjects: {fileID: 1007635450316954}
-  manpowerReturn: 0
 --- !u!210 &210107470114206148
 SortingGroup:
   m_ObjectHideFlags: 1

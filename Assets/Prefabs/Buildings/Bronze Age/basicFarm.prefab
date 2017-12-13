@@ -4012,10 +4012,11 @@ MonoBehaviour:
   - 
   - 
   isUpgradeable: 0
-  upgradeTile: {fileID: 0}
+  upgradeTile: {fileID: 1997636311125924, guid: 4f0d9046c55274648a4fd1b8315b309c,
+    type: 2}
   upgradeButton: {fileID: 0}
   canBeUpgraded: 0
-  ThreeDObjects: {fileID: 0}
+  ThreeDObjects: {fileID: 1590682322581180}
   foodReturn: 0
 --- !u!210 &210231886469922886
 SortingGroup:
