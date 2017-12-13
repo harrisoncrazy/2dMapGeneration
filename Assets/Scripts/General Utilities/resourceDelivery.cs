@@ -103,6 +103,9 @@ public class resourceDelivery : MonoBehaviour {
 			case "Ore":
 				resourceManager.Instance.addOreResource (nodeDelivery [i].cost);
 				break;
+			case "Metal":
+				resourceManager.Instance.addMetalResource (nodeDelivery [i].cost);
+				break;
 			}
 		}
 	}

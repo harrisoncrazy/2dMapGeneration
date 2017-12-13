@@ -232,7 +232,11 @@ public class baseGridPosition : MonoBehaviour {
 							arrowList [j].SetActive (true);
 							arrowList [j].GetComponent<Renderer> ().material.color = Color.red;
 						} else {
-							arrowList [j].SetActive (false);
+							if (!resourceBuildingClass.checkIfValuePresentBonus (adjTiles [j].GetComponent<tileHandler> ().tileType, bonus)) {
+								if (!resourceBuildingClass.checkIfValuePresentPenalty (adjTiles [j].GetComponent<tileHandler> ().tileType, penalty)) {
+									arrowList [j].SetActive (false);
+								}
+							}
 						}
 					} else { //if a tile with a building
 						if (adjTiles [j].GetComponent<defaultBuilding>().tileTitle.Contains (tempTileTypeBonus)) {//if the tiletype matches the current bonus read
@@ -242,7 +246,11 @@ public class baseGridPosition : MonoBehaviour {
 							arrowList [j].SetActive (true);
 							arrowList [j].GetComponent<Renderer> ().material.color = Color.red;
 						} else {
-							arrowList [j].SetActive (false);
+							if (!resourceBuildingClass.checkIfValuePresentBonus (adjTiles [j].GetComponent<defaultBuilding>().tileTitle, bonus)) {
+								if (!resourceBuildingClass.checkIfValuePresentPenalty (adjTiles [j].GetComponent<defaultBuilding>().tileTitle, penalty)) {
+									arrowList [j].SetActive (false);
+								}
+							}
 						}
 					}
 				} else if (adjTiles [j] == null) {

@@ -19,9 +19,12 @@ public class resourceManager : MonoBehaviour {
 	private float stonePerTick;
 	public Text stoneOutText;
 
-	private float oreTotal = 999;//TODO add way to hide before miner is unlocked
+	private float oreTotal = 0;//TODO add way to hide before miner is unlocked
 	private float orePerTick;
-	public Text oreOutText;
+
+	private float metalTotal = 999;
+	private float metalPerTick;
+	public Text metalOutText;
 
 	private float manpowerTotal = 999;
 	private float manpowerPerTick;
@@ -44,7 +47,7 @@ public class resourceManager : MonoBehaviour {
 		woodOutText.text = woodTotal.ToString("F1");//restricting the decimal value of output numbers
 		foodOutText.text = foodTotal.ToString("F1");
 		stoneOutText.text = stoneTotal.ToString("F1");
-		oreOutText.text = oreTotal.ToString ("F1");
+		metalOutText.text = metalTotal.ToString ("F1");
 		manpowerOutText.text = "" + manpowerTotal.ToString("F0") + "/" + maxManpower.ToString("F0");
 		researchOutText.text = "" + researchTotal.ToString("F1");
 
@@ -67,13 +70,18 @@ public class resourceManager : MonoBehaviour {
 
 	public void addOreResource(float addAmount) {
 		oreTotal += addAmount;
+		Debug.Log (oreTotal);
 	}
 
-	public void addManpowerResource(float addTick) {
+	public void addMetalResource(float addAmount) {
+		metalTotal += addAmount;
+	}
+
+	public void addManpowerResource(float addTick) {//adding manpower
 		manpowerPerTick += addTick;
 	}
 
-	public void addToManpowerTotal(int addAmount) {
+	public void addToManpowerTotal(int addAmount) {//adding to total manpower storage
 		maxManpower += addAmount;
 	}
 
@@ -109,6 +117,10 @@ public class resourceManager : MonoBehaviour {
 		return oreTotal;
 	}
 
+	public float returnTotalMetal() {
+		return metalTotal;
+	}
+
 	public float returnTotalManpower() {
 		return manpowerTotal;
 	}
@@ -131,8 +143,17 @@ public class resourceManager : MonoBehaviour {
 		stoneTotal -= total;
 	}
 
-	public void removeOre(float total) {
-		oreTotal -= total;
+	public bool requestOre(float total) {
+		if (total <= oreTotal) {
+			oreTotal -= total;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void removeMetal(float total) {
+		metalTotal -= total;
 	}
 
 	public void removeManpower(float total) {

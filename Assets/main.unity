@@ -417,7 +417,7 @@ GameObject:
   - component: {fileID: 38748799}
   - component: {fileID: 38748798}
   m_Layer: 5
-  m_Name: oreBack
+  m_Name: metalBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1929,7 +1929,7 @@ GameObject:
   - component: {fileID: 420990316}
   - component: {fileID: 420990315}
   m_Layer: 5
-  m_Name: oreAmountText
+  m_Name: metalAmountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4182,7 +4182,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 2800000, guid: c9b5904b4873a304aba998af85ab1134, type: 3}
+  m_Texture: {fileID: 2800000, guid: 9d5c22064df7a5a46a3c76072fa17b1d, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -4677,7 +4677,7 @@ GameObject:
   - component: {fileID: 1420939271}
   - component: {fileID: 1420939270}
   m_Layer: 5
-  m_Name: oreText
+  m_Name: metalText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4733,7 +4733,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Ore:'
+  m_Text: 'Metal:'
 --- !u!222 &1420939271
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6354,7 +6354,7 @@ MonoBehaviour:
   woodOutText: {fileID: 1288740740}
   foodOutText: {fileID: 230125256}
   stoneOutText: {fileID: 606976732}
-  oreOutText: {fileID: 420990315}
+  metalOutText: {fileID: 420990315}
   manpowerOutText: {fileID: 1642626487}
   maxManpower: 999
   researchOutText: {fileID: 1640054540}

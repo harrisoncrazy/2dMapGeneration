@@ -96,7 +96,7 @@ public class enabledBuildingList : MonoBehaviour {
 		basicMine = new buildingData (false, "Basic Mine", buildingCosts.Instance.basicMine, "basicMine", tempPlaceTiles);
 
 		//Medieval Era
-		basicBlacksmith = new buildingData (true, "Basic Blacksmith", buildingCosts.Instance.basicBlacksmith, "basicBlacksmith", tempPlaceTiles);
+		basicBlacksmith = new buildingData (false, "Basic Blacksmith", buildingCosts.Instance.basicBlacksmith, "basicBlacksmith", tempPlaceTiles);
 
 		gatherNode = new buildingData (false, "Basic Gather Point", buildingCosts.Instance.basicGatherNode, "gatherNode", tempPlaceTiles);
 

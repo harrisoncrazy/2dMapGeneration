@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class basicMine : defaultBuilding {
 
+	//TODO make way to send ore to blacksmith
+
 	public resourceBuildingClass.resourceBuildingStats basicMineStats = new resourceBuildingClass.resourceBuildingStats();
 
 	private float defaultOreReturn = 0.5f;
@@ -35,12 +37,15 @@ public class basicMine : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
-		resourceBuildingClass.adjBonus mountainBonus = new resourceBuildingClass.adjBonus ("Mountain", 0.3f);
-		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { mountainBonus };
+		resourceBuildingClass.adjBonus mountainBonus = new resourceBuildingClass.adjBonus ("Mountain", 0.5f);
+		resourceBuildingClass.adjBonus quarryBonus = new resourceBuildingClass.adjBonus ("Quarry", 0.3f);
+		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { mountainBonus, quarryBonus };
 
 		resourceBuildingClass.adjPenalty testPenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);
+		resourceBuildingClass.adjPenalty testPenaltyy = new resourceBuildingClass.adjPenalty ("Ass2", 0.1f);
 		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {
-			testPenalty
+			testPenalty,
+			testPenaltyy
 		};
 
 		basicMineStats = new resourceBuildingClass.resourceBuildingStats ("Ore", defaultOreReturn, tempCosts, tempBonus, tempPenalty); 

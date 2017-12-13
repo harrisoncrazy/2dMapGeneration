@@ -97,6 +97,7 @@ public class researchHandler : MonoBehaviour {
 
 	public void tierOneOre() {//enables ore miner
 		enabledBuildingList.Instance.basicMine.isEnabled = true;
+		enabledBuildingList.Instance.basicBlacksmith.isEnabled = true;
 		enabledBuildingList.Instance.setArray ();
 	}
 

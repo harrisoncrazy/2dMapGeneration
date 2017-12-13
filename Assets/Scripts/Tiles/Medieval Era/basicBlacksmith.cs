@@ -8,7 +8,7 @@ public class basicBlacksmith : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats basicBlacksmithStats = new resourceBuildingClass.resourceBuildingStats();
 
-	private float defaultOreReturn = 0.5f;
+	private float defaultOreReturn = 1.0f;
 	public float oreReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public basicBlacksmith() {
@@ -47,6 +47,8 @@ public class basicBlacksmith : defaultBuilding {
 
 		basicBlacksmithStats = new resourceBuildingClass.resourceBuildingStats ("Ore", defaultOreReturn, tempCosts, tempBonus, tempPenalty); 
 
+		resourceOutTick = 5.0f/basicBlacksmithStats.efficiency;
+
 		readResourceEfficency ();
 	}
 
@@ -56,9 +58,11 @@ public class basicBlacksmith : defaultBuilding {
 			base.Update ();
 			resourceOutTick -= Time.deltaTime;
 			if (resourceOutTick <= 0) {
-				//SpawnResourceDeliveryNode ("Metal", basicBlacksmithStats);
+				if (resourceManager.Instance.requestOre (5.0f)) {
+					SpawnResourceDeliveryNode ("Metal", 10.0f);
+				}
 				readResourceEfficency ();
-				resourceOutTick = 5.0f;
+				resourceOutTick = 5.0f / basicBlacksmithStats.efficiency;
 			}
 		} else if (isHoverMode == true) {
 			if (basicBlacksmithStats.adjBonusTiles != null) {

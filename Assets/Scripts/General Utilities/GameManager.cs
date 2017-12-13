@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour {
 		basicMine = new buildingPlaceMode ("basicMine", basicMinePrefab);
 
 		//Medieval Era
-		basicBlacksmith = new buildingPlaceMode("basicBlacksmtih", basicBlacksmithPrefab);
+		basicBlacksmith = new buildingPlaceMode("basicBlacksmith", basicBlacksmithPrefab);
 
 		gatherNodeBasic = new buildingPlaceMode ("gatherNode", gatherNode);
 
@@ -627,11 +627,11 @@ public class GameManager : MonoBehaviour {
 	public bool placingBasicMineTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
 		basicMine mine = ((GameObject)Instantiate (basicMinePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<basicMine> ();
 
-		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", mine.gameObject.transform.position);
-
-		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("Refinement", mine.gameObject.transform.position);
+		//finding nearest refinement point, breaking out if not found
+		if (pathObject == null || !pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
 			Destroy (mine.gameObject);
-			Debug.Log ("No path to home base");
+			Debug.Log ("No path to refinement");
 			return false;
 		}
 

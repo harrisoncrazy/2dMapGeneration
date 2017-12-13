@@ -179,4 +179,22 @@ public class resourceBuildingClass {
 
 		return revisedCost;
 	}
+
+	public static bool checkIfValuePresentBonus(string tileType, adjBonus[] bonus) {
+		for (int i = 0; bonus.Length > i; i++) {
+			if(tileType.Contains(bonus[i].tileType)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static bool checkIfValuePresentPenalty(string tileType, adjPenalty[] penalty) {
+		for (int i = 0; penalty.Length > i; i++) {
+			if(tileType.Contains(penalty[i].tileType)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
