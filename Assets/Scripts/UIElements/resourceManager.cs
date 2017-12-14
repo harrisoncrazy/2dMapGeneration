@@ -70,7 +70,6 @@ public class resourceManager : MonoBehaviour {
 
 	public void addOreResource(float addAmount) {
 		oreTotal += addAmount;
-		Debug.Log (oreTotal);
 	}
 
 	public void addMetalResource(float addAmount) {
