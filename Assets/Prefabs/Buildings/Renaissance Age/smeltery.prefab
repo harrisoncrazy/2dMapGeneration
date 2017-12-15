@@ -1546,7 +1546,8 @@ MonoBehaviour:
   tileTitle: Smeltery
   tileDescription: Mass Refinement of Metal from ore.
   resourceOutTick: 5
-  resourceDeliveryNodePrefab: {fileID: 0}
+  resourceDeliveryNodePrefab: {fileID: 1483597897741358, guid: cb8d2b4a7f7ec6942af42e54d79a6f58,
+    type: 2}
   pathToBase: []
   isHoverMode: 0
   placeableTiles:
