@@ -6830,7 +6830,7 @@ MonoBehaviour:
   stoneOutText: {fileID: 606976732}
   metalOutText: {fileID: 420990315}
   manpowerOutText: {fileID: 1642626487}
-  maxManpower: 5
+  maxManpower: 999
   researchOutText: {fileID: 1640054540}
 --- !u!4 &2100838392
 Transform:
