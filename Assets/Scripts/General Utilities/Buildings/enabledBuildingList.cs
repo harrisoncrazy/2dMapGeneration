@@ -71,7 +71,6 @@ public class enabledBuildingList : MonoBehaviour {
 	public buildingData waterReservoir;//bonus food building that provides large bonuses to adjacent farms
 	public buildingData multiHouse;
 	public buildingData guildHouse;
-
 	public buildingData gatherNode;
 
 	public buildingData[] availableBuildings = new buildingData[125];
@@ -118,6 +117,14 @@ public class enabledBuildingList : MonoBehaviour {
 		castle = new buildingData (false, "Castle", buildingCosts.Instance.castle, "castle", tempPlaceTiles);
 		advancedMine = new buildingData (false, "Advanced Mine", buildingCosts.Instance.advancedMine, "advancedMine", tempPlaceTiles);
 
+		//Renaissance Era
+		shaftMine = new buildingData(true, "Shaft Mine", buildingCosts.Instance.shaftMine, "shaftMine", tempPlaceTiles);
+		smeltery = new buildingData (true, "Smeltery", buildingCosts.Instance.smeltery, "smeltery", tempPlaceTiles);
+		forestManager = new buildingData (true, "Forest Manager", buildingCosts.Instance.forestManager, "forestManager", tempPlaceTiles);
+		explosiveQuarry = new buildingData (true, "Explosive Quarry", buildingCosts.Instance.explosiveQuarry, "explosiveQuarry", tempPlaceTiles);
+		waterReservoir = new buildingData (true, "Water Reservoir", buildingCosts.Instance.waterReservoir, "waterReservoir", tempPlaceTiles);
+		multiHouse = new buildingData (true, "Multi-Story House", buildingCosts.Instance.multiHouse, "multiHouse", tempPlaceTiles);
+		guildHouse = new buildingData (true, "Guild House", buildingCosts.Instance.guildHouse, "guildHouse", tempPlaceTiles);
 		gatherNode = new buildingData (false, "Basic Gather Point", buildingCosts.Instance.basicGatherNode, "gatherNode", tempPlaceTiles);
 
 		setArray ();
@@ -150,6 +157,13 @@ public class enabledBuildingList : MonoBehaviour {
 		availableBuildings [18] = castle;
 		availableBuildings [19] = advancedMine;
 
-		//availableBuildings [8] = gatherNode;
+		availableBuildings [20] = shaftMine;
+		availableBuildings [21] = smeltery;
+		availableBuildings [22] = forestManager;
+		availableBuildings [23] = explosiveQuarry;
+		availableBuildings [24] = waterReservoir;
+		availableBuildings [25] = multiHouse;
+		availableBuildings [26] = guildHouse;
+		availableBuildings [27] = gatherNode;
 	}
 }

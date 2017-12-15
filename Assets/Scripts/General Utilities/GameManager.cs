@@ -52,7 +52,15 @@ public class GameManager : MonoBehaviour {
 	public GameObject castlePrefab;
 	public GameObject advancedMinePrefab;
 
-	public GameObject gatherNode;
+	//Renaissance Era
+	public GameObject shaftMinePrefab;
+	public GameObject smelteryPrefab;
+	public GameObject forestManagerPrefab;
+	public GameObject explosiveQuarryPrefab;
+	public GameObject waterReservoirPrefab;
+	public GameObject multiHousePrefab;
+	public GameObject guildHousePrefab;
+	public GameObject gatherNodePrefab;
 
 	//building bools
 	public struct buildingPlaceMode
@@ -97,6 +105,14 @@ public class GameManager : MonoBehaviour {
 	public buildingPlaceMode castle;
 	public buildingPlaceMode advancedMine;
 
+	//Renaissance Era
+	public buildingPlaceMode shaftMine;
+	public buildingPlaceMode smeltery;
+	public buildingPlaceMode forestManager;//bonus wood building that provides large bonuses to adjacent wood cutting buildings
+	public buildingPlaceMode explosiveQuarry;
+	public buildingPlaceMode waterReservoir;//bonus food building that provides large bonuses to adjacent farms
+	public buildingPlaceMode multiHouse;
+	public buildingPlaceMode guildHouse;
 	public buildingPlaceMode gatherNodeBasic;
 
 	public buildingPlaceMode[] buildingBools;
@@ -144,7 +160,15 @@ public class GameManager : MonoBehaviour {
 		castle = new buildingPlaceMode ("castle", castlePrefab);
 		advancedMine = new buildingPlaceMode ("advancedMine", advancedMinePrefab);
 
-		gatherNodeBasic = new buildingPlaceMode ("gatherNode", gatherNode);
+		//Renaissance Era
+		shaftMine = new buildingPlaceMode("shaftMine", shaftMinePrefab);
+		smeltery = new buildingPlaceMode("smeltery", smelteryPrefab);
+		forestManager = new buildingPlaceMode("forestManager", forestManagerPrefab);
+		explosiveQuarry = new buildingPlaceMode("explosiveQuarry", explosiveQuarryPrefab);
+		waterReservoir = new buildingPlaceMode("waterReservoir", waterReservoirPrefab);
+		multiHouse = new buildingPlaceMode("multiHouse", multiHousePrefab);
+		guildHouse = new buildingPlaceMode("guildHouse", guildHousePrefab);
+		gatherNodeBasic = new buildingPlaceMode ("gatherNode", gatherNodePrefab);
 
 		GrabBuildingInfoPanel ();
 		addBuildingBools ();
@@ -976,8 +1000,271 @@ public class GameManager : MonoBehaviour {
 		return true;
 	}
 
+	public bool placingShaftMineTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		shaftMine mine = ((GameObject)Instantiate (shaftMinePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<shaftMine> ();
+
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("Refinement", mine.gameObject.transform.position);
+		//finding nearest refinement point, breaking out if not found
+		if (pathObject == null || !pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (mine.gameObject);
+			Debug.Log ("No path to refinement");
+			return false;
+		}
+
+		for (int i = 0; i < enabledBuildingList.Instance.shaftMine.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.shaftMine.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.shaftMine.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (mine.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
+		mine.pathToBase = pathfindingManager.Instance.GetPath ();
+		mine.pathToBase [0] = mine.GetComponent<baseGridPosition> ();
+		mine.pathToBase [1].PathFrom = mine.gameObject;
+
+		mine.name = "shaftMine";
+		mine.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		mine.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		mine.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		mine.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		mine.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		mine.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		mine.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		mine.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = mine.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.shaftMine.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingSmelteryTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		smeltery smeltery = ((GameObject)Instantiate (smelteryPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<smeltery> ();
+
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", smeltery.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (smeltery.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		for (int i = 0; i < enabledBuildingList.Instance.smeltery.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.smeltery.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.smeltery.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (smeltery.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
+		smeltery.pathToBase = pathfindingManager.Instance.GetPath ();
+		smeltery.pathToBase [0] = smeltery.GetComponent<baseGridPosition> ();
+		smeltery.pathToBase [1].PathFrom = smeltery.gameObject;
+
+		smeltery.name = "smeltery";
+		smeltery.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		smeltery.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		smeltery.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		smeltery.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		smeltery.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		smeltery.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		smeltery.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		smeltery.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = smeltery.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.smeltery.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingForestManagerTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		forestManager node = ((GameObject)Instantiate (forestManagerPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<forestManager> ();
+
+		for (int i = 0; i < enabledBuildingList.Instance.forestManager.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.forestManager.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.forestManager.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (node.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		node.name = "forestManager";
+		node.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		node.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		node.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		node.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		node.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		node.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		node.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		node.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = node.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.forestManager.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingExplosiveQuarryTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		explosiveQuarry quarry = ((GameObject)Instantiate (explosiveQuarryPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<explosiveQuarry> ();
+
+		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", quarry.gameObject.transform.position);
+
+		if (!pathfindingManager.Instance.Search(generationManager.Instance.map[x][y].GetComponent<baseGridPosition>(), pathObject.GetComponent<baseGridPosition>())) {
+			Destroy (quarry.gameObject);
+			Debug.Log ("No path to home base");
+			return false;
+		}
+
+		for (int i = 0; i < enabledBuildingList.Instance.explosiveQuarry.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.explosiveQuarry.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.explosiveQuarry.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (quarry.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		pathfindingManager.Instance.FindPath (generationManager.Instance.map [x] [y].GetComponent<baseGridPosition> (), pathObject.GetComponent<baseGridPosition> ());
+		quarry.pathToBase = pathfindingManager.Instance.GetPath ();
+		quarry.pathToBase [0] = quarry.GetComponent<baseGridPosition> ();
+		quarry.pathToBase [1].PathFrom = quarry.gameObject;
+
+		quarry.name = "explosiveQuarry";
+		quarry.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		quarry.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		quarry.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		quarry.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		quarry.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		quarry.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		quarry.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		quarry.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = quarry.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.explosiveQuarry.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingWaterReservoirTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		waterReservoir node = ((GameObject)Instantiate (waterReservoirPrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<waterReservoir> ();
+
+		for (int i = 0; i < enabledBuildingList.Instance.waterReservoir.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.waterReservoir.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.waterReservoir.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (node.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		node.name = "waterReservoir";
+		node.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		node.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		node.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		node.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		node.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		node.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		node.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		node.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = node.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.waterReservoir.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingMultiHouseTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		multiHouse House = ((GameObject)Instantiate (multiHousePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<multiHouse> ();
+
+		for (int i = 0; i < enabledBuildingList.Instance.multiHouse.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.multiHouse.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.multiHouse.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (House.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		House.name = "multiHouse";
+		House.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		House.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		House.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		House.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		House.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		House.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		House.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		House.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = House.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.multiHouse.buildingCosts);
+
+		return true;
+	}
+
+	public bool placingGuildHouseTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
+		guildHouse guildHouse = ((GameObject)Instantiate (guildHousePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<guildHouse> ();
+
+		for (int i = 0; i < enabledBuildingList.Instance.guildHouse.placeableTileTypes.Length; i++) {
+			bool contains = generationManager.Instance.map [x] [y].GetComponent<tileHandler> ().tileType.Contains (enabledBuildingList.Instance.guildHouse.placeableTileTypes [i]);
+			if (contains == true) {
+				break;
+			} else if (contains == false && i >= enabledBuildingList.Instance.guildHouse.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
+				Destroy (guildHouse.gameObject);
+				Debug.Log ("Invalid Tile Type");
+				return false;
+			}
+		}
+
+		guildHouse.name = "guildHouse";
+		guildHouse.GetComponent<baseGridPosition> ().mapPosition.X = x;
+		guildHouse.GetComponent<baseGridPosition> ().mapPosition.Y = y;
+
+		guildHouse.GetComponent<baseGridPosition> ().topLeft = adjArray [0];
+		guildHouse.GetComponent<baseGridPosition> ().topRight = adjArray [1];
+		guildHouse.GetComponent<baseGridPosition> ().Right = adjArray [2];
+		guildHouse.GetComponent<baseGridPosition> ().bottomRight = adjArray [3];
+		guildHouse.GetComponent<baseGridPosition> ().bottomLeft = adjArray [4];
+		guildHouse.GetComponent<baseGridPosition> ().Left = adjArray [5];
+
+		generationManager.Instance.map [x] [y] = guildHouse.gameObject;
+
+		resourceBuildingClass.removeResourcesFromPlacement (buildingCosts.Instance.guildHouse.buildingCosts);
+
+		return true;
+	}
+
 	public bool placingGatherNodeBasicTile(int x, int y, Vector3 pos, GameObject[] adjArray) {
-		gatherNode node = ((GameObject)Instantiate (gatherNode, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<gatherNode> ();
+		gatherNode node = ((GameObject)Instantiate (gatherNodePrefab, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<gatherNode> ();
 
 		GameObject pathObject = FindClosest.findClosestGameobjectWithTag ("HomeTile", node.gameObject.transform.position);
 
@@ -992,7 +1279,7 @@ public class GameManager : MonoBehaviour {
 			if (contains == true) {
 				break;
 			} else if (contains == false && i >= enabledBuildingList.Instance.gatherNode.placeableTileTypes.Length) { //only breaking out if at the end of the for loop, after checking the whole array
-				Destroy (gatherNode.gameObject);
+				Destroy (node.gameObject);
 				Debug.Log ("Invalid Tile Type");
 				return false;
 			}
@@ -1056,7 +1343,14 @@ public class GameManager : MonoBehaviour {
 		buildingBools [18] = castle;
 		buildingBools [19] = advancedMine;
 
-		//buildingBools [8] = gatherNodeBasic;
+		buildingBools [20] = shaftMine;
+		buildingBools [21] = smeltery;
+		buildingBools [22] = forestManager;
+		buildingBools [23] = explosiveQuarry;
+		buildingBools [24] = waterReservoir;
+		buildingBools [25] = multiHouse;
+		buildingBools [26] = guildHouse;
+		buildingBools [27] = gatherNodeBasic;
 
 		disablePlacementModes ();
 	}

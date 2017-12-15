@@ -1415,7 +1415,22 @@ MonoBehaviour:
     type: 2}
   advancedMinePrefab: {fileID: 1550334673428944, guid: 2c478f0244821f646b8091fad39664a8,
     type: 2}
-  gatherNode: {fileID: 1041886273582156, guid: 47ed723060ca0d84b98f46ae39f6e07c, type: 2}
+  shaftMinePrefab: {fileID: 1519056679499920, guid: 6666618002b185d468c961a7c2e759cd,
+    type: 2}
+  smelteryPrefab: {fileID: 1978043680467764, guid: f5bc4efb21d4fde469e45b6fce237194,
+    type: 2}
+  forestManagerPrefab: {fileID: 1409141883785472, guid: 771fb7f9bf729ff458459b56d3af1f33,
+    type: 2}
+  explosiveQuarryPrefab: {fileID: 1609714028456190, guid: 2fa635a96f5223e42a180538fe8b9818,
+    type: 2}
+  waterReservoirPrefab: {fileID: 1964526361672990, guid: 0a2f59a274265ed46aadebe121a9611e,
+    type: 2}
+  multiHousePrefab: {fileID: 1930851723492494, guid: 35bce9ab387f9f2448571ae74c915a82,
+    type: 2}
+  guildHousePrefab: {fileID: 1860972344002432, guid: 652fab95b48bd9849bcf5ab390933917,
+    type: 2}
+  gatherNodePrefab: {fileID: 1041886273582156, guid: 47ed723060ca0d84b98f46ae39f6e07c,
+    type: 2}
   tileInfoPanel: {fileID: 0}
   tileText: {fileID: 0}
   descriptionText: {fileID: 0}

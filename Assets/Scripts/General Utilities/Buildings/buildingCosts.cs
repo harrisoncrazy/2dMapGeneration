@@ -294,25 +294,93 @@ public class buildingCosts : MonoBehaviour {
 
 		//Renaissance Era
 		//ShaftMine
-
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 50);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 40);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 20);
+		metalCost = new resourceBuildingClass.resourceTypeCost ("Metal", 35);
+		resourceBuildingClass.resourceTypeCost[] shaftMineBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost,
+			metalCost
+		};
+		shaftMine = new buildingInfo (shaftMineBuildCost, "Deep Mines");
 
 		//Smeltery
-
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 50);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 35);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 15);
+		resourceBuildingClass.resourceTypeCost[] smelteryBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost
+		};
+		smeltery = new buildingInfo (smelteryBuildCost, "Mass Refinement of Ore");
 
 		//ForestManager
-
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 75);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 75);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 40);
+		metalCost = new resourceBuildingClass.resourceTypeCost ("Metal", 40);
+		resourceBuildingClass.resourceTypeCost[] forestManagerBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost,
+			metalCost
+		};
+		forestManager = new buildingInfo (forestManagerBuildCost, "Managing of wood lots, bonus to adjacent wood Gatherers");
 
 		//explosiveQuarry
-
-
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 40);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 40);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 20);
+		metalCost = new resourceBuildingClass.resourceTypeCost ("Metal", 30);
+		resourceBuildingClass.resourceTypeCost[] explosiveQuarryBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost,
+			metalCost
+		};
+		explosiveQuarry = new buildingInfo (explosiveQuarryBuildCost, "Making Quarries with explosives!");
+		
 		//waterReservoir
-
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 75);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 75);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 40);
+		metalCost = new resourceBuildingClass.resourceTypeCost ("Metal", 40);
+		resourceBuildingClass.resourceTypeCost[] waterReservoirBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost,
+			metalCost
+		};
+		waterReservoir = new buildingInfo (waterReservoirBuildCost, "A source of water for farms, bonus to adjacent farms.");
 
 		//multiHouse
-
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 40);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 40);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 30);
+		metalCost = new resourceBuildingClass.resourceTypeCost ("Metal", 30);
+		resourceBuildingClass.resourceTypeCost[] multiHouseBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost,
+			metalCost
+		};
+		multiHouse = new buildingInfo (multiHouseBuildCost, "Multi-Story Housing");
 
 		//guildHouse
-
+		woodCost = new resourceBuildingClass.resourceTypeCost("Wood", 75);
+		stoneCost = new resourceBuildingClass.resourceTypeCost ("Stone", 75);
+		manpowerCost = new resourceBuildingClass.resourceTypeCost ("Manpower", 40);
+		metalCost = new resourceBuildingClass.resourceTypeCost ("Metal", 50);
+		resourceBuildingClass.resourceTypeCost[] guildHouseBuildCost = new resourceBuildingClass.resourceTypeCost[] {
+			woodCost,
+			stoneCost,
+			manpowerCost,
+			metalCost
+		};
+		guildHouse = new buildingInfo (guildHouseBuildCost, "Organized institutions for your smartest");
 
 		//Basic GatherNode
 		woodCost = new resourceBuildingClass.resourceTypeCost ("Wood", 30);

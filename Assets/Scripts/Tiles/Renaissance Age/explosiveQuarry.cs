@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class advancedQuarry : defaultBuilding {
+public class explosiveQuarry : defaultBuilding {
+
 
 	//TODO make unique adjacency bonuses and improve output
 
-	public resourceBuildingClass.resourceBuildingStats advancedQuarryStats = new resourceBuildingClass.resourceBuildingStats();
+	public resourceBuildingClass.resourceBuildingStats explosiveQuarryStats = new resourceBuildingClass.resourceBuildingStats();
 
 	private float defaultStoneReturn = 1.5f;
-	public float stoneReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
+	public float stoneReturn;
 
-	public advancedQuarry() {
-		tileTitle = "Advanced Quarry";
-		tileDescription = "Digs into the ground for stone material." + "\nProviding: " + stoneReturn + " stone per turn.";
+	public explosiveQuarry() {
+		tileTitle = "Explosive Quarry";
+		tileDescription = "Making quarries with explosives!." + "\nProviding: " + stoneReturn + " stone per turn.";
 	}
 
 	// Use this for initialization
@@ -23,13 +24,12 @@ public class advancedQuarry : defaultBuilding {
 	}
 
 	void setTileDescription() {
-		tileDescription = "Digs into the ground for stone material." + "\nProviding: " + stoneReturn + " stone per turn.";
+		tileDescription = "Making quarries with explosives!." + "\nProviding: " + stoneReturn + " stone per turn.";
 	}
 
 	IEnumerator delay() {
 		yield return new WaitForSeconds (0.15f);
 		constructResourceStats ();
-		//resourceManager.Instance.addWoodResource (woodGathererStats.efficiency);
 
 		setTileDescription ();
 	}
@@ -45,7 +45,7 @@ public class advancedQuarry : defaultBuilding {
 			testPenalty
 		};
 
-		advancedQuarryStats = new resourceBuildingClass.resourceBuildingStats ("Stone", defaultStoneReturn, tempCosts, tempBonus, tempPenalty); 
+		explosiveQuarryStats = new resourceBuildingClass.resourceBuildingStats ("Stone", defaultStoneReturn, tempCosts, tempBonus, tempPenalty); 
 
 		readResourceEfficency ();
 	}
@@ -56,13 +56,13 @@ public class advancedQuarry : defaultBuilding {
 			base.Update ();
 			resourceOutTick -= Time.deltaTime;
 			if (resourceOutTick <= 0) {
-				SpawnResourceDeliveryNode ("Stone", advancedQuarryStats.efficiency);
+				SpawnResourceDeliveryNode ("Stone", explosiveQuarryStats.efficiency);
 				readResourceEfficency ();
 				resourceOutTick = 5.0f;
 			}
 		} else if (isHoverMode == true) {
-			if (advancedQuarryStats.adjBonusTiles != null) {
-				this.GetComponent<baseGridPosition> ().enableArrows (GameManager.Instance.currentHoveredTile.GetComponent<baseGridPosition> ().adjacentTiles, advancedQuarryStats.adjBonusTiles, advancedQuarryStats.adjPenaltyTiles);
+			if (explosiveQuarryStats.adjBonusTiles != null) {
+				this.GetComponent<baseGridPosition> ().enableArrows (GameManager.Instance.currentHoveredTile.GetComponent<baseGridPosition> ().adjacentTiles, explosiveQuarryStats.adjBonusTiles, explosiveQuarryStats.adjPenaltyTiles);
 			}
 		}
 	}
@@ -70,7 +70,6 @@ public class advancedQuarry : defaultBuilding {
 	protected override void OnMouseDown() {
 		if (isHoverMode == false) {
 			base.OnMouseDown ();
-			//tileDescription = "Brings wood into your resources!" + "\nProviding: " + woodReturn + " wood per turn.";
 			base.setInfoPanelText (tileTitle, tileDescription);
 		}
 	}
@@ -81,13 +80,11 @@ public class advancedQuarry : defaultBuilding {
 
 			setTileDescription ();
 
-			float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (advancedQuarryStats, this.GetComponent<baseGridPosition> ().adjacentTiles);
+			float tempEfficency = resourceBuildingClass.readResourceBuildingEfficency (explosiveQuarryStats, this.GetComponent<baseGridPosition> ().adjacentTiles);
 
 			stoneReturn = defaultStoneReturn + tempEfficency;
 
-			//Debug.Log ("Total Wood return: " + woodReturn);
-
-			advancedQuarryStats.efficiency = stoneReturn;
+			explosiveQuarryStats.efficiency = stoneReturn;
 		}
 	}
 }
