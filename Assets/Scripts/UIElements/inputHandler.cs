@@ -11,7 +11,9 @@ public class inputHandler : MonoBehaviour {
 	//public bool isBuildingPanelActive = false;
 	public GameObject buildingPanel;
 	public GameObject researchPanel;
+	public GameObject pausePanel;
 
+	public bool isPaused = false;
 
 	void Start() {
 		Instance = this;
@@ -31,6 +33,18 @@ public class inputHandler : MonoBehaviour {
 						toggleResearchPanel ();
 					}
 				}
+			}
+		}
+
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			if (isPaused == false) {//Toggle On
+				pausePanel.SetActive (true);
+				Time.timeScale = 0;
+				isPaused = true;
+			} else if (isPaused == true) {//Toggle Off
+				pausePanel.SetActive (false);
+				Time.timeScale = 1.0f;
+				isPaused = false;
 			}
 		}
 	}

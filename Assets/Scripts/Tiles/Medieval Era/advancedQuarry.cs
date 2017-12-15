@@ -37,8 +37,9 @@ public class advancedQuarry : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
-		resourceBuildingClass.adjBonus forestBonus = new resourceBuildingClass.adjBonus ("Rock", 0.3f);
-		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { forestBonus };
+		resourceBuildingClass.adjBonus rockBonus = new resourceBuildingClass.adjBonus ("Rock", 0.3f);
+		resourceBuildingClass.adjBonus stoneBonus = new resourceBuildingClass.adjBonus ("Stone", 0.3f);
+		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { rockBonus, stoneBonus };
 
 		resourceBuildingClass.adjPenalty testPenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);//possibly penalty from adjacent water? only slight if yes
 		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {

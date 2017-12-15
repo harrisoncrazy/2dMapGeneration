@@ -8,7 +8,7 @@ public class sawmill : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats sawmillStats = new resourceBuildingClass.resourceBuildingStats();
 
-	private float defaultWoodReturn = 0.5f;
+	private float defaultWoodReturn = 1.5f;
 	public float woodReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public sawmill() {
@@ -37,7 +37,8 @@ public class sawmill : defaultBuilding {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
 		resourceBuildingClass.adjBonus forestBonus = new resourceBuildingClass.adjBonus ("Forest", 0.5f);
-		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { forestBonus };
+		resourceBuildingClass.adjBonus managerBonus = new resourceBuildingClass.adjBonus ("Manager", 1.0f);
+		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { forestBonus, managerBonus };
 
 		resourceBuildingClass.adjPenalty stonePenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);
 		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {

@@ -7,31 +7,31 @@ public class resourceManager : MonoBehaviour {
 
 	public static resourceManager Instance;
 
-	private float woodTotal = 999;//start of 15
+	private float woodTotal = 15;//start of 15
 	private float woodPerTick;
 	public Text woodOutText;
 
-	private float foodTotal = 999;//start of 5?
+	private float foodTotal = 5;//start of 5?
 	private float foodPerTick;
 	public Text foodOutText;
 
-	private float stoneTotal = 999;//start of 15
+	private float stoneTotal = 15;//start of 15
 	private float stonePerTick;
 	public Text stoneOutText;
 
 	private float oreTotal = 0;//TODO add way to hide before miner is unlocked
 	private float orePerTick;
 
-	private float metalTotal = 999;
+	private float metalTotal = 0;
 	private float metalPerTick;
 	public Text metalOutText;
 
-	private float manpowerTotal = 999;
+	private float manpowerTotal = 0;
 	private float manpowerPerTick;
 	public Text manpowerOutText;
-	public int maxManpower = 999;
+	public int maxManpower = 5;
 
-	private float researchTotal = 99999;//TODO add way to hide before research unlocked
+	private float researchTotal = 0;//TODO add way to hide before research unlocked
 	private float researchTick;
 	public Text researchOutText;
 

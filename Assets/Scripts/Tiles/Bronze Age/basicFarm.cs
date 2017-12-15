@@ -36,7 +36,7 @@ public class basicFarm : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
-		resourceBuildingClass.adjBonus noBonus = new resourceBuildingClass.adjBonus ("None", 0.1f);//no bonus or penalties at this tier
+		resourceBuildingClass.adjBonus noBonus = new resourceBuildingClass.adjBonus ("Water", 2.0f);//no bonus or penalties at this tier
 		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { noBonus };
 
 		resourceBuildingClass.adjPenalty noPenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);

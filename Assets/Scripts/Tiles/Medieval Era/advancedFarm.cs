@@ -8,7 +8,7 @@ public class advancedFarm : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats advancedFarmStats = new resourceBuildingClass.resourceBuildingStats();
 
-	private float defaultFoodReturn = 3.0f;//TODO edit wait value for food returns
+	private float defaultFoodReturn = 5.0f;//TODO edit wait value for food returns
 	public float foodReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public advancedFarm() {
@@ -38,8 +38,8 @@ public class advancedFarm : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
-		resourceBuildingClass.adjBonus noBonus = new resourceBuildingClass.adjBonus ("None", 0.1f);//no bonus or penalties at this tier
-		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { noBonus };
+		resourceBuildingClass.adjBonus resBonus = new resourceBuildingClass.adjBonus ("Water", 3.0f);//no bonus or penalties at this tier
+		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { resBonus };
 
 		resourceBuildingClass.adjPenalty noPenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);
 		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {
@@ -59,7 +59,7 @@ public class advancedFarm : defaultBuilding {
 			if (resourceOutTick <= 0) {
 				SpawnResourceDeliveryNode ("Food", advancedFarmStats.efficiency);
 				readResourceEfficency ();
-				resourceOutTick = 15.0f;
+				resourceOutTick = 10.0f;
 			}
 		} else if (isHoverMode == true) {
 			if (advancedFarmStats.adjBonusTiles != null) {

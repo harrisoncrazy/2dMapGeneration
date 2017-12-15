@@ -8,7 +8,7 @@ public class advancedMine : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats advancedMineStats = new resourceBuildingClass.resourceBuildingStats();
 
-	private float defaultOreReturn = 0.5f;
+	private float defaultOreReturn = 1.5f;
 	public float oreReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public advancedMine() {
@@ -37,8 +37,8 @@ public class advancedMine : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
-		resourceBuildingClass.adjBonus mountainBonus = new resourceBuildingClass.adjBonus ("Mountain", 0.5f);
-		resourceBuildingClass.adjBonus quarryBonus = new resourceBuildingClass.adjBonus ("Quarry", 0.3f);
+		resourceBuildingClass.adjBonus mountainBonus = new resourceBuildingClass.adjBonus ("Mountain", 1.0f);
+		resourceBuildingClass.adjBonus quarryBonus = new resourceBuildingClass.adjBonus ("Quarry", 0.5f);
 		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { mountainBonus, quarryBonus };
 
 		resourceBuildingClass.adjPenalty testPenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);

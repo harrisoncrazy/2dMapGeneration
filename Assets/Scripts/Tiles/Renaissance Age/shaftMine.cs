@@ -8,7 +8,7 @@ public class shaftMine : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats shaftMineStats = new resourceBuildingClass.resourceBuildingStats();
 
-	private float defaultOreReturn = 0.5f;
+	private float defaultOreReturn = 3f;
 	public float oreReturn; //= Mathf.Clamp(0.0f, 0.0f, 5.0f);
 
 	public shaftMine() {
@@ -37,8 +37,8 @@ public class shaftMine : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
-		resourceBuildingClass.adjBonus mountainBonus = new resourceBuildingClass.adjBonus ("Mountain", 0.8f);
-		resourceBuildingClass.adjBonus quarryBonus = new resourceBuildingClass.adjBonus ("Quarry", 0.5f);
+		resourceBuildingClass.adjBonus mountainBonus = new resourceBuildingClass.adjBonus ("Mountain", 1.2f);
+		resourceBuildingClass.adjBonus quarryBonus = new resourceBuildingClass.adjBonus ("Quarry", 1f);
 		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { mountainBonus, quarryBonus };
 
 		resourceBuildingClass.adjPenalty testPenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);

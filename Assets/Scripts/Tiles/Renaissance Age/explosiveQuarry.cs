@@ -9,7 +9,7 @@ public class explosiveQuarry : defaultBuilding {
 
 	public resourceBuildingClass.resourceBuildingStats explosiveQuarryStats = new resourceBuildingClass.resourceBuildingStats();
 
-	private float defaultStoneReturn = 1.5f;
+	private float defaultStoneReturn = 3.0f;
 	public float stoneReturn;
 
 	public explosiveQuarry() {
@@ -37,8 +37,9 @@ public class explosiveQuarry : defaultBuilding {
 	void constructResourceStats() {
 		resourceBuildingClass.resourceTypeCost[] tempCosts = buildingCosts.Instance.woodGather.buildingCosts;
 
-		resourceBuildingClass.adjBonus forestBonus = new resourceBuildingClass.adjBonus ("Rock", 0.3f);
-		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { forestBonus };
+		resourceBuildingClass.adjBonus forestBonus = new resourceBuildingClass.adjBonus ("Rock", 1.0f);
+		resourceBuildingClass.adjBonus mountBonus = new resourceBuildingClass.adjBonus ("Mountain", 2.0f);
+		resourceBuildingClass.adjBonus[] tempBonus = new resourceBuildingClass.adjBonus[] { forestBonus, mountBonus };
 
 		resourceBuildingClass.adjPenalty testPenalty = new resourceBuildingClass.adjPenalty ("Ass", 0.1f);//possibly penalty from adjacent water? only slight if yes
 		resourceBuildingClass.adjPenalty[] tempPenalty = new resourceBuildingClass.adjPenalty[] {

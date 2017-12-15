@@ -162,7 +162,7 @@ public class tileHandler : MonoBehaviour {
 								tileOutlineSprite.SetActive (true);
 							}
 						}
-					} else { //if placing a building
+					} else { //if placing a building //TODO add way to not place on unvalid tiles
 						if (GameManager.Instance.checkPlacementAt ("forestClear")) {
 							if (GameManager.Instance.clearingForestTile(this.GetComponent<baseGridPosition> ().mapPosition.X, this.GetComponent<baseGridPosition> ().mapPosition.Y, transform.position, this.GetComponent<baseGridPosition> ().adjacentTiles)) {
 								inputHandler.Instance.disablePlacementMode ();

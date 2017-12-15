@@ -10,7 +10,6 @@ public class researchCosts : MonoBehaviour {
 	public researchBuildingClass.technologyInfo tierOneWood;
 	public researchBuildingClass.technologyInfo tierOneStone;
 	public researchBuildingClass.technologyInfo tierOneFood;
-	public researchBuildingClass.technologyInfo tierOneGatherNode;
 	public researchBuildingClass.technologyInfo tierOneHousing;
 	public researchBuildingClass.technologyInfo tierOneResearch;
 	public researchBuildingClass.technologyInfo tierOneOre;
@@ -23,6 +22,15 @@ public class researchCosts : MonoBehaviour {
 	public researchBuildingClass.technologyInfo tierTwoHousing;
 	public researchBuildingClass.technologyInfo tierTwoResearch;
 
+	//Renaissance Era
+	public researchBuildingClass.technologyInfo tierThreeOre;
+	public researchBuildingClass.technologyInfo tierOneRefinement;
+	public researchBuildingClass.technologyInfo tierThreeWood;
+	public researchBuildingClass.technologyInfo tierThreeStone;
+	public researchBuildingClass.technologyInfo tierThreeFood;
+	public researchBuildingClass.technologyInfo tierThreeHousing;
+	public researchBuildingClass.technologyInfo tierThreeResearch;
+	public researchBuildingClass.technologyInfo tierOneGatherNode;
 
 	public researchBuildingClass.technologyInfo[] enabledResearch = new researchBuildingClass.technologyInfo[125];
 	// Use this for initialization
@@ -91,28 +99,69 @@ public class researchCosts : MonoBehaviour {
 		description = "Placeholder";
 		tierTwoResearch = new researchBuildingClass.technologyInfo ("tierTwoResearch", 200, "Castles", description, false);
 
+
+		//RENAISSANCE ERA
+		//Tier Three Ore
+		description = "Placeholder";
+		tierThreeOre = new researchBuildingClass.technologyInfo ("tierThreeOre", 250, "Shaft Mining", description, false);
+
+		//Tier one refinement
+		description = "Placeholder";
+		tierOneRefinement = new researchBuildingClass.technologyInfo ("tierOneRefinement", 225, "Smelting", description, false);
+
+		//Tier Three wood
+		description = "Placeholder";
+		tierThreeWood = new researchBuildingClass.technologyInfo ("tierThreeWood", 300, "Forestry Management", description, false);
+
+		//tier three stone
+		description = "Placeholder";
+		tierThreeStone = new researchBuildingClass.technologyInfo ("tierThreeStone", 250, "Explosives", description, false);
+
+		//tier three food
+		description = "Placeholder";
+		tierThreeFood = new researchBuildingClass.technologyInfo ("tierThreeFood", 300, "Water Reservoirs", description, false);
+
+		//tier three housing
+		description = "Placeholder";
+		tierThreeHousing = new researchBuildingClass.technologyInfo ("tierThreeHousing", 225, "Multi-Story Housing", description, false);
+
+		//tier three research
+		description = "Placeholder";
+		tierThreeResearch = new researchBuildingClass.technologyInfo ("tierThreeResearch", 300, "Guilds", description, false);
+
+		//Tier One Gather Node
+		description = "More organized leadership has allowed you to coordinate your citizens from a distance. This technology will allow you to gather resources farther away." +
+			"\nUnlocks the Gather Point, which will act as a point for your resource gathering buildings to deposit resources.";
+		tierOneGatherNode = new researchBuildingClass.technologyInfo ("tierOneGatherNode", 250, "Gather Point", description, false);
+
 		setArray ();
 	}
 
 	void Update() {
-		//BRONZE ERA
-		//checking TierOneHousing prerequisites
 		tierOneHousing.isAvailbile = CheckResearchPrerequisites(tierOneHousing);
 		tierTwoHousing.isAvailbile = CheckResearchPrerequisites (tierTwoHousing);
+		tierThreeHousing.isAvailbile = CheckResearchPrerequisites (tierThreeHousing);
 
 		tierOneResearch.isAvailbile = CheckResearchPrerequisites (tierOneResearch);
 		tierTwoResearch.isAvailbile = CheckResearchPrerequisites (tierTwoResearch);
+		tierThreeResearch.isAvailbile = CheckResearchPrerequisites (tierThreeResearch);
 
 		tierOneOre.isAvailbile = CheckResearchPrerequisites (tierOneOre);
 		tierTwoOre.isAvailbile = CheckResearchPrerequisites (tierTwoOre);
+		tierThreeOre.isAvailbile = CheckResearchPrerequisites (tierThreeOre);
 
 		tierTwoWood.isAvailbile = CheckResearchPrerequisites (tierTwoWood);
+		tierThreeWood.isAvailbile = CheckResearchPrerequisites (tierThreeWood);
 
 		tierTwoStone.isAvailbile = CheckResearchPrerequisites (tierTwoStone);
+		tierThreeStone.isAvailbile = CheckResearchPrerequisites (tierThreeStone);
 
 		tierTwoFood.isAvailbile = CheckResearchPrerequisites (tierTwoFood);
+		tierThreeFood.isAvailbile = CheckResearchPrerequisites (tierThreeFood);
 
+		tierOneRefinement.isAvailbile = CheckResearchPrerequisites (tierOneRefinement);
 
+		tierOneGatherNode.isAvailbile = CheckResearchPrerequisites (tierOneGatherNode);
 
 		setArray ();
 	}
@@ -205,16 +254,6 @@ public class researchCosts : MonoBehaviour {
 				setArray ();
 			}
 			break;
-		case "tierOneGatherNode":
-			if (resourceManager.Instance.purchaseResearch (tierOneGatherNode.techCost)) {
-				researchHandler.Instance.tierOneGatherNode ();
-				tierOneGatherNode.hasBeenPurchased = true;
-				inputHandler.Instance.toggleResearchPanel ();
-				researchHandler.Instance.researchUnlockPopup (tierOneGatherNode.techDescription);
-
-				setArray ();
-			}
-			break;
 
 		//Medieval Era
 		case "tierTwoOre":
@@ -277,6 +316,88 @@ public class researchCosts : MonoBehaviour {
 				setArray ();
 			}
 			break;
+
+		//Renaissance Era
+		case "tierThreeOre":
+			if (resourceManager.Instance.purchaseResearch (tierThreeOre.techCost)) {
+				researchHandler.Instance.tierThreeOre ();
+				tierThreeOre.hasBeenPurchased = true;
+				inputHandler.Instance.toggleResearchPanel ();
+				researchHandler.Instance.researchUnlockPopup (tierThreeOre.techDescription);
+
+				setArray ();
+			}
+			break;
+		case "tierOneRefinement":
+			if (resourceManager.Instance.purchaseResearch (tierOneRefinement.techCost)) {
+				researchHandler.Instance.tierOneRefinement ();
+				tierOneRefinement.hasBeenPurchased = true;
+				inputHandler.Instance.toggleResearchPanel ();
+				researchHandler.Instance.researchUnlockPopup (tierOneRefinement.techDescription);
+
+				setArray ();
+			}
+			break;
+		case "tierThreeWood":
+			if (resourceManager.Instance.purchaseResearch (tierThreeWood.techCost)) {
+				researchHandler.Instance.tierThreeWood ();
+				tierThreeWood.hasBeenPurchased = true;
+				inputHandler.Instance.toggleResearchPanel ();
+				researchHandler.Instance.researchUnlockPopup (tierThreeWood.techDescription);
+
+				setArray ();
+			}
+			break;
+		case "tierThreeStone":
+			if (resourceManager.Instance.purchaseResearch (tierThreeStone.techCost)) {
+				researchHandler.Instance.tierThreeStone ();
+				tierThreeStone.hasBeenPurchased = true;
+				inputHandler.Instance.toggleResearchPanel ();
+				researchHandler.Instance.researchUnlockPopup (tierThreeStone.techDescription);
+
+				setArray ();
+			}
+			break;
+		case "tierThreeFood":
+			if (resourceManager.Instance.purchaseResearch (tierThreeFood.techCost)) {
+				researchHandler.Instance.tierThreeFood ();
+				tierThreeFood.hasBeenPurchased = true;
+				inputHandler.Instance.toggleResearchPanel ();
+				researchHandler.Instance.researchUnlockPopup (tierThreeFood.techDescription);
+
+				setArray ();
+			}
+			break;
+		case "tierThreeHousing":
+			if (resourceManager.Instance.purchaseResearch (tierThreeHousing.techCost)) {
+				researchHandler.Instance.tierThreeHousing ();
+				tierThreeHousing.hasBeenPurchased = true;
+				inputHandler.Instance.toggleResearchPanel ();
+				researchHandler.Instance.researchUnlockPopup (tierThreeHousing.techDescription);
+
+				setArray ();
+			}
+			break;
+		case "tierThreeResearch":
+			if (resourceManager.Instance.purchaseResearch (tierThreeResearch.techCost)) {
+				researchHandler.Instance.tierThreeResearch ();
+				tierThreeResearch.hasBeenPurchased = true;
+				inputHandler.Instance.toggleResearchPanel ();
+				researchHandler.Instance.researchUnlockPopup (tierThreeResearch.techDescription);
+
+				setArray ();
+			}
+			break;
+		case "tierOneGatherNode":
+			if (resourceManager.Instance.purchaseResearch (tierOneGatherNode.techCost)) {
+				researchHandler.Instance.tierOneGatherNode ();
+				tierOneGatherNode.hasBeenPurchased = true;
+				inputHandler.Instance.toggleResearchPanel ();
+				researchHandler.Instance.researchUnlockPopup (tierOneGatherNode.techDescription);
+
+				setArray ();
+			}
+			break;
 		}
 	}
 
@@ -297,12 +418,21 @@ public class researchCosts : MonoBehaviour {
 		enabledResearch [10] = tierTwoHousing;
 		enabledResearch [11] = tierTwoResearch;
 
-		//enabledResearch [] = tierOneGatherNode;
+		//Renaissance Era
+		enabledResearch [12] = tierThreeOre;
+		enabledResearch [13] = tierOneRefinement;
+		enabledResearch [14] = tierThreeWood;
+		enabledResearch [15] = tierThreeStone;
+		enabledResearch [16] = tierThreeFood;
+		enabledResearch [17] = tierThreeHousing;
+		enabledResearch [18] = tierThreeResearch;
+		enabledResearch [19] = tierOneGatherNode;
 		setPrereqisites();
 	}
 
 	public void setPrereqisites() {
 		//setting prerequisites
+		//Bronze Era
 		List<researchBuildingClass.technologyInfo> tempPre = new List<researchBuildingClass.technologyInfo> () { tierOneWood, tierOneFood };
 		tierOneHousing.prerequisites = tempPre;
 
@@ -312,6 +442,7 @@ public class researchCosts : MonoBehaviour {
 		tempPre = new List<researchBuildingClass.technologyInfo> () { tierOneStone };
 		tierOneOre.prerequisites = tempPre;
 
+		//Medieval Era
 		tempPre = new List<researchBuildingClass.technologyInfo> () { tierTwoStone, tierOneOre };
 		tierTwoOre.prerequisites = tempPre;
 
@@ -329,5 +460,30 @@ public class researchCosts : MonoBehaviour {
 
 		tempPre = new List<researchBuildingClass.technologyInfo> () { tierOneResearch, tierTwoHousing };
 		tierTwoResearch.prerequisites = tempPre;
+
+		//Renaissance Era
+		tempPre = new List<researchBuildingClass.technologyInfo> () { tierTwoOre, tierThreeStone };
+		tierThreeOre.prerequisites = tempPre;
+
+		tempPre = new List<researchBuildingClass.technologyInfo> () { tierTwoOre };
+		tierOneRefinement.prerequisites = tempPre;
+
+		tempPre = new List<researchBuildingClass.technologyInfo> () { tierTwoWood };
+		tierThreeWood.prerequisites = tempPre;
+
+		tempPre = new List<researchBuildingClass.technologyInfo> () { tierTwoStone, tierTwoOre };
+		tierThreeStone.prerequisites = tempPre;
+
+		tempPre = new List<researchBuildingClass.technologyInfo> () { tierTwoFood, tierTwoHousing };
+		tierThreeFood.prerequisites = tempPre;
+
+		tempPre = new List<researchBuildingClass.technologyInfo> () { tierTwoHousing, tierTwoWood };
+		tierThreeHousing.prerequisites = tempPre;
+
+		tempPre = new List<researchBuildingClass.technologyInfo> () { tierTwoResearch, tierTwoHousing };
+		tierThreeResearch.prerequisites = tempPre;
+
+		tempPre = new List<researchBuildingClass.technologyInfo> () { tierTwoResearch, tierThreeHousing };
+		tierOneGatherNode.prerequisites = tempPre;
 	}
 }

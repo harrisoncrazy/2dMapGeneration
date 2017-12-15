@@ -137,4 +137,5 @@ MonoBehaviour:
   sourceBuilding: {fileID: 0}
   toLocation: {fileID: 0}
   pathToFollow: []
+  isDestroyed: 0
   travelSpeed: 0.5

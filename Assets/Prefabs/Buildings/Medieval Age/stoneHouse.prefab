@@ -785,7 +785,8 @@ MonoBehaviour:
   - 
   - 
   isUpgradeable: 0
-  upgradeTile: {fileID: 0}
+  upgradeTile: {fileID: 1930851723492494, guid: 35bce9ab387f9f2448571ae74c915a82,
+    type: 2}
   upgradeButton: {fileID: 0}
   canBeUpgraded: 0
   ThreeDObjects: {fileID: 1101341504722166}

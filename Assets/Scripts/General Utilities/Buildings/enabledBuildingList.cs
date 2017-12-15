@@ -118,13 +118,13 @@ public class enabledBuildingList : MonoBehaviour {
 		advancedMine = new buildingData (false, "Advanced Mine", buildingCosts.Instance.advancedMine, "advancedMine", tempPlaceTiles);
 
 		//Renaissance Era
-		shaftMine = new buildingData(true, "Shaft Mine", buildingCosts.Instance.shaftMine, "shaftMine", tempPlaceTiles);
-		smeltery = new buildingData (true, "Smeltery", buildingCosts.Instance.smeltery, "smeltery", tempPlaceTiles);
-		forestManager = new buildingData (true, "Forest Manager", buildingCosts.Instance.forestManager, "forestManager", tempPlaceTiles);
-		explosiveQuarry = new buildingData (true, "Explosive Quarry", buildingCosts.Instance.explosiveQuarry, "explosiveQuarry", tempPlaceTiles);
-		waterReservoir = new buildingData (true, "Water Reservoir", buildingCosts.Instance.waterReservoir, "waterReservoir", tempPlaceTiles);
-		multiHouse = new buildingData (true, "Multi-Story House", buildingCosts.Instance.multiHouse, "multiHouse", tempPlaceTiles);
-		guildHouse = new buildingData (true, "Guild House", buildingCosts.Instance.guildHouse, "guildHouse", tempPlaceTiles);
+		shaftMine = new buildingData(false, "Shaft Mine", buildingCosts.Instance.shaftMine, "shaftMine", tempPlaceTiles);
+		smeltery = new buildingData (false, "Smeltery", buildingCosts.Instance.smeltery, "smeltery", tempPlaceTiles);
+		forestManager = new buildingData (false, "Forest Manager", buildingCosts.Instance.forestManager, "forestManager", tempPlaceTiles);
+		explosiveQuarry = new buildingData (false, "Explosive Quarry", buildingCosts.Instance.explosiveQuarry, "explosiveQuarry", tempPlaceTiles);
+		waterReservoir = new buildingData (false, "Water Reservoir", buildingCosts.Instance.waterReservoir, "waterReservoir", tempPlaceTiles);
+		multiHouse = new buildingData (false, "Multi-Story House", buildingCosts.Instance.multiHouse, "multiHouse", tempPlaceTiles);
+		guildHouse = new buildingData (false, "Guild House", buildingCosts.Instance.guildHouse, "guildHouse", tempPlaceTiles);
 		gatherNode = new buildingData (false, "Basic Gather Point", buildingCosts.Instance.basicGatherNode, "gatherNode", tempPlaceTiles);
 
 		setArray ();

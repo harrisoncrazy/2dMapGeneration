@@ -168,6 +168,60 @@ public class researchHandler : MonoBehaviour {
 	}
 
 
+	//RENAISSANCE ERA
+	public void tierThreeOre() {
+		enabledBuildingList.Instance.shaftMine.isEnabled = true;
+		enabledBuildingList.Instance.advancedMine.isEnabled = false;
+		enabledBuildingList.Instance.setArray ();
+
+		foreach (advancedMine gameObj in GameObject.FindObjectsOfType<advancedMine>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+	public void tierOneRefinement() {
+		enabledBuildingList.Instance.smeltery.isEnabled = true;
+		enabledBuildingList.Instance.basicBlacksmith.isEnabled = false;
+
+		foreach (basicBlacksmith gameObj in GameObject.FindObjectsOfType<basicBlacksmith>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+	public void tierThreeWood() {
+		enabledBuildingList.Instance.forestManager.isEnabled = true;
+	}
+
+	public void tierThreeStone() {
+		enabledBuildingList.Instance.explosiveQuarry.isEnabled = true;
+		enabledBuildingList.Instance.advancedQuarry.isEnabled = false;
+
+		foreach (advancedQuarry gameObj in GameObject.FindObjectsOfType<advancedQuarry>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+	public void tierThreeFood() {
+		enabledBuildingList.Instance.waterReservoir.isEnabled = true;
+	}
+
+	public void tierThreeHousing() {
+		enabledBuildingList.Instance.multiHouse.isEnabled = true;
+		enabledBuildingList.Instance.stoneHouse.isEnabled = false;
+
+		foreach (stoneHouse gameObj in GameObject.FindObjectsOfType<stoneHouse>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
+
+	public void tierThreeResearch() {
+		enabledBuildingList.Instance.guildHouse.isEnabled = true;
+		enabledBuildingList.Instance.castle.isEnabled = false;
+
+		foreach (castle gameObj in GameObject.FindObjectsOfType<castle>()) {
+			gameObj.isUpgradeable = true;
+		}
+	}
 
 	public void tierOneGatherNode() {
 		enabledBuildingList.Instance.gatherNode.isEnabled = true;
