@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class inputHandler : MonoBehaviour {
 
@@ -12,11 +13,20 @@ public class inputHandler : MonoBehaviour {
 	public GameObject buildingPanel;
 	public GameObject researchPanel;
 	public GameObject pausePanel;
+	public GameObject controlPanel;
+	public bool controlPanelActive = false;
+
+	public GameObject soundPanel;
+	public Slider soundBar;
+
+	public bool soundPanelActive = false;
 
 	public bool isPaused = false;
 
 	void Start() {
 		Instance = this;
+
+		soundBar.value = 1.0f;
 	}
 
 	// Update is called once per frame
@@ -43,10 +53,19 @@ public class inputHandler : MonoBehaviour {
 				isPaused = true;
 			} else if (isPaused == true) {//Toggle Off
 				pausePanel.SetActive (false);
+				if (controlPanelActive == true) {
+					toggleControlPanel ();
+				}
+				if (soundPanelActive == true) {
+					toggleSoundPanel ();
+				}
 				Time.timeScale = 1.0f;
 				isPaused = false;
 			}
 		}
+
+		AudioListener.volume = soundBar.value;
+		AudioManager.Instance.currentGlobalVolume = soundBar.value;
 	}
 
 	void toggleBuildingPanel () {//toggling on or off the building panel, locking or unlocking the camera to the building
@@ -68,6 +87,28 @@ public class inputHandler : MonoBehaviour {
 			researchPanel.SetActive (true);
 			GameManager.Instance.isResearchPanelActive = true;
 			researchScrollMenuControl.Instance.ReadActiveResearchs ();
+		}
+	}
+
+	public void toggleControlPanel() {
+		if (controlPanelActive == true) {
+			controlPanel.SetActive (false);
+			controlPanelActive = false;
+		} else {
+			controlPanel.SetActive (true);
+			controlPanelActive = true;
+		}
+	}
+
+	public void toggleSoundPanel() {
+		if (soundPanelActive == true) {
+			soundPanel.SetActive (false);
+			soundPanelActive = false;
+
+		} else {
+			soundPanel.SetActive (true);
+			soundBar.value = AudioManager.Instance.currentGlobalVolume;
+			soundPanelActive = true;
 		}
 	}
 

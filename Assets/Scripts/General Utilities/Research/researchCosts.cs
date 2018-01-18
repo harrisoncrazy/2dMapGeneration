@@ -76,57 +76,70 @@ public class researchCosts : MonoBehaviour {
 
 		//MEDIEVAL ERA
 		//tier Two Ore
-		description = "Placeholder";
+		description = "Deeper Quarrys have revolutionized mining techniques. This has also lead to the discovery of new ores from deeper mines." +
+			"\nUnlocks the Advanced Mine, which digs up ore at an increased rate.";
 		tierTwoOre = new researchBuildingClass.technologyInfo ("tierTwoOre", 150, "Advanced Mine", description, false);
 
 		//tier Two Wood
-		description = "Placeholder";
+		description = "The advent of iron has made better and stronger tools. This advancement is especally seen in the field of forestry, where iron sawblades allows your people to cut down trees more effectivly." +
+			"\nUnlocks the Sawmill, which gathers wood at an increased rate.";
 		tierTwoWood = new researchBuildingClass.technologyInfo ("tierTwoWood", 125, "Advanced Woodcutting", description, false);
 
 		//tier Two stone
-		description = "Placeholder";
+		description = "The advent of iron has made better and stronger tools. This advancement allows quarries to dig even deeper, with iron picks and tools." +
+			"\nUnlocks the Advanced Quarry, which gathers stone at an increased rate.";
 		tierTwoStone = new researchBuildingClass.technologyInfo ("tierTwoStone", 125, "Advanced Quarries", description, false);
 
 		//tier Two food
-		description = "Placeholder";
+		description = "With more mouths to feed your people have started to brainstorm new farming techniques. This has led to a revolutionary new way of transporting water to crops called Irrigation. This allows for bigger farms closer together." +
+			"\nUnlocks the Advanced Farm, which brings in huge amounts of food.";
 		tierTwoFood = new researchBuildingClass.technologyInfo ("tierTwoFood", 100, "Advanced Farming Techniques", description, false);
 
 		//tier Two Housing
-		description = "Placeholder";
+		description = "Better ways of gathering stone has produced even better stone building materials. Using this improved material your people have developed methods of building stronger stone houses." +
+			"\nUnlocks stone houses, which improve over wooden houses.";
 		tierTwoHousing = new researchBuildingClass.technologyInfo ("tierTwoHousing", 150, "Stone Houses", description, false);
 
 		//tier Two Research
-		description = "Placeholder";
+		description = "After building several stone houses your people became ambitious, they build bigger and bigger buildings from stone until the reached the pinnical achivement: Castles." +
+			"\nUnlocks the castle, which is a great research building";
 		tierTwoResearch = new researchBuildingClass.technologyInfo ("tierTwoResearch", 200, "Castles", description, false);
 
 
 		//RENAISSANCE ERA
 		//Tier Three Ore
-		description = "Placeholder";
+		description = "The advent of explosive mining has lead to even better methods of digging into the earth. Shaft mining provides an extremly effective way of digging up usable ore." +
+			"\nUnlocks the shaft mine, which brings in large amounts of ore.";
 		tierThreeOre = new researchBuildingClass.technologyInfo ("tierThreeOre", 250, "Shaft Mining", description, false);
 
 		//Tier one refinement
-		description = "Placeholder";
+		description = "With the advent of improved ore output, the need for better refinement processes lead to the discovery of the smeltery, a building which mass refines ore." +
+			"\nUnlocks the Smeltery, which improves from the blacksmith.";
 		tierOneRefinement = new researchBuildingClass.technologyInfo ("tierOneRefinement", 225, "Smelting", description, false);
 
 		//Tier Three wood
-		description = "Placeholder";
+		description = "With improved forest cutting abilities comes the need to manage the planting and harvesting of trees, your people have begun to call this process 'Forest Managment'" +
+			"\nUnlocks the forest manager, which gives adjacency bonuses to adjacent wood gathering buildings.";
 		tierThreeWood = new researchBuildingClass.technologyInfo ("tierThreeWood", 300, "Forestry Management", description, false);
 
 		//tier three stone
-		description = "Placeholder";
+		description = "As your people have mined more and various ores, they have discovered a volitile new material. It can explode violently and can be used to mine greater quantities of stone." +
+			"\nUnlocks the explosive quarry, which mines effectivly with explosives.";
 		tierThreeStone = new researchBuildingClass.technologyInfo ("tierThreeStone", 250, "Explosives", description, false);
 
 		//tier three food
-		description = "Placeholder";
+		description = "As your people use more and more water for crops, the need for water storage techniques has lead to the invention of a water reservoir to store large amounts of water." +
+			"\nUnlocks the water reservoir, which gives adjacency bonuses to adjacent farms.";
 		tierThreeFood = new researchBuildingClass.technologyInfo ("tierThreeFood", 300, "Water Reservoirs", description, false);
 
 		//tier three housing
-		description = "Placeholder";
+		description = "Advanced building techniques have lead to the ability to make taller, multi story buildings." +
+			"\nUnlocks the Multi-Story house, which houses a large amount of people.";
 		tierThreeHousing = new researchBuildingClass.technologyInfo ("tierThreeHousing", 225, "Multi-Story Housing", description, false);
 
 		//tier three research
-		description = "Placeholder";
+		description = "A bigger population has lead to the formation of what your people call guilds. Gatherings of the smartest people in your population in the same place leads to great advancements." +
+			"\nUnlocks Guilds, massive research centers which provide exceptional research.";
 		tierThreeResearch = new researchBuildingClass.technologyInfo ("tierThreeResearch", 300, "Guilds", description, false);
 
 		//Tier One Gather Node
